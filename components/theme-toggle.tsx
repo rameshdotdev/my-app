@@ -1,17 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { flushSync } from "react-dom";
+import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import { Moon, Sun } from "lucide-react";
-import { useTheme } from "next-themes";
-import { useAppDispatch } from "@/hooks/hooks";
 import { setMode } from "@/store/features/themeSlice";
+import { useAppDispatch } from "@/hooks/hooks";
 
 export function ThemeToggle() {
-  const { setTheme, resolvedTheme } = useTheme();
-  const dispatch = useAppDispatch();
+  const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
-
+  const dispatch = useAppDispatch();
   /* Prevent hydration mismatch */
   useEffect(() => {
     setMounted(true);
@@ -25,13 +25,23 @@ export function ThemeToggle() {
   }, [resolvedTheme, dispatch]);
 
   if (!mounted) {
-    return (
-      <Button variant="ghost" size="icon" aria-label="Toggle theme" disabled />
-    );
+    return <Button variant="ghost" size="icon" disabled />;
   }
 
   const toggleTheme = () => {
-    setTheme(resolvedTheme === "dark" ? "light" : "dark");
+    const nextTheme = resolvedTheme === "dark" ? "light" : "dark";
+
+    // Fallback for unsupported browsers
+    if (!document.startViewTransition) {
+      setTheme(nextTheme);
+      return;
+    }
+
+    document.startViewTransition(() => {
+      flushSync(() => {
+        setTheme(nextTheme);
+      });
+    });
   };
 
   return (
@@ -40,7 +50,6 @@ export function ThemeToggle() {
       size="icon"
       onClick={toggleTheme}
       aria-label="Toggle theme"
-      aria-live="polite"
       className="rounded-full"
     >
       {resolvedTheme === "dark" ? (
