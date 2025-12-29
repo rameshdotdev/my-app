@@ -13,9 +13,10 @@ import {
   IconListDetails,
   IconReport,
   IconSettings,
+  IconUserCheck,
   IconUsers,
 } from "@tabler/icons-react";
-
+import { ImProfile } from "react-icons/im";
 import { NavMain } from "@/components/nav-portfolio";
 // import { NavMain } from "@/components/nav-main";
 import { NavSecondary } from "@/components/nav-secondary";
@@ -43,21 +44,11 @@ const data = {
       icon: IconDashboard,
       isActive: true,
     },
-    {
-      title: "Lifecycle",
-      url: "#",
-      icon: IconListDetails,
-    },
-    {
-      title: "Analytics",
-      url: "/analytics",
-      icon: IconChartBar,
-    },
 
     {
-      title: "Team",
-      url: "#",
-      icon: IconUsers,
+      title: "Analytics",
+      url: "/dashboard/analytics",
+      icon: IconChartBar,
     },
   ],
   navClouds: [
@@ -116,6 +107,18 @@ const data = {
     },
   ],
   portfolio: [
+    {
+      title: "Skills",
+      url: "/dashboard/skills",
+      icon: IconListDetails,
+      isActive: true,
+    },
+    {
+      title: "Hero",
+      url: "/dashboard/hero",
+      icon: IconUserCheck,
+      isActive: true,
+    },
     {
       title: "Projects",
       url: "/dashboard/projects",

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { TypeAnimation } from "react-type-animation";
 import { api } from "@/lib/axios";
 import { Button } from "@/components/ui/button";
-import { HeroData } from "@/types/type";
+import { Hero as HeroData } from "@/types/type";
 /* ======================
    Component
 ====================== */
