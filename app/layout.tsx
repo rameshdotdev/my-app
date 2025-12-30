@@ -4,7 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/providers/theme-provider";
 import ReduxProvider from "@/providers/redux-provider";
 import { Toaster } from "@/components/ui/sonner";
-
+import QueryClientProvider from "@/providers/query-client-provider";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -38,7 +38,9 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <Toaster />
-            <main> {children}</main>
+            <main>
+              <QueryClientProvider>{children}</QueryClientProvider>
+            </main>
           </ThemeProvider>
         </ReduxProvider>
       </body>

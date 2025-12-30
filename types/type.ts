@@ -1,3 +1,5 @@
+import { SkillIconKey } from "@/lib/skill-icons";
+
 /* ======================
    Types
 ====================== */
@@ -154,11 +156,28 @@ export type Project = {
   };
   isPublished: boolean;
 };
+export type SkillCategory = {
+  _id: string;
+  title:
+    | "PROGRAMMING"
+    | "FRONTEND"
+    | "BACKEND"
+    | "DATABASE"
+    | "AI_AND_DATA_SCIENCE"
+    | "TOOLS_AND_PLATFORMS";
+  subTitle: string;
+  order: number;
+  isVisible: boolean;
+  skills: Skill[];
+};
+
 export type Skill = {
   _id: string;
+  categoryId: string;
   name: string;
-  category: "DEV_TOOLS" | "LANGUAGES" | "FRAMEWORKS";
-  iconKey: string;
+  iconKey: SkillIconKey;
   order: number;
   isVisible: boolean;
 };
+
+// types/skill-board.ts

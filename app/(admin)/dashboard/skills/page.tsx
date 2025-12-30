@@ -1,59 +1,99 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { api } from "@/lib/axios";
-import { Skill } from "@/types/type";
+import { SkillCategory, Skill } from "@/types/type";
 import { Button } from "@/components/ui/button";
-import SkillEditorPanel from "./skill-editor-panel";
-import SkillLivePreview from "./skill-live-preview";
+import SkillBoardPreview from "./skill-board-preview";
+import { SkillFormModal } from "./add-skill-form";
 
 export default function SkillBoardPage() {
-  const [skills, setSkills] = useState<Skill[]>([]);
-  const [draft, setDraft] = useState<Skill[]>([]);
-  const [saving, setSaving] = useState(false);
+  const [data, setData] = useState<SkillCategory[]>([]);
+  const [draft, setDraft] = useState<SkillCategory[]>([]);
+
+  const [open, setOpen] = useState(false);
+  const [selectedSkill, setSelectedSkill] = useState<Skill | null>(null);
 
   useEffect(() => {
     api.get("/skills").then((res) => {
-      setSkills(res.data);
+      setData(res.data);
       setDraft(res.data);
     });
   }, []);
 
-  const hasDuplicates = useMemo(() => {
-    const names = draft.map((s) => s?.name?.trim()?.toLowerCase());
-    return new Set(names).size !== names.length;
-  }, [draft]);
+  /* =========================
+     ADD / UPDATE HANDLER
+  ========================= */
+  const handleSubmit = (payload: Partial<Skill>) => {
+    setDraft((prev) =>
+      prev.map((cat) => {
+        // EDIT
+        if (selectedSkill && cat._id === selectedSkill.categoryId) {
+          return {
+            ...cat,
+            skills: cat.skills.map((s) =>
+              s._id === selectedSkill._id ? { ...s, ...payload } : s
+            ),
+          };
+        }
 
-  const isDirty = JSON.stringify(skills) !== JSON.stringify(draft);
+        // ADD
+        if (!selectedSkill && cat._id === payload.categoryId) {
+          return {
+            ...cat,
+            skills: [
+              ...cat.skills,
+              {
+                _id: crypto.randomUUID(),
+                categoryId: cat._id,
+                name: payload.name!,
+                iconKey: payload.iconKey!,
+                order: cat.skills.length,
+                isVisible: payload.isVisible ?? true,
+              },
+            ],
+          };
+        }
 
-  const handleSave = async () => {
-    setSaving(true);
-    await api.post("/skills", draft);
-    setSkills(draft);
-    setSaving(false);
+        return cat;
+      })
+    );
+
+    setSelectedSkill(null);
+    setOpen(false);
   };
 
   return (
-    <div className="relative space-y-6">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <SkillEditorPanel skills={draft} onChange={setDraft} />
-        <SkillLivePreview skills={draft.filter((s) => s.isVisible)} />
+    <div className="space-y-6 p-4">
+      {/* ===== Header ===== */}
+      <div className="flex justify-between items-center">
+        <h1 className="text-xl font-bold">Skill Board</h1>
+        <Button onClick={() => setOpen(true)}>+ Add Skill</Button>
       </div>
 
-      {isDirty && (
-        <div className="sticky bottom-0 border-t bg-background px-6 py-4 flex justify-between">
-          <span className="text-sm text-muted-foreground">Unsaved changes</span>
+      {/* ===== Editor + Preview ===== */}
+      <div className="">
+        {/* Clickable Preview → Edit */}
+        <SkillBoardPreview
+          categories={draft}
+          onEditSkill={(skill) => {
+            setSelectedSkill(skill);
+            setOpen(true);
+          }}
+        />
+      </div>
 
-          <div className="flex gap-2">
-            <Button variant="ghost" onClick={() => setDraft(skills)}>
-              Reset
-            </Button>
-            <Button disabled={saving || hasDuplicates} onClick={handleSave}>
-              Save Skills
-            </Button>
-          </div>
-        </div>
-      )}
+      {/* ===== Modal ===== */}
+      <SkillFormModal
+        open={open}
+        onClose={() => {
+          setOpen(false);
+          setSelectedSkill(null);
+        }}
+        categories={draft}
+        skill={selectedSkill}
+        onSubmit={handleSubmit}
+      />
     </div>
   );
 }

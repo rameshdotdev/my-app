@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import { useAuthGuard } from "@/hooks/use-auth-guard";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
@@ -8,10 +8,25 @@ import { SiteHeader } from "@/components/site-header";
 import DashboardSkeleton from "./loading";
 import { useAppDispatch } from "@/hooks/hooks";
 import { setUser } from "@/store/features/userSlice";
+import { useDashboardQuery } from "@/hooks/use-dashboard-query";
+import { setHeroData } from "@/store/features/heroSlice";
+import { setSkillCategories } from "@/store/features/skillCategorySlice";
+import { setSkills } from "@/store/features/skillSlice";
+import { setProjects } from "@/store/features/projectSlice";
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
-  const { user, loading } = useAuthGuard();
   const dispatch = useAppDispatch();
+  const { user, loading } = useAuthGuard();
+  const { data } = useDashboardQuery();
+
+  useEffect(() => {
+    if (!data) return;
+
+    dispatch(setHeroData(data.hero));
+    dispatch(setSkillCategories(data.skillCategory));
+    dispatch(setSkills(data.skills));
+    dispatch(setProjects(data.projects));
+  }, [data, dispatch]);
   if (loading) {
     return <DashboardSkeleton />;
   }
