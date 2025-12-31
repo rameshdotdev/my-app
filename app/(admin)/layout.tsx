@@ -13,6 +13,7 @@ import { setHeroData } from "@/store/features/heroSlice";
 import { setSkillCategories } from "@/store/features/skillCategorySlice";
 import { setSkills } from "@/store/features/skillSlice";
 import { setProjects } from "@/store/features/projectSlice";
+import { setMessage } from "@/store/features/messageSlice";
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   const dispatch = useAppDispatch();
@@ -21,11 +22,11 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (!data) return;
-
     dispatch(setHeroData(data.hero));
     dispatch(setSkillCategories(data.skillCategory));
     dispatch(setSkills(data.skills));
     dispatch(setProjects(data.projects));
+    dispatch(setMessage(data.contacts));
   }, [data, dispatch]);
   if (loading) {
     return <DashboardSkeleton />;

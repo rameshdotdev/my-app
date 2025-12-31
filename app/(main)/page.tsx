@@ -1,5 +1,6 @@
 import { GridBackground } from "@/components/grid-background";
 import Hero from "./components/hero";
+import Skills from "./components/skills";
 import { Navbar } from "./components/navbar";
 
 function page() {
@@ -8,6 +9,7 @@ function page() {
       <GridBackground className="min-h-screen">
         <Navbar />
         <Hero />
+        <Skills/>
       </GridBackground>
     </>
   );

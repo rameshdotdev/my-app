@@ -1,15 +1,15 @@
-import { Skill } from "@/types/type";
+import { Skill, SkillCategory } from "@/types/type";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "..";
 
-const initialState: Skill[] = [];
+const initialState: SkillCategory[] = [];
 
 export const skillSlice = createSlice({
   name: "skills",
   initialState,
   reducers: {
-    setSkills: (_state, action: PayloadAction<Skill[]>) => {
+    setSkills: (_state, action: PayloadAction<SkillCategory[]>) => {
       return action.payload;
     },
   },

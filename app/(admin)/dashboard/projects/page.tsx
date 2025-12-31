@@ -1,58 +1,84 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { api } from "@/lib/axios";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
-import { ProjectFormModal } from "./project-form-modal";
-import { ConfirmDeleteDialog } from "./delete-dialog";
+
 import { Project } from "@/types/type";
 import { ProjectCard } from "./project-card";
 import ProjectCardSkeleton from "./loading";
+import { ProjectFormModal } from "./project-form-modal";
+import { ConfirmDeleteDialog } from "./delete-dialog";
+import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
+import {
+  getProjects,
+  setProjects,
+  togglePublishOptimistic,
+} from "@/store/features/projectSlice";
+import { deleteProject, toggleProjectStatus } from "@/lib/api/project";
 
 export default function ProjectsPage() {
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [updatingId, setUpdatingId] = useState<string | null>(null);
+  /* ======================
+     Redux State
+  ====================== */
+  const projects = useAppSelector(getProjects);
+  const dispatch = useAppDispatch();
+
+  /* ======================
+     UI State
+  ====================== */
+  const [loading, setLoading] = useState(false);
+  const [updatingIds, setUpdatingIds] = useState<Set<string>>(new Set());
 
   const [selected, setSelected] = useState<Project | null>(null);
   const [openForm, setOpenForm] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
 
+  /* ======================
+     Fetch Projects (Scoped)
+  ====================== */
   const fetchProjects = async () => {
-    setLoading(true);
-    const res = await api.get<Project[]>("/projects/admin");
-    setProjects(res.data);
-    setLoading(false);
-  };
-
-  const togglePublishOptimistic = async (projectId: string) => {
-    if (updatingId) return;
-
-    const prevProjects = projects;
-    setUpdatingId(projectId);
-
-    setProjects((prev) =>
-      prev.map((project) =>
-        project._id === projectId
-          ? { ...project, isPublished: !project.isPublished }
-          : project
-      )
-    );
-
     try {
-      await api.put(`/projects/status/${projectId}`);
-    } catch (error) {
-      setProjects(prevProjects);
+      setLoading(true);
+      const res = await api.get<Project[]>("/projects");
+      dispatch(setProjects(res.data));
+    } catch (err) {
+      console.error("Failed to fetch projects", err);
     } finally {
-      setUpdatingId(null);
+      setLoading(false);
     }
   };
 
-  useEffect(() => {
-    fetchProjects();
-  }, []);
+  /* ======================
+     Optimistic Publish Toggle
+  ====================== */
+  const handleTogglePublish = async (projectId: string) => {
+    if (updatingIds.has(projectId)) return;
 
+    // lock this project
+    setUpdatingIds((prev) => new Set(prev).add(projectId));
+
+    // optimistic redux update
+    dispatch(togglePublishOptimistic(projectId));
+
+    try {
+      await toggleProjectStatus(projectId);
+    } catch {
+      // safest rollback
+      fetchProjects();
+    } finally {
+      setUpdatingIds((prev) => {
+        const next = new Set(prev);
+        next.delete(projectId);
+        return next;
+      });
+    }
+  };
+
+  /* ======================
+     Render
+  ====================== */
   return (
     <div className="space-y-6 p-4">
       {/* Header */}
@@ -82,8 +108,8 @@ export default function ProjectsPage() {
             <ProjectCard
               key={project._id}
               project={project}
-              updating={updatingId === project._id}
-              onTogglePublish={() => togglePublishOptimistic(project._id)}
+              updating={updatingIds.has(project._id)}
+              onTogglePublish={() => handleTogglePublish(project._id)}
               onEdit={() => {
                 setSelected(project);
                 setOpenForm(true);
@@ -109,24 +135,25 @@ export default function ProjectsPage() {
         </div>
       )}
 
-      {/* Modals */}
+      {/* Create / Edit Modal */}
       <ProjectFormModal
         open={openForm}
+        project={selected}
         onClose={() => {
           setOpenForm(false);
           setSelected(null);
         }}
-        project={selected}
         onSuccess={fetchProjects}
       />
 
+      {/* Delete Modal */}
       <ConfirmDeleteDialog
         open={openDelete}
-        onClose={() => setOpenDelete(false)}
         title={`Delete "${selected?.title}"?`}
         description="This project and its image will be permanently deleted."
+        onClose={() => setOpenDelete(false)}
         onConfirm={async () => {
-          await api.delete(`/projects/${selected!._id}`);
+          await deleteProject(selected!._id);
           fetchProjects();
         }}
       />

@@ -1,24 +1,36 @@
 "use client";
 
+import { useMemo } from "react";
 import { TypeAnimation } from "react-type-animation";
-import { useEffect, useState } from "react";
 import Image from "next/image";
-
-import { Hero as HeroType } from "@/types/type";
-import { api } from "@/lib/axios";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Download } from "lucide-react";
+import { useAppSelector } from "@/hooks/hooks";
+import { getHeroData } from "@/store/features/heroSlice";
 
 const Hero = () => {
-  const [hero, setHero] = useState<HeroType | null>(null);
+  const hero = useAppSelector(getHeroData);
 
-  useEffect(() => {
-    api.get<HeroType>("/hero").then((res) => setHero(res.data));
-  }, []);
-
+  // 🔒 Guard: no hero data
   if (!hero) return null;
+
+  /**
+   * ✅ FIX: Memoize typing sequence
+   * - Prevents infinite Promise recursion
+   * - Filters invalid values
+   * - Stable reference across renders
+   */
+  const typingSequence = useMemo(() => {
+    if (!Array.isArray(hero.titles) || hero.titles.length === 0) {
+      return [];
+    }
+
+    return hero.titles
+      .filter((t): t is string => typeof t === "string" && t.trim().length > 0)
+      .flatMap((t) => [t, 2000]);
+  }, [hero.titles]);
 
   return (
     <section
@@ -26,7 +38,7 @@ const Hero = () => {
       className="relative mt-24 mb-32 mx-auto max-w-[95%] lg:max-w-[80%]"
     >
       <div className="grid items-center gap-12 md:grid-cols-2">
-        {/* LEFT: Glass Card */}
+        {/* ================= LEFT: Glass Card ================= */}
         <Card
           className="
             border-border/50
@@ -46,30 +58,37 @@ const Hero = () => {
               </span>
             </h1>
 
-            {/* Typing animation */}
-            <div className="mt-6">
-              <TypeAnimation
-                sequence={hero.titles.flatMap((t) => [t, 2000])}
-                speed={50}
-                repeat={Infinity}
-                className="
-                  typing-cursor
-                  text-lg sm:text-xl md:text-2xl
-                  font-semibold italic
-                  text-muted-foreground
-                "
-              />
+            {/* ================= Typing Animation ================= */}
+            <div className="mt-6 min-h-[2.5rem]">
+              {typingSequence.length > 0 && (
+                <TypeAnimation
+                  sequence={typingSequence}
+                  speed={50}
+                  repeat={Infinity}
+                  className="
+                    typing-cursor
+                    text-lg sm:text-xl md:text-2xl
+                    font-semibold italic
+                    text-muted-foreground
+                  "
+                />
+              )}
             </div>
 
             <p className="mt-6 max-w-xl mx-auto md:mx-0 text-muted-foreground">
               {hero.description}
             </p>
 
-            {/* CTA buttons */}
+            {/* ================= CTA Buttons ================= */}
             <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
               <Button asChild>
-                <a href={hero.resumeUrl} target="_blank">
-                  My Resume <Download />
+                <a
+                  href={hero.resumeUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  My Resume
+                  <Download className="ml-2 size-4" />
                 </a>
               </Button>
 
@@ -80,7 +99,7 @@ const Hero = () => {
           </CardContent>
         </Card>
 
-        {/* RIGHT: Avatar */}
+        {/* ================= RIGHT: Avatar ================= */}
         <div className="hidden md:flex justify-end">
           <div className="relative h-72 w-72 lg:h-80 lg:w-80">
             {/* soft glow */}

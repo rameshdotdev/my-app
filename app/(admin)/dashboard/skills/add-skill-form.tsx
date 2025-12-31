@@ -28,7 +28,7 @@ type Props = {
   onClose: () => void;
   categories: SkillCategory[];
   skill?: Skill | null;
-  onSubmit: (data: Partial<Skill>) => void;
+  onSubmit: (data: Partial<Skill>, isEdit: boolean) => void;
 };
 
 export function SkillFormModal({
@@ -66,12 +66,15 @@ export function SkillFormModal({
   const submit = () => {
     if (!categoryId || !name) return;
 
-    onSubmit({
-      categoryId,
-      name,
-      iconKey,
-      isVisible,
-    });
+    onSubmit(
+      {
+        categoryId,
+        name,
+        iconKey,
+        isVisible,
+      },
+      isEdit
+    );
 
     onClose();
   };

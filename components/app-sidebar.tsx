@@ -3,6 +3,7 @@
 import * as React from "react";
 import {
   IconCamera,
+  IconCategory,
   IconChartBar,
   IconDashboard,
   IconFileAi,
@@ -11,6 +12,7 @@ import {
   IconFolder,
   IconInnerShadowTop,
   IconListDetails,
+  IconMessage,
   IconReport,
   IconSettings,
   IconUserCheck,
@@ -108,15 +110,27 @@ const data = {
   ],
   portfolio: [
     {
+      title: "Hero",
+      url: "/dashboard/hero",
+      icon: IconUserCheck,
+      isActive: true,
+    },
+    {
       title: "Skills",
       url: "/dashboard/skills",
       icon: IconListDetails,
       isActive: true,
     },
     {
-      title: "Hero",
-      url: "/dashboard/hero",
-      icon: IconUserCheck,
+      title: "Skill Category",
+      url: "/dashboard/skills/categories",
+      icon: IconCategory,
+      isActive: true,
+    },
+    {
+      title: "Messages",
+      url: "/dashboard/messages",
+      icon: IconMessage,
       isActive: true,
     },
     {

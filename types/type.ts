@@ -156,15 +156,16 @@ export type Project = {
   };
   isPublished: boolean;
 };
+export type SkillCategoryTitle =
+  | "PROGRAMMING"
+  | "FRONTEND"
+  | "BACKEND"
+  | "DATABASE"
+  | "AI_AND_DATA_SCIENCE"
+  | "TOOLS_AND_PLATFORMS";
 export type SkillCategory = {
   _id: string;
-  title:
-    | "PROGRAMMING"
-    | "FRONTEND"
-    | "BACKEND"
-    | "DATABASE"
-    | "AI_AND_DATA_SCIENCE"
-    | "TOOLS_AND_PLATFORMS";
+  title: SkillCategoryTitle;
   subTitle: string;
   order: number;
   isVisible: boolean;
@@ -180,4 +181,8 @@ export type Skill = {
   isVisible: boolean;
 };
 
-// types/skill-board.ts
+export type Message = {
+  name: string;
+  email: string;
+  message: string;
+};

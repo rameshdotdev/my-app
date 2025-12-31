@@ -5,6 +5,9 @@ import { Skill, SkillCategory } from "@/types/type";
 export const createCategory = async (data: Partial<SkillCategory>) =>
   api.post("/skill-categories", data);
 
+export const fetchCategories = () =>
+  api.get<SkillCategory[]>("/skill-categories");
+
 export const updateCategory = async (
   id: string,
   data: Partial<SkillCategory>
@@ -12,6 +15,8 @@ export const updateCategory = async (
 
 export const deleteCategory = async (id: string) =>
   api.delete(`/skill-categories/${id}`);
+
+export const fetchSkills = () => api.get<SkillCategory[]>("/skills");
 
 export const createSkill = (data: Partial<Skill>) => api.post("/skills", data);
 

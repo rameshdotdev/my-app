@@ -5,6 +5,7 @@ import skillCategoryReducer from "./features/skillCategorySlice";
 import heroReducer from "./features/heroSlice";
 import projectReducers from "./features/projectSlice";
 import skillReducer from "./features/skillSlice";
+import contactReducer from "./features/messageSlice";
 export const store = configureStore({
   reducer: {
     user: userReducer,
@@ -13,6 +14,7 @@ export const store = configureStore({
     hero: heroReducer,
     projects: projectReducers,
     skills: skillReducer,
+    messages: contactReducer,
   },
 });
 

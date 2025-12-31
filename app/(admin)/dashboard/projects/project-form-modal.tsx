@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { api } from "@/lib/axios";
 import { uploadToCloudinary } from "@/lib/cloudinary-upload";
 import {
   Dialog,
@@ -15,6 +14,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Loader2, ImagePlus } from "lucide-react";
 import { Project } from "@/types/type";
+import { createProject, updateProject } from "@/lib/api/project";
 
 type Props = {
   open: boolean;
@@ -86,9 +86,9 @@ export function ProjectFormModal({ open, onClose, project, onSuccess }: Props) {
     };
 
     if (isEdit) {
-      await api.put(`/projects/${project!._id}`, payload);
+      await updateProject(project!._id, payload);
     } else {
-      await api.post("/projects", payload);
+      await createProject(payload);
     }
 
     setLoading(false);

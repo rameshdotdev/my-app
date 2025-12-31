@@ -1,29 +1,16 @@
 "use client";
-
-import { Skill, SkillCategory } from "@/types/type";
 import { skillIconMap } from "@/lib/skill-icons";
 import { cn } from "@/lib/utils";
-import { Pencil, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAppSelector } from "@/hooks/hooks";
+import { getSkills } from "@/store/features/skillSlice";
 
-interface Props {
-  categories: SkillCategory[];
-  onEditSkill?: (skill: Skill) => void;
-  onDeleteSkill?: (skill: Skill) => void;
-}
-
-export default function SkillBoardPreview({
-  categories,
-  onEditSkill,
-  onDeleteSkill,
-}: Props) {
-  const visibleCategories = categories
-    .filter((c) => c.isVisible)
-    .sort((a, b) => a.order - b.order);
+export default function SkillBoardPreview() {
+  const skillsData = useAppSelector(getSkills);
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 rounded-xl border bg-muted/40 p-6">
-      {visibleCategories.map((category) => (
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 p-6">
+      {skillsData.map((category) => (
         <div
           key={category._id}
           className="group rounded-2xl border bg-background p-6 transition hover:shadow-sm"
@@ -62,24 +49,6 @@ export default function SkillBoardPreview({
                       {Icon ? <Icon /> : "🔧"}
                     </span>
                     <span className="text-sm truncate">{skill.name}</span>
-
-                    {/* Skill Actions */}
-                    <div className="absolute right-1 top-0 flex gap-1 opacity-0 transition group-hover/skill:opacity-100">
-                      <Button
-                        size="icon"
-                        variant="ghost"
-                        onClick={() => onEditSkill?.(skill)}
-                      >
-                        <Pencil className="size-3" />
-                      </Button>
-                      <Button
-                        size="icon"
-                        variant="ghost"
-                        onClick={() => onDeleteSkill?.(skill)}
-                      >
-                        <Trash2 className="size-3 text-destructive" />
-                      </Button>
-                    </div>
                   </div>
                 );
               })}
@@ -95,7 +64,7 @@ export default function SkillBoardPreview({
       ))}
 
       {/* ================= Global Empty State ================= */}
-      {visibleCategories.length === 0 && (
+      {skillsData.length === 0 && (
         <div className="col-span-full text-center text-sm text-muted-foreground">
           No skill categories are visible
         </div>

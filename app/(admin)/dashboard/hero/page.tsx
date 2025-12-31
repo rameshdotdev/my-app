@@ -1,45 +1,76 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { api } from "@/lib/axios";
-import { Hero, Speed } from "@/types/type";
+import { Hero } from "@/types/type";
+
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import HeroEditorPanel from "./hero-editor-panel";
 import HeroLivePreview from "./hero-live-preview";
 
+import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
+import { getHeroData, setHeroData } from "@/store/features/heroSlice";
+
+import { fetchHero, updateHero } from "@/lib/api/hero";
+
 export default function HeroComposerPage() {
-  const [hero, setHero] = useState<Hero | null>(null);
+  /* ======================
+     Redux State
+  ====================== */
+  const hero = useAppSelector(getHeroData);
+  const dispatch = useAppDispatch();
+
+  /* ======================
+     Local Draft State
+  ====================== */
   const [draft, setDraft] = useState<Hero | null>(null);
   const [saving, setSaving] = useState(false);
-  const [speed, setSpeed] = useState<Speed>(50);
 
+  /* ======================
+     Sync Redux → Draft
+     (runs once or when hero changes)
+  ====================== */
   useEffect(() => {
-    api.get("/hero").then((res) => {
-      setHero(res.data);
-      setDraft(res.data);
-    });
-  }, []);
+    if (hero) {
+      setDraft(hero);
+    }
+  }, [hero]);
 
+  /* ======================
+     Dirty Check
+  ====================== */
   const isDirty = useMemo(() => {
+    if (!hero || !draft) return false;
     return JSON.stringify(hero) !== JSON.stringify(draft);
   }, [hero, draft]);
 
+  /* ======================
+     Save Handler
+  ====================== */
   const handleSave = async () => {
     if (!draft) return;
-    setSaving(true);
-    await api.put("/hero", draft);
-    setHero(draft);
-    setSaving(false);
+
+    try {
+      setSaving(true);
+      await updateHero(draft);
+
+      // scoped refetch (same pattern as projects)
+      const res = await fetchHero();
+      dispatch(setHeroData(res.data));
+    } finally {
+      setSaving(false);
+    }
   };
 
   if (!draft) return null;
 
+  /* ======================
+     Render
+  ====================== */
   return (
     <div className="relative p-4">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <HeroEditorPanel value={draft} onChange={setDraft} />
-        <HeroLivePreview hero={draft} speed={speed} />
+        <HeroLivePreview hero={draft} speed={50} />
       </div>
 
       {/* Sticky Save Bar */}
@@ -51,6 +82,7 @@ export default function HeroComposerPage() {
             <Button variant="ghost" onClick={() => setDraft(hero)}>
               Reset
             </Button>
+
             <Button onClick={handleSave} disabled={saving}>
               {saving ? "Saving..." : "Save Hero"}
             </Button>

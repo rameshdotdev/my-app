@@ -1,98 +1,100 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { api } from "@/lib/axios";
-import { SkillCategory, Skill } from "@/types/type";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import SkillBoardPreview from "./skill-board-preview";
 import { SkillFormModal } from "./add-skill-form";
 
-export default function SkillBoardPage() {
-  const [data, setData] = useState<SkillCategory[]>([]);
-  const [draft, setDraft] = useState<SkillCategory[]>([]);
+import { Skill, SkillCategory } from "@/types/type";
+import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
+import { getSkills, setSkills } from "@/store/features/skillSlice";
 
+import {
+  createSkill,
+  fetchSkills,
+  deleteSkill,
+  updateSkill,
+} from "@/lib/api/skill";
+
+export default function SkillBoardPage() {
+  /* ======================
+       Redux State
+  ====================== */
+  const categories = useAppSelector(getSkills);
+  const dispatch = useAppDispatch();
+
+  /* ======================
+       Local State
+  ====================== */
   const [open, setOpen] = useState(false);
   const [selectedSkill, setSelectedSkill] = useState<Skill | null>(null);
+  const [selectedCategory, setSelectedCategory] =
+    useState<SkillCategory | null>(null);
 
-  useEffect(() => {
-    api.get("/skills").then((res) => {
-      setData(res.data);
-      setDraft(res.data);
-    });
-  }, []);
-
-  /* =========================
-     ADD / UPDATE HANDLER
-  ========================= */
-  const handleSubmit = (payload: Partial<Skill>) => {
-    setDraft((prev) =>
-      prev.map((cat) => {
-        // EDIT
-        if (selectedSkill && cat._id === selectedSkill.categoryId) {
-          return {
-            ...cat,
-            skills: cat.skills.map((s) =>
-              s._id === selectedSkill._id ? { ...s, ...payload } : s
-            ),
-          };
-        }
-
-        // ADD
-        if (!selectedSkill && cat._id === payload.categoryId) {
-          return {
-            ...cat,
-            skills: [
-              ...cat.skills,
-              {
-                _id: crypto.randomUUID(),
-                categoryId: cat._id,
-                name: payload.name!,
-                iconKey: payload.iconKey!,
-                order: cat.skills.length,
-                isVisible: payload.isVisible ?? true,
-              },
-            ],
-          };
-        }
-
-        return cat;
-      })
-    );
-
-    setSelectedSkill(null);
-    setOpen(false);
+  /* ======================
+       Helpers
+  ====================== */
+  const refreshSkills = async () => {
+    const res = await fetchSkills();
+    dispatch(setSkills(res.data));
   };
 
+  /* ======================
+       Handlers
+  ====================== */
+  const handleAddSkill = () => {
+    setSelectedSkill(null);
+    setOpen(true);
+  };
+
+  const handleEditSkill = (skill: Skill) => {
+    setSelectedSkill(skill);
+    setOpen(true);
+  };
+
+  const handleDeleteSkill = async (skill: Skill) => {
+    if (!confirm(`Delete skill "${skill.name}"?`)) return;
+    await deleteSkill(skill._id);
+    await refreshSkills();
+  };
+
+  /* ======================
+       Render
+  ====================== */
   return (
     <div className="space-y-6 p-4">
       {/* ===== Header ===== */}
-      <div className="flex justify-between items-center">
+      <div className="flex items-center justify-between">
         <h1 className="text-xl font-bold">Skill Board</h1>
-        <Button onClick={() => setOpen(true)}>+ Add Skill</Button>
+        <Button onClick={handleAddSkill}>+ Add Skill</Button>
       </div>
 
-      {/* ===== Editor + Preview ===== */}
-      <div className="">
-        {/* Clickable Preview → Edit */}
-        <SkillBoardPreview
-          categories={draft}
-          onEditSkill={(skill) => {
-            setSelectedSkill(skill);
-            setOpen(true);
-          }}
-        />
-      </div>
+      {/* ===== Skill Board ===== */}
+      <SkillBoardPreview
+        categories={categories}
+        onEditSkill={handleEditSkill}
+        onDeleteSkill={handleDeleteSkill}
+      />
 
-      {/* ===== Modal ===== */}
+      {/* ===== Skill Modal ===== */}
       <SkillFormModal
         open={open}
+        skill={selectedSkill}
+        categories={categories}
         onClose={() => {
           setOpen(false);
           setSelectedSkill(null);
         }}
-        categories={draft}
-        skill={selectedSkill}
-        onSubmit={handleSubmit}
+        onSubmit={async (data, isEdit) => {
+          if (isEdit && selectedSkill) {
+            await updateSkill(selectedSkill._id, data);
+          } else {
+            await createSkill(data);
+          }
+          await refreshSkills();
+          setOpen(false);
+          setSelectedSkill(null);
+        }}
       />
     </div>
   );
