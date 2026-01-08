@@ -96,10 +96,10 @@ export function SkillFormModal({
           <div className="space-y-1">
             <Label>Category *</Label>
             <Select value={categoryId} onValueChange={setCategoryId}>
-              <SelectTrigger>
+              <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select category" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="w-full">
                 {categories.map((cat) => (
                   <SelectItem key={cat._id} value={cat._id}>
                     {cat.title}

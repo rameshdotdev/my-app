@@ -1,7 +1,6 @@
 "use client";
 
 import { ReactNode, useEffect } from "react";
-import { useAuthGuard } from "@/hooks/use-auth-guard";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
@@ -17,23 +16,22 @@ import { setMessage } from "@/store/features/messageSlice";
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   const dispatch = useAppDispatch();
-  const { user, loading } = useAuthGuard();
-  const { data } = useDashboardQuery();
+  const { data, isLoading } = useDashboardQuery();
 
   useEffect(() => {
     if (!data) return;
+    dispatch(setUser(data.user));
     dispatch(setHeroData(data.hero));
     dispatch(setSkillCategories(data.skillCategory));
     dispatch(setSkills(data.skills));
     dispatch(setProjects(data.projects));
     dispatch(setMessage(data.contacts));
   }, [data, dispatch]);
-  if (loading) {
+
+  if (isLoading) {
     return <DashboardSkeleton />;
   }
-  if (user) {
-    dispatch(setUser(user));
-  }
+
   return (
     <SidebarProvider
       style={
@@ -45,7 +43,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
     >
       <AppSidebar variant="inset" />
       <SidebarInset>
-        <SiteHeader name={user?.name || ""} avatar={user?.avatar} />
+        <SiteHeader />
         <div className="flex flex-1 flex-col">
           <div className="@container/main flex flex-1 flex-col gap-2">
             <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">

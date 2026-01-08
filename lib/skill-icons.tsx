@@ -33,6 +33,8 @@ import {
   FaLinux,
   FaAws,
   FaFigma,
+  FaRobot,
+  FaBrain,
 } from "react-icons/fa";
 
 /* =========================
@@ -50,6 +52,11 @@ import {
   SiRedux,
   SiVercel,
   SiVite,
+  SiNumpy,
+  SiPandas,
+  SiScrapy,
+  SiIrobot,
+  SiBoat,
 } from "react-icons/si";
 
 /* =========================
@@ -121,7 +128,11 @@ export const skillIconMap = {
   SiRedux,
   SiVercel,
   SiVite,
-
+  SiNumpy,
+  SiPandas,
+  SiScrapy,
+  FaRobot,
+  FaBrain,
   /* ===== Creative / UI ===== */
   FaFigma,
   MdAnimation,

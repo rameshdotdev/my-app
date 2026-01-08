@@ -17,11 +17,15 @@ export function GridBackground({
       {/* Grid */}
       <div
         className={cn(
-          "absolute inset-0",
-          "bg-size-[40px_40px]",
+          "pointer-events-none absolute inset-0 z-0",
+          "bg-fixed bg-center bg-repeat",
+          `bg-size-[${gridSize}px_${gridSize}px]`,
           "bg-[linear-gradient(to_right,#e4e4e7_1px,transparent_1px),linear-gradient(to_bottom,#e4e4e7_1px,transparent_1px)]",
           "dark:bg-[linear-gradient(to_right,#262626_1px,transparent_1px),linear-gradient(to_bottom,#262626_1px,transparent_1px)]"
         )}
+        style={{
+          backgroundSize: `${gridSize}px ${gridSize}px`,
+        }}
       />
 
       {/* Radial gradient for the container to give a faded look */}

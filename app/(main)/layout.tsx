@@ -5,7 +5,9 @@ import { setHeroData } from "@/store/features/heroSlice";
 import { setProjects } from "@/store/features/projectSlice";
 import { setSkills } from "@/store/features/skillSlice";
 import { ReactNode, useEffect } from "react";
-
+import Navbar from "./Heade";
+import { ScrollProgress } from "@/components/scroll-progress";
+import { MeteorsBackground } from "@/components/meteors-background";
 export default function MainLayout({
   children,
 }: Readonly<{
@@ -19,5 +21,12 @@ export default function MainLayout({
     dispatch(setSkills(data.skills));
     dispatch(setProjects(data.projects));
   }, [data, dispatch]);
-  return <>{children}</>;
+  return (
+    <div className="relative">
+      <ScrollProgress />
+      <MeteorsBackground />
+      {children}
+      <Navbar />
+    </div>
+  );
 }

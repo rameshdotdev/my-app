@@ -1,7 +1,14 @@
 import { useParallelQuery } from "./use-parallel-fetch";
-import type { Hero, Project, SkillCategory, Message } from "@/types/type";
+import type {
+  Hero,
+  Project,
+  SkillCategory,
+  Message,
+  AuthResponse,
+} from "@/types/type";
 
 export interface DashboardResponse {
+  user: AuthResponse;
   hero: Hero;
   skillCategory: SkillCategory[];
   skills: SkillCategory[];
@@ -11,6 +18,7 @@ export interface DashboardResponse {
 
 export function useDashboardQuery() {
   return useParallelQuery<DashboardResponse>(["admin-dashboard"], {
+    user: "/auth/me",
     hero: "/hero",
     skillCategory: "/skill-categories",
     skills: "/skills",

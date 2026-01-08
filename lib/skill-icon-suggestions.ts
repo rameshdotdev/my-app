@@ -56,5 +56,14 @@ export const ICON_SUGGESTIONS: Record<string, SkillIconKey[]> = {
   /* =========================
      AI & DATA SCIENCE
   ========================= */
-  AI_AND_DATA_SCIENCE: ["FaPython", "Cpu", "FaDatabase"],
+  AI_AND_DATA_SCIENCE: [
+    "FaPython",
+    "Cpu",
+    "FaDatabase",
+    "SiNumpy",
+    "SiPandas",
+    "SiScrapy",
+    "FaRobot",
+    "FaBrain",
+  ],
 };
