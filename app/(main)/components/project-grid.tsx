@@ -5,6 +5,7 @@ import { Project } from "@/types/type";
 import { ProjectCard } from "./ProjectCard";
 import { BLUR_FADE_DELAY } from "@/lib/utils";
 import BlurFade from "@/components/magicui/blur-fade";
+import BlurFadeText from "@/components/magicui/blur-fade-text";
 
 export function ProjectsGrid({ projects }: { projects: Project[] }) {
   const [selectedFilter, setSelectedFilter] = useState("all");
@@ -28,16 +29,39 @@ export function ProjectsGrid({ projects }: { projects: Project[] }) {
 
   return (
     <div id="projects">
-      {/* Header */}
+      {/* ================= Section Header ================= */}
+      <div className="max-w-3xl mx-auto md:text-center pb-6">
+        <BlurFade delay={BLUR_FADE_DELAY * 1.5} className="inline-block">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight relative">
+            <span className="bg-linear-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
+              Featured Projects
+            </span>
 
-      <BlurFade delay={BLUR_FADE_DELAY * 11} className="mb-12 text-center">
-        <h2 className="mb-4 text-4xl font-bold md:text-5xl">
-          Featured Projects
-        </h2>
-        <p className="mx-auto max-w-2xl text-muted-foreground">
-          Real-world applications built with modern technologies
-        </p>
-      </BlurFade>
+            {/* Animated underline (replays on filter change) */}
+            <motion.span
+              key={selectedFilter} // 🔑 THIS is the magic
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="
+          absolute -bottom-2 left-0
+          h-0.75 w-full
+          origin-left
+          rounded-full
+          bg-linear-to-r from-primary to-primary/40
+        "
+            />
+          </h2>
+        </BlurFade>
+
+        <BlurFadeText
+          delay={BLUR_FADE_DELAY * 1.6}
+          yOffset={8}
+          className="mt-4 text-muted-foreground text-base sm:text-lg"
+          text="A curated selection of real-world projects showcasing problem-solving,
+    architecture decisions, and modern development practices."
+        />
+      </div>
 
       {/* Filters */}
       <div className="mb-8 flex flex-wrap justify-center gap-2">
