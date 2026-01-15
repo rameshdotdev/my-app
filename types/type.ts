@@ -186,3 +186,17 @@ export type Message = {
   email: string;
   message: string;
 };
+
+export interface SocialLink {
+  name: string;
+  url: string;
+  icon: string;
+  navbar: boolean;
+}
+
+export type SocialMap = Record<string, SocialLink>;
+
+export interface ContactData {
+  email: string;
+  social: SocialMap;
+}

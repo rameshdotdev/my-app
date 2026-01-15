@@ -1,5 +1,5 @@
-import { GlobeIcon, MailIcon } from "lucide-react";
-
+import { FolderIcon, GlobeIcon, MailIcon } from "lucide-react";
+import { V0Icon } from "./v0-icon";
 export type IconProps = React.HTMLAttributes<SVGElement>;
 
 export const Icons = {
@@ -220,4 +220,60 @@ export const Icons = {
       />
     </svg>
   ),
+  buyMeACoffee: (props: IconProps) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...props}
+    >
+      <path d="M18 8h1a4 4 0 0 1 0 8h-1" />
+      <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" />
+      <line x1="6" y1="1" x2="6" y2="4" />
+      <line x1="10" y1="1" x2="10" y2="4" />
+      <line x1="14" y1="1" x2="14" y2="4" />
+    </svg>
+  ),
+  shop: (props: IconProps) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...props}
+    >
+      <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+    </svg>
+  ),
+  codepen: (props: IconProps) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...props}
+    >
+      <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2" />
+      <line x1="12" y1="22" x2="12" y2="15.5" />
+      <polyline points="22 8.5 12 15.5 2 8.5" />
+      <polyline points="2 15.5 12 8.5 22 15.5" />
+      <line x1="12" y1="2" x2="12" y2="8.5" />
+    </svg>
+  ),
+  vercel: () => <V0Icon />,
+  files: (props: IconProps) => <FolderIcon {...props} />,
 };

@@ -13,45 +13,49 @@ import { setSkillCategories } from "@/store/features/skillCategorySlice";
 import { setSkills } from "@/store/features/skillSlice";
 import { setProjects } from "@/store/features/projectSlice";
 import { setMessage } from "@/store/features/messageSlice";
+import { setContactData } from "@/store/features/contactSlice";
+import { setWorksData } from "@/store/features/workSlice";
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
-  const dispatch = useAppDispatch();
-  const { data, isLoading } = useDashboardQuery();
+	const dispatch = useAppDispatch();
+	const { data, isLoading } = useDashboardQuery();
 
-  useEffect(() => {
-    if (!data) return;
-    dispatch(setUser(data.user));
-    dispatch(setHeroData(data.hero));
-    dispatch(setSkillCategories(data.skillCategory));
-    dispatch(setSkills(data.skills));
-    dispatch(setProjects(data.projects));
-    dispatch(setMessage(data.contacts));
-  }, [data, dispatch]);
+	useEffect(() => {
+		if (!data) return;
+		dispatch(setUser(data.user));
+		dispatch(setHeroData(data.hero));
+		dispatch(setSkillCategories(data.skillCategory));
+		dispatch(setSkills(data.skills));
+		dispatch(setProjects(data.projects));
+		dispatch(setMessage(data.messages));
+		dispatch(setContactData(data.contact));
+		dispatch(setWorksData(data.works));
+	}, [data, dispatch]);
 
-  if (isLoading) {
-    return <DashboardSkeleton />;
-  }
+	if (isLoading) {
+		return <DashboardSkeleton />;
+	}
 
-  return (
-    <SidebarProvider
-      style={
-        {
-          "--sidebar-width": "calc(var(--spacing) * 72)",
-          "--header-height": "calc(var(--spacing) * 12)",
-        } as React.CSSProperties
-      }
-    >
-      <AppSidebar variant="inset" />
-      <SidebarInset>
-        <SiteHeader />
-        <div className="flex flex-1 flex-col">
-          <div className="@container/main flex flex-1 flex-col gap-2">
-            <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-              {children}
-            </div>
-          </div>
-        </div>
-      </SidebarInset>
-    </SidebarProvider>
-  );
+	return (
+		<SidebarProvider
+			style={
+				{
+					"--sidebar-width": "calc(var(--spacing) * 72)",
+					"--header-height": "calc(var(--spacing) * 12)",
+				} as React.CSSProperties
+			}
+		>
+			<AppSidebar variant="inset" />
+			<SidebarInset>
+				<SiteHeader />
+				<div className="flex flex-1 flex-col">
+					<div className="@container/main flex flex-1 flex-col gap-2">
+						<div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+							{children}
+						</div>
+					</div>
+				</div>
+			</SidebarInset>
+		</SidebarProvider>
+	);
 }

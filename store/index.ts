@@ -5,17 +5,21 @@ import skillCategoryReducer from "./features/skillCategorySlice";
 import heroReducer from "./features/heroSlice";
 import projectReducers from "./features/projectSlice";
 import skillReducer from "./features/skillSlice";
-import contactReducer from "./features/messageSlice";
+import messageReducer from "./features/messageSlice";
+import contactReducer from "./features/contactSlice";
+import worksReducer from "./features/workSlice";
 export const store = configureStore({
-  reducer: {
-    user: userReducer,
-    theme: themeReducer,
-    skillCategory: skillCategoryReducer,
-    hero: heroReducer,
-    projects: projectReducers,
-    skills: skillReducer,
-    messages: contactReducer,
-  },
+	reducer: {
+		user: userReducer,
+		theme: themeReducer,
+		skillCategory: skillCategoryReducer,
+		hero: heroReducer,
+		projects: projectReducers,
+		skills: skillReducer,
+		messages: messageReducer,
+		contact: contactReducer,
+		works: worksReducer,
+	},
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
