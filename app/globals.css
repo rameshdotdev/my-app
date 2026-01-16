@@ -237,3 +237,34 @@
 .animate-meteor {
 	animation: meteor linear infinite;
 }
+
+/* contacts btn animation css */
+@keyframes slideDown {
+	0% {
+		transform: translateY(0);
+	}
+
+	100% {
+		transform: translateY(4px);
+	}
+}
+
+/* Optional: Add bounce effect */
+@keyframes bounce {
+
+	0%,
+	100% {
+		transform: translateY(0);
+	}
+
+	50% {
+		transform: translateY(-2px);
+	}
+}
+
+
+/* ////// */
+.bg-dot-grid {
+	background-image: radial-gradient(var(--grid-color)1.25px, transparent 1.25px);
+	background-size: 7.5px 7.5px
+}

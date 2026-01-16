@@ -7,19 +7,19 @@ import { ContactForm } from "./components/contact-form";
 import { DotBackground } from "@/components/dot-background";
 
 function page() {
-	return (
-		<>
-			<DotBackground gridSize={32} className="min-h-screen">
-				<div className="relative max-w-[95%] lg:max-w-[80%] mx-auto space-y-28 pt-10 md:pt-24">
-					<Hero />
-					<Skills />
-					<ProjectsPage />
-					<ContactForm />
-				</div>
-				<Footer />
-			</DotBackground>
-		</>
-	);
+  return (
+    <>
+      <DotBackground gridSize={32} isOverlay={true} className="min-h-screen">
+        <div className="relative max-w-[95%] lg:max-w-[80%] px-2 mx-auto space-y-28 pt-10 md:pt-24">
+          <Hero />
+          <Skills />
+          <ProjectsPage />
+          <ContactForm />
+        </div>
+        <Footer />
+      </DotBackground>
+    </>
+  );
 }
 
 export default page;
