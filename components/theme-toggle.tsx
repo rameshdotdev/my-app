@@ -7,8 +7,9 @@ import { Button } from "@/components/ui/button";
 import { Moon, Sun } from "lucide-react";
 import { setMode } from "@/store/features/themeSlice";
 import { useAppDispatch } from "@/hooks/hooks";
+import { cn } from "@/lib/utils";
 
-export function ThemeToggle() {
+export function ThemeToggle({ className }: { className?: string }) {
   const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const dispatch = useAppDispatch();
@@ -48,14 +49,14 @@ export function ThemeToggle() {
     <Button
       variant="ghost"
       size="icon"
+      className={cn("rounded-full", className)}
       onClick={toggleTheme}
       aria-label="Toggle theme"
-      className="rounded-full"
     >
       {resolvedTheme === "dark" ? (
-        <Moon className="h-5 w-5" />
-      ) : (
         <Sun className="h-5 w-5" />
+      ) : (
+        <Moon className="h-5 w-5" />
       )}
     </Button>
   );

@@ -13,7 +13,6 @@ const CalendarButton = () => {
   return (
     <Button
       asChild
-      size="lg"
       className="w-full sm:w-auto cursor-pointer rounded-xl transition-all duration-300 group/call"
       data-cal-namespace="30min"
       data-cal-link="ramesh.in/30min"

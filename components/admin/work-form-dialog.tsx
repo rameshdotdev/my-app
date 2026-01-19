@@ -6,19 +6,19 @@ import { api } from "@/lib/axios";
 
 import { Button } from "@/components/ui/button";
 import {
-	Dialog,
-	DialogContent,
-	DialogHeader,
-	DialogTitle,
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import {
-	Select,
-	SelectTrigger,
-	SelectContent,
-	SelectItem,
-	SelectValue,
+  Select,
+  SelectTrigger,
+  SelectContent,
+  SelectItem,
+  SelectValue,
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { X } from "lucide-react";
@@ -31,264 +31,308 @@ import { addWork, updateWork } from "@/store/features/workSlice";
 import Image from "next/image";
 
 type ImageState = {
-	url: string;
-	publicId: string;
+  url: string;
+  publicId: string;
 };
 
 const LOCATION_TYPES = ["Remote", "Onsite", "Hybrid"] as const;
+const JOB_TYPES = ["Full Time", "Part Time", "Internship"] as const;
 
 type Props = {
-	setOpenAction: (v: boolean) => void;
-	open: boolean;
-	initialData: Work | null;
+  setOpenAction: (v: boolean) => void;
+  open: boolean;
+  initialData: Work | null;
 };
 
 export default function WorkFormDialog({
-	open,
-	setOpenAction,
-	initialData,
+  open,
+  setOpenAction,
+  initialData,
 }: Props) {
-	const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
-	const [form, setForm] = useState<Partial<Work>>({});
-	const [logo, setLogo] = useState<ImageState | null>(null);
-	const [badges, setBadges] = useState<string[]>([]);
-	const [badgeInput, setBadgeInput] = useState("");
-	const [uploading, setUploading] = useState(false);
-	const [saving, setSaving] = useState(false);
+  const [form, setForm] = useState<Partial<Work>>({});
+  const [logo, setLogo] = useState<ImageState | null>(null);
 
-	/* =========================
+  // tags input
+  const [tags, setTags] = useState<string[]>([]);
+  const [tagInput, setTagInput] = useState("");
+
+  // points input
+  const [pointsText, setPointsText] = useState("");
+
+  const [uploading, setUploading] = useState(false);
+  const [saving, setSaving] = useState(false);
+
+  /* =========================
      Hydrate on Edit
   ========================= */
-	useEffect(() => {
-		if (initialData) {
-			setForm(initialData);
-			setLogo(initialData.logoUrl ?? null);
-			setBadges(initialData.badges ?? []);
-		} else {
-			setForm({});
-			setLogo(null);
-			setBadges([]);
-		}
-	}, [initialData]);
+  useEffect(() => {
+    if (initialData) {
+      setForm(initialData);
+      setLogo(initialData.logoUrl ?? null);
+      setTags(initialData.tags ?? []);
+      setPointsText((initialData.points ?? []).join("\n"));
+    } else {
+      setForm({});
+      setLogo(null);
+      setTags([]);
+      setPointsText("");
+    }
+  }, [initialData]);
 
-	/* =========================
+  /* =========================
      Logo Upload (REQUIRED)
   ========================= */
-	const handleLogoChange = async (file: File) => {
-		try {
-			setUploading(true);
-			const res = await uploadToCloudinary(file);
+  const handleLogoChange = async (file: File) => {
+    try {
+      setUploading(true);
+      const res = await uploadToCloudinary(file);
 
-			setLogo({
-				url: res.secure_url,
-				publicId: res.public_id,
-			});
+      setLogo({
+        url: res.secure_url,
+        publicId: res.public_id,
+      });
 
-			toast.success("Logo uploaded");
-		} catch {
-			toast.error("Logo upload failed");
-		} finally {
-			setUploading(false);
-		}
-	};
+      toast.success("Logo uploaded");
+    } catch {
+      toast.error("Logo upload failed");
+    } finally {
+      setUploading(false);
+    }
+  };
 
-	/* =========================
-     Badge Handling
+  /* =========================
+     Tags Handling
   ========================= */
-	const addBadge = () => {
-		if (!badgeInput.trim()) return;
-		setBadges((prev) => [...prev, badgeInput.trim()]);
-		setBadgeInput("");
-	};
+  const addTag = () => {
+    const value = tagInput.trim();
+    if (!value) return;
 
-	const removeBadge = (badge: string) => {
-		setBadges((prev) => prev.filter((b) => b !== badge));
-	};
+    setTags((prev) => (prev.includes(value) ? prev : [...prev, value]));
+    setTagInput("");
+  };
 
-	/* =========================
+  const removeTag = (tag: string) => {
+    setTags((prev) => prev.filter((t) => t !== tag));
+  };
+
+  /* =========================
      Submit (Redux + API)
   ========================= */
-	const submit = async () => {
-		if (!logo) {
-			toast.error("Company logo is required");
-			return;
-		}
+  const submit = async () => {
+    if (!logo) {
+      toast.error("Company logo is required");
+      return;
+    }
 
-		if (
-			!form.company ||
-			!form.title ||
-			!form.location ||
-			!form.start ||
-			!form.end ||
-			!form.description
-		) {
-			toast.error("Please fill all required fields");
-			return;
-		}
+    if (
+      !form.company ||
+      !form.role ||
+      !form.location ||
+      !form.location_type ||
+      !form.start ||
+      !form.end
+    ) {
+      toast.error("Please fill all required fields");
+      return;
+    }
 
-		const payload = {
-			...form,
-			badges,
-			logoUrl: logo, // REQUIRED by schema
-		};
+    const points = pointsText
+      .split("\n")
+      .map((p) => p.trim())
+      .filter(Boolean);
 
-		try {
-			setSaving(true);
+    if (points.length === 0) {
+      toast.error("Please add at least 1 point");
+      return;
+    }
 
-			if (form._id) {
-				// UPDATE
-				const res = await api.put(`/works-at/${form._id}`, payload);
-				dispatch(updateWork(res.data));
-				toast.success("Work updated");
-			} else {
-				// CREATE
-				const res = await api.post("/works-at", payload);
-				dispatch(addWork(res.data));
-				toast.success("Work created");
-			}
+    const payload = {
+      ...form,
+      tags,
+      points,
+      logoUrl: logo,
+    };
 
-			setOpenAction(false);
-		} catch {
-			toast.error("Something went wrong");
-		} finally {
-			setSaving(false);
-		}
-	};
+    try {
+      setSaving(true);
 
-	return (
-		<Dialog open={open} onOpenChange={setOpenAction}>
-			<DialogContent className="max-w-xl">
-				<DialogHeader>
-					<DialogTitle>{form._id ? "Edit Work" : "Add Work"}</DialogTitle>
-				</DialogHeader>
+      if (form._id) {
+        const res = await api.put(`/works-at/${form._id}`, payload);
+        dispatch(updateWork(res.data));
+        toast.success("Work updated");
+      } else {
+        const res = await api.post("/works-at", payload);
+        dispatch(addWork(res.data));
+        toast.success("Work created");
+      }
 
-				<div className="space-y-4">
-					{/* Company */}
-					<Input
-						placeholder="Company *"
-						value={form.company ?? ""}
-						onChange={(e) => setForm({ ...form, company: e.target.value })}
-					/>
+      setOpenAction(false);
+    } catch {
+      toast.error("Something went wrong");
+    } finally {
+      setSaving(false);
+    }
+  };
 
-					{/* Title */}
-					<Input
-						placeholder="Title *"
-						value={form.title ?? ""}
-						onChange={(e) => setForm({ ...form, title: e.target.value })}
-					/>
+  return (
+    <Dialog open={open} onOpenChange={setOpenAction}>
+      <DialogContent className="max-w-xl">
+        <DialogHeader>
+          <DialogTitle>{form._id ? "Edit Work" : "Add Work"}</DialogTitle>
+        </DialogHeader>
 
-					{/* Website */}
-					<Input
-						placeholder="Company URL (optional)"
-						value={form.href ?? ""}
-						onChange={(e) => setForm({ ...form, href: e.target.value })}
-					/>
+        <div className="space-y-4">
+          {/* Company */}
+          <Input
+            placeholder="Company *"
+            value={form.company ?? ""}
+            onChange={(e) => setForm({ ...form, company: e.target.value })}
+          />
 
-					{/* Location */}
-					<Select
-						value={form.location}
-						onValueChange={(v) =>
-							setForm({ ...form, location: v as Work["location"] })
-						}
-					>
-						<SelectTrigger className="w-full">
-							<SelectValue placeholder="Location *" />
-						</SelectTrigger>
-						<SelectContent>
-							{LOCATION_TYPES.map((loc) => (
-								<SelectItem key={loc} value={loc}>
-									{loc}
-								</SelectItem>
-							))}
-						</SelectContent>
-					</Select>
+          {/* Role */}
+          <Input
+            placeholder="Role *"
+            value={form.role ?? ""}
+            onChange={(e) => setForm({ ...form, role: e.target.value })}
+          />
 
-					{/* Start / End */}
-					<div className="grid grid-cols-2 gap-3">
-						<Input
-							placeholder="Start (e.g. Aug 2025) *"
-							value={form.start ?? ""}
-							onChange={(e) => setForm({ ...form, start: e.target.value })}
-						/>
-						<Input
-							placeholder="End (e.g. Present) *"
-							value={form.end ?? ""}
-							onChange={(e) => setForm({ ...form, end: e.target.value })}
-						/>
-					</div>
+          {/* Job Type */}
+          <Select
+            value={form.type}
+            onValueChange={(v) => setForm({ ...form, type: v as Work["type"] })}
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Job Type (optional)" />
+            </SelectTrigger>
+            <SelectContent>
+              {JOB_TYPES.map((t) => (
+                <SelectItem key={t} value={t}>
+                  {t}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
 
-					{/* Description */}
-					<Textarea
-						placeholder="Description *"
-						value={form.description ?? ""}
-						onChange={(e) => setForm({ ...form, description: e.target.value })}
-					/>
+          {/* Website */}
+          <Input
+            placeholder="Company URL (optional)"
+            value={form.href ?? ""}
+            onChange={(e) => setForm({ ...form, href: e.target.value })}
+          />
 
-					{/* =========================
-              Badges
-          ========================= */}
-					<div className="space-y-2">
-						<div className="flex gap-2">
-							<Input
-								placeholder="Add badge"
-								value={badgeInput}
-								onChange={(e) => setBadgeInput(e.target.value)}
-								onKeyDown={(e) => e.key === "Enter" && addBadge()}
-							/>
-							<Button type="button" onClick={addBadge}>
-								Add
-							</Button>
-						</div>
+          {/* Location Type*/}
+          <Select
+            value={form.location_type}
+            onValueChange={(v) =>
+              setForm({ ...form, location_type: v as Work["location_type"] })
+            }
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Location Type*" />
+            </SelectTrigger>
+            <SelectContent>
+              {LOCATION_TYPES.map((loc) => (
+                <SelectItem key={loc} value={loc}>
+                  {loc}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          {/* Location*/}
+          <Input
+            placeholder="Delhi India"
+            value={form.location ?? ""}
+            onChange={(e) => setForm({ ...form, location: e.target.value })}
+          />
+          {/* Start / End */}
+          <div className="grid grid-cols-2 gap-3">
+            <Input
+              placeholder="Start (e.g. Aug 2025) *"
+              value={form.start ?? ""}
+              onChange={(e) => setForm({ ...form, start: e.target.value })}
+            />
+            <Input
+              placeholder="End (e.g. Present) *"
+              value={form.end ?? ""}
+              onChange={(e) => setForm({ ...form, end: e.target.value })}
+            />
+          </div>
 
-						<div className="flex gap-2 flex-wrap">
-							{badges.map((badge) => (
-								<Badge key={badge} variant="secondary">
-									{badge}
-									<X
-										className="ml-1 h-3 w-3 cursor-pointer"
-										onClick={() => removeBadge(badge)}
-									/>
-								</Badge>
-							))}
-						</div>
-					</div>
+          {/* Points */}
+          <Textarea
+            placeholder={`Points * (one per line)\nExample:\nBuilt X\nImproved Y`}
+            value={pointsText}
+            onChange={(e) => setPointsText(e.target.value)}
+            className="min-h-[140px]"
+          />
 
-					{/* =========================
-              Logo Upload
-          ========================= */}
-					<div className="space-y-2">
-						<label className="text-sm font-medium">Company Logo *</label>
+          {/* Tags */}
+          <div className="space-y-2">
+            <div className="flex gap-2">
+              <Input
+                placeholder="Add tag"
+                value={tagInput}
+                onChange={(e) => setTagInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    addTag();
+                  }
+                }}
+              />
+              <Button type="button" onClick={addTag}>
+                Add
+              </Button>
+            </div>
 
-						<Input
-							type="file"
-							accept="image/*"
-							disabled={uploading}
-							onChange={(e) =>
-								e.target.files && handleLogoChange(e.target.files[0])
-							}
-						/>
+            <div className="flex flex-wrap gap-2">
+              {tags.map((tag) => (
+                <Badge key={tag} variant="secondary">
+                  {tag}
+                  <X
+                    className="ml-1 h-3 w-3 cursor-pointer"
+                    onClick={() => removeTag(tag)}
+                  />
+                </Badge>
+              ))}
+            </div>
+          </div>
 
-						{logo && (
-							<Image
-								width={64}
-								height={64}
-								src={logo.url}
-								alt="Logo preview"
-								className="rounded-md border object-contain"
-							/>
-						)}
-					</div>
+          {/* Logo Upload */}
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Company Logo *</label>
 
-					<Button
-						className="w-full"
-						onClick={submit}
-						disabled={uploading || saving}
-					>
-						{saving ? "Saving..." : form._id ? "Update Work" : "Create Work"}
-					</Button>
-				</div>
-			</DialogContent>
-		</Dialog>
-	);
+            <Input
+              type="file"
+              accept="image/*"
+              disabled={uploading}
+              onChange={(e) =>
+                e.target.files?.[0] && handleLogoChange(e.target.files[0])
+              }
+            />
+
+            {logo && (
+              <Image
+                width={64}
+                height={64}
+                src={logo.url}
+                alt="Logo preview"
+                className="rounded-md border border-border object-contain"
+              />
+            )}
+          </div>
+
+          <Button
+            className="w-full"
+            onClick={submit}
+            disabled={uploading || saving}
+          >
+            {saving ? "Saving..." : form._id ? "Update Work" : "Create Work"}
+          </Button>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
 }

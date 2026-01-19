@@ -15,7 +15,6 @@ const EmailButton = ({ href, children, className }: EmailButtonProps) => {
   return (
     <Button
       variant="outline"
-      size="lg"
       asChild
       className="
                       w-full sm:w-auto

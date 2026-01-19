@@ -28,7 +28,7 @@ import CalendarButton from "@/components/calendar-button";
 import EmailButton from "@/components/email-button";
 import { getContactData } from "@/store/features/contactSlice";
 const Hero = () => {
-  const hero = useAppSelector(getHeroData);
+  const hero = useAppSelector(getHeroData).characters[0];
   const contact = useAppSelector(getContactData);
   /**
    * Stable typing sequence

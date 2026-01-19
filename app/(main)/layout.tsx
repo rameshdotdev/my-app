@@ -28,10 +28,10 @@ export default function MainLayout({
     dispatch(setWorksData(data.works));
   }, [data, dispatch]);
   return (
-    <div className="relative">
+    <div className="relative z-50">
       <SoundProvider>
         <ScrollProgress />
-        <MeteorsBackground />
+        {/* <MeteorsBackground /> */}
         {isLoading ? <HeroSkeleton /> : children}
         {/*<HeroSkeleton />*/}
         <Navbar />
