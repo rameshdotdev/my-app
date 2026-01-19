@@ -97,7 +97,7 @@ export function ContactForm() {
 
         <CardHeader className="pb-6">
           <div className="flex items-center gap-3">
-            <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center">
+            <div className="h-12 w-12 rounded-[8px] bg-primary/10 flex items-center justify-center">
               <Mail className="h-6 w-6 text-primary" />
             </div>
             <div>
@@ -193,7 +193,7 @@ export function ContactForm() {
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full h-14 rounded-xl text-base font-semibold"
+                className="w-full h-14 rounded-[8px] text-base font-semibold"
               >
                 {isSubmitting ? (
                   <>

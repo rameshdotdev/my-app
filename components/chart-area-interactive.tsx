@@ -172,7 +172,7 @@ export function ChartAreaInteractive() {
             >
               <SelectValue placeholder="Last 3 months" />
             </SelectTrigger>
-            <SelectContent className="rounded-xl">
+            <SelectContent className="rounded-[8px]">
               <SelectItem value="90d" className="rounded-lg">
                 Last 3 months
               </SelectItem>
@@ -226,14 +226,14 @@ export function ChartAreaInteractive() {
           <>
             {/* Admin KPIs */}
             <div className="mb-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
-              <div className="rounded-xl border bg-card p-4">
+              <div className="rounded-[8px] border bg-card p-4">
                 <div className="text-sm text-muted-foreground">Visitors</div>
                 <div className="mt-1 text-2xl font-semibold">
                   {formatNumber(adminTotals?.visitors ?? 0)}
                 </div>
               </div>
 
-              <div className="rounded-xl border bg-card p-4">
+              <div className="rounded-[8px] border bg-card p-4">
                 <div className="text-sm text-muted-foreground">Pageviews</div>
                 <div className="mt-1 text-2xl font-semibold">
                   {formatNumber(adminTotals?.pageviews ?? 0)}

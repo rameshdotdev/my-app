@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 
 export function NavbarPreview({ socials }: { socials: [string, any][] }) {
   return (
-    <div className="rounded-xl border bg-muted/30 p-4">
+    <div className="rounded-[8px] border bg-muted/30 p-4">
       <p className="mb-3 text-sm font-medium text-muted-foreground">
         Navbar Preview
       </p>

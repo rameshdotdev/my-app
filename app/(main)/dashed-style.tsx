@@ -1,10 +1,7 @@
-import { DotBackground } from "@/components/dot-background";
 import HorizontalDashedBorder from "@/components/horizontal-dashed-border";
 import Profile from "../(dashed-main)/components/profile";
 import About from "../(dashed-main)/components/about";
 import Socials from "@/app/(dashed-main)/components/socials";
-
-import Experiences from "../(dashed-main)/components/experiences";
 import ViewAllButton from "../(dashed-main)/components/view-all";
 import Title from "../(dashed-main)/components/title";
 import ProjectsGrid from "../(dashed-main)/components/project-grid";
@@ -14,6 +11,7 @@ import SkillsChips from "../(dashed-main)/components/skills-chips";
 import QuoteCard from "../(dashed-main)/components/quote-card";
 import SubscribeBox from "../(dashed-main)/components/subscribe-box";
 import BgDotGrid from "@/components/bg-dot-grid";
+import WorksSection from "../(dashed-main)/components/works-at";
 export default function DashedStyle() {
   return (
     <>
@@ -36,7 +34,7 @@ export default function DashedStyle() {
       </VerticalDashedBorderLayout>
       <HorizontalDashedBorder height={2} />
       <VerticalDashedBorderLayout>
-        <Experiences />
+        <WorksSection />
       </VerticalDashedBorderLayout>
       <HorizontalDashedBorder height={2} />
       <VerticalDashedBorderLayout>

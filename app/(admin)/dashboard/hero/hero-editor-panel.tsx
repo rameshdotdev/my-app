@@ -1,5 +1,9 @@
 "use client";
-
+import dynamic from "next/dynamic";
+import { useTheme } from "next-themes";
+import { markdown } from "@codemirror/lang-markdown";
+import { githubLight } from "@uiw/codemirror-theme-github";
+import { vscodeDark } from "@uiw/codemirror-theme-vscode";
 import { useMemo, useRef, useState } from "react";
 import type { Hero, HeroCharacter } from "@/types/profile";
 import { Input } from "@/components/ui/input";
@@ -181,7 +185,7 @@ function CharacterEditor({
         </div>
 
         {/* Verified */}
-        <div className="flex items-center justify-between rounded-xl border p-4">
+        <div className="flex items-center justify-between rounded-[8px] border p-4">
           <div className="space-y-1">
             <Label>Verified</Label>
             <p className="text-xs text-muted-foreground">
@@ -206,14 +210,20 @@ function CharacterEditor({
         </div>
 
         {/* Description */}
+        {/* Description */}
         <div className="space-y-2">
-          <Label>Description</Label>
-          <Textarea
-            rows={4}
-            value={value.description}
-            placeholder="Write something about this character..."
-            onChange={(e) => update({ description: e.target.value })}
-          />
+          <Label>Description (Markdown)</Label>
+
+          <div className="overflow-hidden rounded-xl border border-border bg-background">
+            <ThemeFriendlyMarkdownEditor
+              value={value.description || ""}
+              onChange={(val) => update({ description: val })}
+            />
+          </div>
+
+          <p className="text-xs text-muted-foreground">
+            Tip: Use blank lines for new paragraphs. Markdown supported.
+          </p>
         </div>
 
         {/* Titles */}
@@ -226,7 +236,12 @@ function CharacterEditor({
               </p>
             </div>
 
-            <Button type="button" variant="outline" size="sm" onClick={addTitle}>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={addTitle}
+            >
               <Plus className="h-4 w-4 mr-1" />
               Add
             </Button>
@@ -236,7 +251,7 @@ function CharacterEditor({
             {safeTitles.map((t, i) => (
               <div
                 key={i}
-                className="flex items-center gap-2 rounded-xl border p-2"
+                className="flex items-center gap-2 rounded-[8px] border p-2"
               >
                 <span className="text-xs text-muted-foreground w-5 text-center">
                   {i + 1}
@@ -335,6 +350,36 @@ export default function HeroEditorPanel({
           onChange={(v) => updateCharacter(1, v)}
         />
       )}
+    </div>
+  );
+}
+const CodeMirror = dynamic(() => import("@uiw/react-codemirror"), {
+  ssr: false,
+});
+function ThemeFriendlyMarkdownEditor({
+  value,
+  onChange,
+}: {
+  value: string;
+  onChange: (val: string) => void;
+}) {
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
+
+  return (
+    <div className="overflow-hidden rounded-xl border border-border bg-background">
+      <CodeMirror
+        value={value}
+        height="180px"
+        extensions={[markdown()]}
+        theme={isDark ? vscodeDark : githubLight}
+        onChange={onChange}
+        basicSetup={{
+          lineNumbers: false,
+          foldGutter: false,
+          highlightActiveLine: false,
+        }}
+      />
     </div>
   );
 }

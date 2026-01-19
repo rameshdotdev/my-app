@@ -71,7 +71,7 @@ export default function AdminWorksPage() {
                   <div className="flex gap-4">
                     {/* Logo */}
                     <div className="shrink-0">
-                      <div className="relative h-14 w-14 overflow-hidden rounded-xl border border-border bg-muted/30">
+                      <div className="relative h-14 w-14 overflow-hidden rounded-[8px] border border-border bg-muted/30">
                         {work.logoUrl?.url ? (
                           <Image
                             src={work.logoUrl.url}

@@ -56,7 +56,7 @@ export const Projects = () => {
           {projects.map((project) => (
             <div
               key={project._id}
-              className="bg-dark/80 hover:bg-cuscol/20 rounded-xl border-2 border-cuscol/30 shadow-xl overflow-hidden flex flex-col"
+              className="bg-dark/80 hover:bg-cuscol/20 rounded-[8px] border-2 border-cuscol/30 shadow-xl overflow-hidden flex flex-col"
             >
               {/* Image from backend */}
               <img

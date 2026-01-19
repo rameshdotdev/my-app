@@ -29,6 +29,7 @@ import { toast } from "sonner";
 import { useAppDispatch } from "@/hooks/hooks";
 import { addWork, updateWork } from "@/store/features/workSlice";
 import Image from "next/image";
+import { ScrollArea } from "../ui/scroll-area";
 
 type ImageState = {
   url: string;
@@ -183,155 +184,158 @@ export default function WorkFormDialog({
           <DialogTitle>{form._id ? "Edit Work" : "Add Work"}</DialogTitle>
         </DialogHeader>
 
-        <div className="space-y-4">
-          {/* Company */}
-          <Input
-            placeholder="Company *"
-            value={form.company ?? ""}
-            onChange={(e) => setForm({ ...form, company: e.target.value })}
-          />
-
-          {/* Role */}
-          <Input
-            placeholder="Role *"
-            value={form.role ?? ""}
-            onChange={(e) => setForm({ ...form, role: e.target.value })}
-          />
-
-          {/* Job Type */}
-          <Select
-            value={form.type}
-            onValueChange={(v) => setForm({ ...form, type: v as Work["type"] })}
-          >
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Job Type (optional)" />
-            </SelectTrigger>
-            <SelectContent>
-              {JOB_TYPES.map((t) => (
-                <SelectItem key={t} value={t}>
-                  {t}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-
-          {/* Website */}
-          <Input
-            placeholder="Company URL (optional)"
-            value={form.href ?? ""}
-            onChange={(e) => setForm({ ...form, href: e.target.value })}
-          />
-
-          {/* Location Type*/}
-          <Select
-            value={form.location_type}
-            onValueChange={(v) =>
-              setForm({ ...form, location_type: v as Work["location_type"] })
-            }
-          >
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Location Type*" />
-            </SelectTrigger>
-            <SelectContent>
-              {LOCATION_TYPES.map((loc) => (
-                <SelectItem key={loc} value={loc}>
-                  {loc}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          {/* Location*/}
-          <Input
-            placeholder="Delhi India"
-            value={form.location ?? ""}
-            onChange={(e) => setForm({ ...form, location: e.target.value })}
-          />
-          {/* Start / End */}
-          <div className="grid grid-cols-2 gap-3">
+        <ScrollArea className="max-h-[70vh] no-scrollbar">
+          <div className="space-y-4 pr-2">
+            {/* Company */}
             <Input
-              placeholder="Start (e.g. Aug 2025) *"
-              value={form.start ?? ""}
-              onChange={(e) => setForm({ ...form, start: e.target.value })}
+              placeholder="Company *"
+              value={form.company ?? ""}
+              onChange={(e) => setForm({ ...form, company: e.target.value })}
             />
+
+            {/* Role */}
             <Input
-              placeholder="End (e.g. Present) *"
-              value={form.end ?? ""}
-              onChange={(e) => setForm({ ...form, end: e.target.value })}
+              placeholder="Role *"
+              value={form.role ?? ""}
+              onChange={(e) => setForm({ ...form, role: e.target.value })}
             />
-          </div>
 
-          {/* Points */}
-          <Textarea
-            placeholder={`Points * (one per line)\nExample:\nBuilt X\nImproved Y`}
-            value={pointsText}
-            onChange={(e) => setPointsText(e.target.value)}
-            className="min-h-[140px]"
-          />
-
-          {/* Tags */}
-          <div className="space-y-2">
-            <div className="flex gap-2">
-              <Input
-                placeholder="Add tag"
-                value={tagInput}
-                onChange={(e) => setTagInput(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    e.preventDefault();
-                    addTag();
-                  }
-                }}
-              />
-              <Button type="button" onClick={addTag}>
-                Add
-              </Button>
-            </div>
-
-            <div className="flex flex-wrap gap-2">
-              {tags.map((tag) => (
-                <Badge key={tag} variant="secondary">
-                  {tag}
-                  <X
-                    className="ml-1 h-3 w-3 cursor-pointer"
-                    onClick={() => removeTag(tag)}
-                  />
-                </Badge>
-              ))}
-            </div>
-          </div>
-
-          {/* Logo Upload */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Company Logo *</label>
-
-            <Input
-              type="file"
-              accept="image/*"
-              disabled={uploading}
-              onChange={(e) =>
-                e.target.files?.[0] && handleLogoChange(e.target.files[0])
+            {/* Job Type */}
+            <Select
+              value={form.type}
+              onValueChange={(v) =>
+                setForm({ ...form, type: v as Work["type"] })
               }
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Job Type (optional)" />
+              </SelectTrigger>
+              <SelectContent>
+                {JOB_TYPES.map((t) => (
+                  <SelectItem key={t} value={t}>
+                    {t}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
+            {/* Website */}
+            <Input
+              placeholder="Company URL (optional)"
+              value={form.href ?? ""}
+              onChange={(e) => setForm({ ...form, href: e.target.value })}
             />
 
-            {logo && (
-              <Image
-                width={64}
-                height={64}
-                src={logo.url}
-                alt="Logo preview"
-                className="rounded-md border border-border object-contain"
+            {/* Location Type*/}
+            <Select
+              value={form.location_type}
+              onValueChange={(v) =>
+                setForm({ ...form, location_type: v as Work["location_type"] })
+              }
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Location Type*" />
+              </SelectTrigger>
+              <SelectContent>
+                {LOCATION_TYPES.map((loc) => (
+                  <SelectItem key={loc} value={loc}>
+                    {loc}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            {/* Location*/}
+            <Input
+              placeholder="Delhi India"
+              value={form.location ?? ""}
+              onChange={(e) => setForm({ ...form, location: e.target.value })}
+            />
+            {/* Start / End */}
+            <div className="grid grid-cols-2 gap-3">
+              <Input
+                placeholder="Start (e.g. Aug 2025) *"
+                value={form.start ?? ""}
+                onChange={(e) => setForm({ ...form, start: e.target.value })}
               />
-            )}
-          </div>
+              <Input
+                placeholder="End (e.g. Present) *"
+                value={form.end ?? ""}
+                onChange={(e) => setForm({ ...form, end: e.target.value })}
+              />
+            </div>
 
-          <Button
-            className="w-full"
-            onClick={submit}
-            disabled={uploading || saving}
-          >
-            {saving ? "Saving..." : form._id ? "Update Work" : "Create Work"}
-          </Button>
-        </div>
+            {/* Points */}
+            <Textarea
+              placeholder={`Points * (one per line)\nExample:\nBuilt X\nImproved Y`}
+              value={pointsText}
+              onChange={(e) => setPointsText(e.target.value)}
+              className="min-h-[140px]"
+            />
+
+            {/* Tags */}
+            <div className="space-y-2">
+              <div className="flex gap-2">
+                <Input
+                  placeholder="Add tag"
+                  value={tagInput}
+                  onChange={(e) => setTagInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      addTag();
+                    }
+                  }}
+                />
+                <Button type="button" onClick={addTag}>
+                  Add
+                </Button>
+              </div>
+
+              <div className="flex flex-wrap gap-2">
+                {tags.map((tag) => (
+                  <Badge key={tag} variant="secondary">
+                    {tag}
+                    <span onClick={() => removeTag(tag)}>
+                      <X className="ml-1 h-3 w-3 cursor-pointer" />
+                    </span>
+                  </Badge>
+                ))}
+              </div>
+            </div>
+
+            {/* Logo Upload */}
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Company Logo *</label>
+
+              <Input
+                type="file"
+                accept="image/*"
+                disabled={uploading}
+                onChange={(e) =>
+                  e.target.files?.[0] && handleLogoChange(e.target.files[0])
+                }
+              />
+
+              {logo && (
+                <Image
+                  width={64}
+                  height={64}
+                  src={logo.url}
+                  alt="Logo preview"
+                  className="rounded-md border border-border object-contain"
+                />
+              )}
+            </div>
+
+            <Button
+              className="w-full"
+              onClick={submit}
+              disabled={uploading || saving}
+            >
+              {saving ? "Saving..." : form._id ? "Update Work" : "Create Work"}
+            </Button>
+          </div>
+        </ScrollArea>
       </DialogContent>
     </Dialog>
   );

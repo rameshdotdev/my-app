@@ -16,19 +16,17 @@ const EmailButton = ({ href, children, className }: EmailButtonProps) => {
     <Button
       variant="outline"
       asChild
-      className="
-                      w-full sm:w-auto
-                      rounded-xl
-                      border-2
-                      border-primary/30
-                      bg-background/50
-                      hover:bg-primary/5
-                      hover:border-primary/50
-                      text-primary
-                      hover:text-primary/90
-                      transition-all duration-300
-                      group/hire
-                    "
+      className="w-full sm:w-auto
+                rounded-[8px]
+                border-2
+                border-primary/30
+                bg-background/50
+                hover:bg-primary/5
+                hover:border-primary/50
+                text-primary
+                hover:text-primary/90
+                transition-all duration-300
+                group/hire"
     >
       <Link
         href={href}

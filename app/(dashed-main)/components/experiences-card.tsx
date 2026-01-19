@@ -1,10 +1,12 @@
 import Image from "next/image";
+import Link from "next/link";
 
 type ExperienceItemProps = {
   logo: string;
   alt: string;
   company: string;
   type?: string; // Full Time / Part Time
+  href?: string;
   role: string;
   duration: string;
   location: string;
@@ -17,6 +19,7 @@ function ExprerienceCard({
   alt,
   company,
   type,
+  href,
   role,
   duration,
   location,
@@ -38,16 +41,23 @@ function ExprerienceCard({
                 width={56}
                 height={56}
                 draggable={false}
-                className="h-full w-full rounded-[8px] border border-border object-cover"
+                className="h-full w-full rounded-[8px] border border-border object-contain"
               />
             </div>
 
             {/* Company + Role */}
             <div className="flex flex-col items-start gap-1">
               <div className="flex items-center gap-2">
-                <h3 className="text-[1.05rem] font-semibold leading-[0.90] text-foreground sm:text-[1.20rem]">
-                  {company}
-                </h3>
+                <Link target="_blank" href={href ?? "#"}>
+                  <h3
+                    className="relative text-[1.05rem] font-semibold leading-[0.90] text-foreground sm:text-[1.20rem] transition-colors hover:text-foreground
+                               after:absolute after:-bottom-1 after:left-0
+                               after:h-0.5 after:w-0 after:bg-primary
+                               after:transition-all hover:after:w-full"
+                  >
+                    {company}
+                  </h3>
+                </Link>
 
                 {type ? (
                   <span className="rounded-[4px] border border-border px-1 py-0 text-xs font-medium text-muted-foreground">

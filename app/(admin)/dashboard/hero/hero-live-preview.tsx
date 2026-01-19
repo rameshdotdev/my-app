@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import type { Hero, Speed } from "@/types/profile";
+import type { Hero } from "@/types/profile";
 import { TypeAnimation } from "react-type-animation";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { RotateCcw } from "lucide-react";
 import { MdVerified } from "react-icons/md";
 import { AnimatePresence, motion } from "framer-motion";
+import { Speed } from "@/types/type";
 
 function SwitchIcon({ activeIndex }: { activeIndex: 0 | 1 }) {
   if (activeIndex === 0) {

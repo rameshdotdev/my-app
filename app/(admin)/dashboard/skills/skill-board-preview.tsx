@@ -22,7 +22,7 @@ export default function SkillBoardPreview({
     .sort((a, b) => a.order - b.order);
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 rounded-xl border bg-muted/40 p-6">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 rounded-[8px] border bg-muted/40 p-6">
       {visibleCategories.map((category) => (
         <div
           key={category._id}
@@ -55,7 +55,7 @@ export default function SkillBoardPreview({
                     key={skill._id}
                     className={cn(
                       "group/skill relative flex items-center gap-2 rounded-lg",
-                      "bg-muted px-3 py-2 transition hover:bg-primary/10"
+                      "bg-muted px-3 py-2 transition hover:bg-primary/10",
                     )}
                   >
                     <span className="text-primary">

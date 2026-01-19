@@ -14,7 +14,7 @@ interface Props {
 
 export function CategoryCard({ category, onEdit, onDelete, onToggle }: Props) {
   return (
-    <div className="rounded-xl border bg-background p-5 space-y-2">
+    <div className="rounded-[8px] border bg-background p-5 space-y-2">
       <div className="flex justify-between items-start">
         <div>
           <h3 className="font-semibold text-primary">

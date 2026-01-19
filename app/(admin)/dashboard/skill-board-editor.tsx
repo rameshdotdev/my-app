@@ -68,7 +68,7 @@
 //   return (
 //     <div className="space-y-6">
 //       {categories.map((cat) => (
-//         <div key={cat._id} className="border rounded-xl p-4 space-y-3">
+//         <div key={cat._id} className="border rounded-[8px] p-4 space-y-3">
 //           {/* Category Header */}
 //           <div>
 //             <h3 className="font-semibold">{cat.title}</h3>

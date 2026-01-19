@@ -3,17 +3,22 @@
 import Image from "next/image";
 import { Eye, RotateCcw } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { useAppSelector } from "@/hooks/hooks";
+import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
 import { getContactData } from "@/store/features/contactSlice";
-import { getHeroData } from "@/store/features/heroSlice";
+import {
+  getActiveCharacter,
+  getActiveIndex,
+  switchCharacter,
+} from "@/store/features/heroSlice";
 import { useEffect, useMemo, useState } from "react";
 import { BLUR_FADE_DELAY } from "@/lib/utils";
 import BlurFade from "@/components/magicui/blur-fade";
 import { TypeAnimation } from "react-type-animation";
-import { MdVerified } from "react-icons/md";
 import { motion, AnimatePresence } from "framer-motion";
 import { FloatingHireMe } from "./hire-me";
 import { api } from "@/lib/axios";
+import Verified from "./verified";
+import ImagePreviewModal from "./image-preview-modal";
 
 type Totals = {
   visitors: number;
@@ -55,15 +60,16 @@ export function SwitchIconButton({
 }
 
 export default function Profile() {
-  const hero = useAppSelector(getHeroData);
+  const dispatch = useAppDispatch();
+  const activeIndex = useAppSelector(getActiveIndex);
+  const user = useAppSelector(getActiveCharacter);
   const contact = useAppSelector(getContactData);
   const [counts, setCount] = useState<Totals>({
     pageviews: 0,
     visitors: 0,
   });
-  const [activeIndex, setActiveIndex] = useState<0 | 1>(0);
 
-  const user = hero.characters?.[activeIndex];
+  const [previewOpen, setPreviewOpen] = useState(false);
 
   const typingSequence = useMemo(() => {
     if (
@@ -94,7 +100,10 @@ export default function Profile() {
       <div className="flex items-end gap-3">
         {/* Profile Image */}
         <div>
-          <div className="rounded-2xl border border-border p-1 cursor-pointer transition duration-300 hover:brightness-90">
+          <div
+            onClick={() => setPreviewOpen(true)}
+            className="rounded-[12px] border border-border p-1 cursor-pointer transition duration-300 hover:brightness-90"
+          >
             <AnimatePresence mode="wait">
               <motion.div
                 key={user.avatar?.url || activeIndex}
@@ -109,19 +118,18 @@ export default function Profile() {
                   width={110}
                   height={110}
                   draggable={false}
-                  className="size-29 select-none rounded-xl object-cover object-top"
+                  className="size-29 select-none rounded-[8px] object-cover object-top"
                   priority
                 />
               </motion.div>
             </AnimatePresence>
           </div>
         </div>
-
         {/* Name + Title */}
         <div className="flex h-full flex-col justify-between py-1 select-none">
           <SwitchIconButton
             activeIndex={activeIndex}
-            onClick={() => setActiveIndex((p) => (p === 0 ? 1 : 0))}
+            onClick={() => dispatch(switchCharacter())}
           />
 
           <div>
@@ -140,12 +148,9 @@ export default function Profile() {
                           className="whitespace-nowrap inline-flex items-center gap-0.5"
                         >
                           {user.name}
-                          {user.isVerified ? (
-                            <MdVerified
-                              className="ml-1 mt-1 text-blue-500"
-                              size={20}
-                            />
-                          ) : null}
+                          {user.isVerified && (
+                            <Verified className="text-blue-500" />
+                          )}
                         </motion.span>
                       </AnimatePresence>
                     </span>
@@ -202,6 +207,13 @@ export default function Profile() {
 
       {/* Floating Hire Me */}
       <FloatingHireMe email={contact.email} />
+      {/* Preview Modal */}
+      <ImagePreviewModal
+        open={previewOpen}
+        onClose={() => setPreviewOpen(false)}
+        src={user.avatar?.url || "/avatar.png"}
+        alt={`${user.name} profile`}
+      />
     </div>
   );
 }

@@ -20,7 +20,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
 
   const techStackArray = useMemo(
     () => project.techStack.split(", ").filter(Boolean),
-    [project.techStack]
+    [project.techStack],
   );
 
   return (
@@ -101,7 +101,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
 
           {/* Actions */}
           <div className="flex gap-3">
-            <Button asChild size="sm" className="flex-1 rounded-xl">
+            <Button asChild size="sm" className="flex-1 rounded-[8px]">
               <a
                 href={project.links.site}
                 target="_blank"
@@ -117,7 +117,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
               asChild
               size="sm"
               variant="outline"
-              className="flex-1 rounded-xl"
+              className="flex-1 rounded-[8px]"
             >
               <a
                 href={project.links.github}

@@ -49,7 +49,7 @@ export default function DashboardSkeleton() {
         {/* Stats Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {Array.from({ length: 4 }).map((_, i) => (
-            <div key={i} className="rounded-xl border p-4 space-y-3">
+            <div key={i} className="rounded-[8px] border p-4 space-y-3">
               <Skeleton className="h-4 w-32" />
               <Skeleton className="h-8 w-24" />
               <Skeleton className="h-3 w-full" />
@@ -73,7 +73,7 @@ export default function DashboardSkeleton() {
         </div>
 
         {/* Table */}
-        <div className="rounded-xl border overflow-hidden">
+        <div className="rounded-[8px] border overflow-hidden">
           {/* Table header */}
           <div className="grid grid-cols-6 gap-4 p-4 border-b">
             {Array.from({ length: 6 }).map((_, i) => (

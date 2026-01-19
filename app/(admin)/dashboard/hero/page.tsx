@@ -197,7 +197,7 @@ export default function HeroComposerPage() {
       </div>
 
       {error && draft ? (
-        <div className="mt-3 rounded-xl border bg-muted/40 p-3 text-sm text-muted-foreground">
+        <div className="mt-3 rounded-[8px] border bg-muted/40 p-3 text-sm text-muted-foreground">
           {error}
         </div>
       ) : null}

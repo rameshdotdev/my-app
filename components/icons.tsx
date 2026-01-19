@@ -1,10 +1,18 @@
 import { FolderIcon, GlobeIcon, MailIcon } from "lucide-react";
 import { V0Icon } from "./v0-icon";
+import { FaMediumM } from "react-icons/fa";
+import { SiBluesky, SiLeetcode } from "react-icons/si";
+import { BsDiscord, BsInstagram } from "react-icons/bs";
 export type IconProps = React.HTMLAttributes<SVGElement>;
 
 export const Icons = {
   globe: (props: IconProps) => <GlobeIcon {...props} />,
   email: (props: IconProps) => <MailIcon {...props} />,
+  medium: (props: IconProps) => <FaMediumM {...props} />,
+  leetcode: (props: IconProps) => <SiLeetcode {...props} />,
+  instagram: (props: IconProps) => <BsInstagram {...props} />,
+  discord: (props: IconProps) => <BsDiscord {...props} />,
+  bluesky: (props: IconProps) => <SiBluesky {...props} />,
   linkedin: (props: IconProps) => (
     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" {...props}>
       <title>LinkedIn</title>

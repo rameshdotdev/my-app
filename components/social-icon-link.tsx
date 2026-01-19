@@ -28,7 +28,7 @@ export function SocialIconLink({
           target="_blank"
           rel="noopener noreferrer"
           aria-label={name}
-          className="flex items-center justify-center p-3 rounded-xl hover:bg-accent/50 transition-all duration-200"
+          className="flex items-center justify-center p-3 rounded-[8px] hover:bg-accent/50 transition-all duration-200"
         >
           <div
             className="w-6 h-6 flex items-center justify-center"

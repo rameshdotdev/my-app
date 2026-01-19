@@ -21,7 +21,11 @@ type IconKey =
   | "codepen"
   | "vercel"
   | "buymeacoffee"
-  | "email";
+  | "email"
+  | "medium"
+  | "leetcode"
+  | "instagram"
+  | "bluesky";
 
 const ICON_KEYS: IconKey[] = [
   "github",
@@ -32,6 +36,10 @@ const ICON_KEYS: IconKey[] = [
   "vercel",
   "buymeacoffee",
   "email",
+  "medium",
+  "leetcode",
+  "instagram",
+  "bluesky",
 ];
 
 const REQUIRED_SOCIALS = ["GitHub", "LinkedIn"];
@@ -45,6 +53,10 @@ const iconPreviewMap: Record<IconKey, React.ReactNode> = {
   vercel: <Icons.vercel />,
   buymeacoffee: <Icons.buyMeACoffee className="h-4 w-4" />,
   email: <Icons.email className="h-4 w-4" />,
+  medium: <Icons.medium className="h-4 w-4" />,
+  leetcode: <Icons.leetcode className="h-4 w-4" />,
+  bluesky: <Icons.bluesky className="h-4 w-4" />,
+  instagram: <Icons.instagram className="h-4 w-4" />,
 };
 
 export default function SocialEditor({

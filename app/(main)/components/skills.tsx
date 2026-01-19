@@ -83,7 +83,7 @@ export default function SkillBoardPreview() {
                   <div
                     className="
                       h-10 w-10
-                      rounded-xl
+                      rounded-[8px]
                       bg-linear-to-br from-primary/20 to-primary/5
                       border border-primary/20
                       flex items-center justify-center
@@ -138,7 +138,7 @@ export default function SkillBoardPreview() {
                             whileHover={{ scale: 1.05, y: -2 }}
                             className="
                               flex flex-col items-center
-                              p-3 rounded-xl
+                              p-3 rounded-[8px]
                               bg-linear-to-b from-background to-muted/10
                               border border-border/30
                               hover:border-primary/40

@@ -23,6 +23,7 @@ export default function Page() {
               alt={work.company}
               company={work.company}
               type={work.type}
+              href={work?.href}
               role={work.role}
               duration={`${work.start} - ${work.end}`}
               location={`${work.location} - ${work.location_type}`}

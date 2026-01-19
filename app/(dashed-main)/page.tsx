@@ -1,7 +1,6 @@
 import HorizontalDashedBorder from "@/components/horizontal-dashed-border";
 import Profile from "./components/profile";
 import Socials from "@/app/(dashed-main)/components/socials";
-import Experiences from "./components/experiences";
 import ViewAllButton from "./components/view-all";
 import Title from "./components/title";
 import ProjectsGrid from "./components/project-grid";
@@ -10,8 +9,9 @@ import BlogCard from "./components/blogs-card";
 import SkillsChips from "./components/skills-chips";
 import QuoteCard from "./components/quote-card";
 import SubscribeBox from "./components/subscribe-box";
-import BgDotGrid from "@/components/bg-dot-grid";
 import About from "./components/about";
+import WorksSection from "./components/works-at";
+
 function page() {
   return (
     <>
@@ -25,7 +25,7 @@ function page() {
       </VerticalDashedBorderLayout>
       <Title title="Experiences" />
       <VerticalDashedBorderLayout className="p-0">
-        <Experiences />
+        <WorksSection />
       </VerticalDashedBorderLayout>
       <HorizontalDashedBorder />
       <VerticalDashedBorderLayout>
