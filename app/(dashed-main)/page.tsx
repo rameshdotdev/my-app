@@ -11,6 +11,7 @@ import QuoteCard from "./components/quote-card";
 import SubscribeBox from "./components/subscribe-box";
 import About from "./components/about";
 import WorksSection from "./components/works-at";
+import EducationList from "./components/education-list";
 
 function page() {
   return (
@@ -30,6 +31,10 @@ function page() {
       <HorizontalDashedBorder />
       <VerticalDashedBorderLayout>
         <ViewAllButton href="/experiences" />
+      </VerticalDashedBorderLayout>
+      <Title title="Education" />
+      <VerticalDashedBorderLayout className="p-0">
+        <EducationList />
       </VerticalDashedBorderLayout>
       <Title title="Projects" />
       <VerticalDashedBorderLayout className="p-0">
