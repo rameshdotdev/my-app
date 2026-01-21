@@ -2,7 +2,6 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { api } from "@/lib/axios";
 import { toast } from "sonner";
 
 type LoginStatus = "idle" | "loading" | "success" | "error";
@@ -24,9 +23,15 @@ export function useLogin() {
     setError(null);
 
     try {
-      const res = await api.post("/auth/login", { email, password });
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+        credentials: "include",
+      });
       setStatus("success");
       toast.success("Welcome back 👋");
+      console.log(res);
       router.replace("/dashboard");
       router.refresh();
     } catch (err: any) {
