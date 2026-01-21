@@ -20,7 +20,7 @@ function Title({
     <>
       {!isSubPage && <HorizontalDashedBorder />}
 
-      <VerticalDashedBorderLayout className={isSubPage ? "p-2.25" : ""}>
+      <VerticalDashedBorderLayout className={"py-3 md:py-4"}>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             {isSubPage ? (
@@ -31,7 +31,7 @@ function Title({
                 aria-label="Go back"
                 title="Go back"
               >
-                <IoChevronBack size={18} className="text-foreground" />
+                <IoChevronBack className="text-foreground size-4 md:size-5" />
               </button>
             ) : null}
 

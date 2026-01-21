@@ -61,31 +61,31 @@ export default function ExperienceList({
               <div className="flex items-center gap-2">
                 <Link target="_blank" href={href ?? "#"}>
                   <h3
-                    className="relative text-[1.05rem] font-semibold leading-[0.90] text-foreground sm:text-[1.20rem] transition-colors hover:text-foreground
-                after:absolute after:-bottom-1 after:left-0
-                after:h-0.5 after:w-0 after:bg-primary
-                after:transition-all hover:after:w-full"
+                    className="md:min-w-[130px] text-[1.05rem] font-semibold leading-[0.90] text-foreground sm:text-[1.20rem] transition-colors hover:text-blue-500
+                "
                   >
                     {company}
                   </h3>
                 </Link>
 
-                <span className="rounded-[4px] border border-border px-1 py-0 text-xs font-medium text-muted-foreground">
+                <span className="hidden md:inline-block rounded-[4px] border border-border px-1 py-0 text-[10px] font-medium text-muted-foreground">
                   {type}
                 </span>
               </div>
 
-              <p className="text-xs text-muted-foreground sm:text-sm">{role}</p>
+              <p className="text-[10px] text-muted-foreground sm:text-sm">
+                {role}
+              </p>
             </div>
           </div>
 
           {/* Right content */}
           <div className="flex items-start gap-3">
             <div className="flex flex-col items-end gap-1">
-              <p className="text-xs font-medium text-foreground sm:text-sm">
+              <p className="text-[10px] font-medium text-foreground sm:text-sm">
                 {duration}
               </p>
-              <p className="text-xs text-muted-foreground sm:text-sm">
+              <p className="text-[10px] text-muted-foreground sm:text-sm">
                 {location}
               </p>
             </div>
@@ -123,7 +123,7 @@ export default function ExperienceList({
             {tags?.map((tag) => (
               <span
                 key={tag}
-                className="rounded-[4px] border border-border bg-muted/40 px-1.5 py-0.5 text-xs text-foreground"
+                className="rounded-[4px] border border-border bg-muted/40 px-1.5 py-0.5 text-[10px] text-foreground"
               >
                 {tag}
               </span>

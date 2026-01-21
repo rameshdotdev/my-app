@@ -1,0 +1,112 @@
+"use client";
+
+import Image from "next/image";
+import Link from "next/link";
+import { ExternalLink, Github, Globe, Mail, FileText } from "lucide-react";
+import HorizontalDashedBorder from "@/components/horizontal-dashed-border";
+import VerticalDashedBorder from "@/components/virtical-dashed-border";
+import ProjectActionsBtn from "../../components/action-btn-project";
+import { StatusDot } from "../../components/status-dot";
+import ProjectTeckStackChips from "../../components/project-teck-stack";
+
+type ProjectCardProps = {
+  title?: string;
+  status?: string;
+  description?: string[];
+  gifSrc?: string;
+  githubUrl?: string;
+  websiteUrl?: string;
+  postUrl?: string;
+  contactEmail?: string;
+  stack?: string[];
+};
+
+export default function ProjectDetails({
+  title = "Asap",
+  status = "Building",
+  description = [
+    "A platform that lets you record studio-quality video calls without breaking the bank. Everything's captured locally on your device — no compression, no quality loss, just pure crisp content.",
+    "Whether you're a creator, podcaster, or running remote interviews, Asap makes professional recording accessible to everyone. High-quality content creation shouldn't cost a fortune, and now it doesn't have to.",
+  ],
+  gifSrc = "/projects/building.gif",
+  githubUrl = "https://github.com/rameshdotdev/asap",
+  websiteUrl,
+  postUrl,
+  contactEmail = "rinkitadhana@gmail.com",
+
+  stack = [
+    "Next Js",
+    "Bun",
+    "TypeScript",
+    "Express",
+    "Prisma",
+    "Socket.io",
+    "WebRTC",
+    "Tailwind",
+    "TanStack Query",
+    "Motion",
+    "what ever",
+  ],
+}: ProjectCardProps) {
+  return (
+    <div className="flex flex-col items-start">
+      {/* Media */}
+      <div className="px-4 w-full p-4">
+        <div className="w-full h-full md:min-h-85 min-h-60 rounded-[8px] relative border border-border p-1.5 overflow-hidden">
+          <Image
+            alt={title}
+            src={gifSrc}
+            width={1000}
+            height={1000}
+            priority={false}
+            className="w-full object-cover md:h-105 h-60 rounded-[8px] border border-border"
+          />
+        </div>
+      </div>
+
+      <ProjectActionsBtn
+        githubUrl={githubUrl}
+        websiteUrl={websiteUrl}
+        postUrl={postUrl}
+      />
+
+      {/* Content */}
+      <div className="flex flex-col w-full gap-1.5 p-4">
+        <div className="flex items-center justify-between">
+          <h1 className="text-[1.40rem] font-bold leading-tight text-title">
+            {title}
+          </h1>
+          <StatusDot status="building" hotspot />
+        </div>
+
+        <div className="text-base text-foreground [&>p]:mb-3 [&>p:last-child]:mb-0">
+          {description.map((p, idx) => (
+            <p key={idx}>{p}</p>
+          ))}
+        </div>
+
+        <div className="flex items-center gap-1">
+          <p className="text-foreground flex items-center gap-1">
+            For early access, please{" "}
+            <a
+              className="group text-strong transition-colors duration-300 inline-flex items-center"
+              href={`mailto:${contactEmail}`}
+            >
+              <span className="relative">
+                contact me!
+                <span className="absolute left-0 bottom-0 w-full h-px bg-title origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out" />
+              </span>
+              <Mail className="ml-0.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 h-4 w-4" />
+            </a>
+          </p>
+        </div>
+      </div>
+
+      {/* dashed divider */}
+      <HorizontalDashedBorder />
+
+      {/* Stack */}
+      <ProjectTeckStackChips stack={stack} />
+    </div>
+  );
+}

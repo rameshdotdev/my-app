@@ -87,9 +87,9 @@ export default function Socials() {
   });
 
   const desktopVisible = sortedSocials.slice(0, 5);
-  const mobileVisible = sortedSocials.slice(0, 3);
-
   const desktopHidden = sortedSocials.slice(5);
+
+  const mobileVisible = sortedSocials.slice(0, 3);
   const mobileHidden = sortedSocials.slice(3);
 
   const getPreviewType = (
@@ -178,9 +178,9 @@ export default function Socials() {
             <span className="font-medium text-foreground">socials</span>
           </h1>
 
-          <div className="flex flex-wrap items-center gap-[7px]">
+          <div>
             {/* ✅ Desktop */}
-            <div className="hidden md:flex flex-wrap items-center gap-[7px]">
+            <div className="hidden md:flex flex-wrap items-center gap-2">
               {desktopVisible.map((item, idx) => {
                 const Icon = Icons[item.iconKey];
                 if (!Icon) return null;
@@ -257,7 +257,7 @@ export default function Socials() {
             </div>
 
             {/* ✅ Mobile */}
-            <div className="flex md:hidden flex-wrap items-center gap-[7px]">
+            <div className="flex flex-wrap items-center gap-2 md:hidden">
               {mobileVisible.map((item, idx) => {
                 const Icon = Icons[item.iconKey];
                 if (!Icon) return null;

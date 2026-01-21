@@ -35,12 +35,12 @@ export function SwitchIconButton({
   return (
     <button
       onClick={onClick}
-      className="h-6 w-6 p-0 cursor-pointer"
+      className="cursor-pointer mt-0 md:mt-2"
       aria-label="Switch character"
       title="Switch character"
     >
       {activeIndex === 0 ? (
-        <RotateCcw className="h-3 w-3 rotate-120 text-muted-foreground transition-all duration-300 group-hover:text-foreground" />
+        <RotateCcw className="size-3 rotate-120 text-muted-foreground transition-all duration-300 group-hover:text-foreground" />
       ) : (
         <svg
           stroke="currentColor"
@@ -118,7 +118,7 @@ export default function Profile() {
                   width={110}
                   height={110}
                   draggable={false}
-                  className="size-29 select-none rounded-[8px] object-cover object-top"
+                  className="size-25 md:size-29 select-none rounded-[8px] object-cover object-top"
                   priority
                 />
               </motion.div>
@@ -132,8 +132,8 @@ export default function Profile() {
             onClick={() => dispatch(switchCharacter())}
           />
 
-          <div>
-            <div className="mt-2">
+          <div className="-mb-3">
+            <div>
               <h1 className="relative inline-block min-w-39.25 text-xl sm:text-[1.55rem] font-bold leading-[1.08] text-foreground">
                 <BlurFade delay={BLUR_FADE_DELAY}>
                   <span data-text={user.name}>
@@ -145,7 +145,7 @@ export default function Profile() {
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: -4 }}
                           transition={{ duration: 0.18 }}
-                          className="whitespace-nowrap inline-flex items-center gap-0.5"
+                          className="whitespace-nowrap inline-flex items-center gap-0.5 -pt-1"
                         >
                           {user.name}
                           {user.isVerified && (
@@ -192,7 +192,7 @@ export default function Profile() {
 
       {/* Right */}
       <div className="flex flex-col items-end justify-between">
-        <ThemeToggle className="cursor-pointer rounded-md border border-transparent p-1.5 text-muted-foreground transition-colors duration-300 hover:border-border hover:bg-muted/50 hover:text-foreground" />
+        <ThemeToggle className="-mt-2 md:mt-0 -mr-2 cursor-pointer rounded-md border border-transparent p-1.5 text-muted-foreground transition-colors duration-300 hover:border-border hover:bg-muted/50 hover:text-foreground" />
 
         <div
           title="Visitor Count"

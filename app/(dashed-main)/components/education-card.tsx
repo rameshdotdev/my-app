@@ -1,5 +1,6 @@
 "use client";
 
+import { useIsMobile } from "@/hooks/use-mobile";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -24,6 +25,13 @@ export default function EducationCard({
   location,
   href,
 }: Education) {
+  const isMobile = useIsMobile();
+  function truncateText(text: string, maxChars = 30) {
+    if (!text) return "";
+    if (text.length <= maxChars) return text;
+    return text.slice(0, maxChars).trimEnd() + " . . .";
+  }
+
   return (
     <div className="m-1">
       <div className="flex flex-col">
@@ -48,27 +56,29 @@ export default function EducationCard({
                 {href ? (
                   <Link target="_blank" href={href}>
                     <h3
-                      className="relative text-[1.05rem] font-semibold leading-[0.90] text-foreground transition-colors sm:text-[1.20rem]
-                      after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-0 after:bg-primary after:transition-all
-                      hover:text-foreground hover:after:w-full"
+                      title={college}
+                      className=" text-[1.05rem] font-semibold leading-[0.90] text-foreground sm:text-[1.20rem] transition-colors hover:text-blue-500"
                     >
-                      {college}
+                      {truncateText(college, isMobile ? 15 : 22)}
                     </h3>
                   </Link>
                 ) : (
-                  <h3 className="text-[1.05rem] font-semibold leading-[0.90] text-foreground sm:text-[1.20rem]">
-                    {college}
+                  <h3
+                    title={college}
+                    className="text-[1.05rem] font-semibold leading-[0.90] text-foreground sm:text-[1.20rem]"
+                  >
+                    {truncateText(college, isMobile ? 15 : 22)}
                   </h3>
                 )}
 
                 {type && (
-                  <span className="rounded-[4px] border border-border px-1 py-0 text-xs font-medium text-muted-foreground">
+                  <span className="hidden md:inline-block rounded-[4px] border border-border px-1 py-0 text-[10px] font-medium text-muted-foreground">
                     {type}
                   </span>
                 )}
               </div>
 
-              <p className="text-xs text-muted-foreground sm:text-sm">
+              <p className="text-[10px] text-muted-foreground sm:text-sm">
                 {degree}
               </p>
             </div>
@@ -77,10 +87,10 @@ export default function EducationCard({
           {/* Right content */}
           <div className="flex items-start gap-3">
             <div className="flex flex-col items-end gap-1">
-              <p className="text-xs font-medium text-foreground sm:text-sm">
+              <p className="text-[10px] font-medium text-foreground sm:text-sm">
                 {duration}
               </p>
-              <p className="text-xs text-muted-foreground sm:text-sm">
+              <p className="text-[10px] text-muted-foreground sm:text-sm">
                 {location}
               </p>
             </div>

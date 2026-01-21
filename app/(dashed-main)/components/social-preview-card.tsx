@@ -106,7 +106,7 @@ export default function SocialPreviewCard({
 
             {/* Bio */}
             <p className="text-foreground text-sm mt-3 leading-relaxed">
-              Software Engineer. Building cool stuff on the web
+              Software Engineer: working remotely. Cricket Enthusiast
             </p>
 
             {/* Stats */}
@@ -355,7 +355,7 @@ export default function SocialPreviewCard({
               />
             </div>
 
-            <div className="mt-3">
+            <div className="mt-2">
               <h3 className="text-title font-bold text-base flex items-center gap-2">
                 Bais Yards
               </h3>
@@ -363,14 +363,14 @@ export default function SocialPreviewCard({
               <p className="text-mutedForeground text-sm">@BaisYards</p>
             </div>
 
-            <div className="mt-3 flex flex-wrap gap-2 text-xs text-mutedForeground">
+            <div className="mt-2 flex flex-wrap gap-2 text-xs text-mutedForeground">
               <span className="px-2 py-1 rounded-md bg-muted">
                 8 subscribers
               </span>
               <span className="px-2 py-1 rounded-md bg-muted">7 videos</span>
             </div>
 
-            <p className="text-foreground text-sm mt-3 leading-relaxed">
+            <p className="text-foreground text-sm mt-2 leading-relaxed">
               Inside the 22 yards of the game.
             </p>
           </div>
