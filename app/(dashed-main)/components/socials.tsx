@@ -172,7 +172,7 @@ export default function Socials() {
       )}
 
       <BlurFade delay={BLUR_FADE_DELAY * 4.5}>
-        <div className="flex flex-col gap-2 pt-4">
+        <div className="flex flex-col gap-2 py-4">
           <h1 className="text-sm text-muted-foreground">
             Here are my{" "}
             <span className="font-medium text-foreground">socials</span>

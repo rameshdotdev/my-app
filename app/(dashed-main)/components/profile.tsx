@@ -19,6 +19,7 @@ import { FloatingHireMe } from "./hire-me";
 import { api } from "@/lib/axios";
 import Verified from "./verified";
 import ImagePreviewModal from "./image-preview-modal";
+import OfflineStatusTooltip from "./offline-status-toolpit";
 
 type Totals = {
   visitors: number;
@@ -102,7 +103,7 @@ export default function Profile() {
         <div>
           <div
             onClick={() => setPreviewOpen(true)}
-            className="rounded-[12px] border border-border p-1 cursor-pointer transition duration-300 hover:brightness-90"
+            className="relative rounded-[12px] border border-border p-1 cursor-pointer transition duration-300 hover:brightness-90"
           >
             <AnimatePresence mode="wait">
               <motion.div
@@ -123,6 +124,7 @@ export default function Profile() {
                 />
               </motion.div>
             </AnimatePresence>
+             <OfflineStatusTooltip />
           </div>
         </div>
         {/* Name + Title */}

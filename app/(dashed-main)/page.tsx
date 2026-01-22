@@ -1,3 +1,4 @@
+"use client";
 import HorizontalDashedBorder from "@/components/horizontal-dashed-border";
 import Profile from "./components/profile";
 import Socials from "@/app/(dashed-main)/components/socials";
@@ -12,8 +13,22 @@ import SubscribeBox from "./components/subscribe-box";
 import About from "./components/about";
 import WorksSection from "./components/works-at";
 import EducationList from "./components/education-list";
+import dynamic from "next/dynamic";
+import { GithubSkeleton } from "@/components/skeleton/github-skeleton";
+import { BLUR_FADE_DELAY } from "@/lib/utils";
+import BlurFade from "@/components/magicui/blur-fade";
 
 function page() {
+  const GithubContributions = dynamic(
+    () =>
+      import("@/components/github-calendar").then(
+        (mod) => mod.GithubContributions,
+      ),
+    {
+      ssr: false,
+      loading: () => <GithubSkeleton />,
+    },
+  );
   return (
     <>
       <VerticalDashedBorderLayout>
@@ -23,7 +38,14 @@ function page() {
       <VerticalDashedBorderLayout>
         <About />
         <Socials />
+        <section id="contributions">
+          <BlurFade delay={BLUR_FADE_DELAY * 10}>
+            {/* <h2 className="text-xl font-bold">GitHub Contributions</h2> */}
+            <GithubContributions />
+          </BlurFade>
+        </section>
       </VerticalDashedBorderLayout>
+      
       <Title title="Experiences" />
       <VerticalDashedBorderLayout className="p-0">
         <WorksSection />

@@ -2,7 +2,7 @@ import { FaQuoteLeft } from "react-icons/fa";
 
 export default function QuoteCard() {
   return (
-    <div className="group relative flex flex-col items-center overflow-hidden py-8 text-center sm:py-6">
+    <div className="group relative flex flex-col items-center overflow-hidden py-10 text-center sm:py-6">
       <div className="absolute inset-0" />
 
       <FaQuoteLeft className="mb-6 text-4xl text-muted-foreground/30 sm:mb-6" />
