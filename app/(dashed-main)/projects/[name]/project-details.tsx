@@ -2,9 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ExternalLink, Github, Globe, Mail, FileText } from "lucide-react";
+import { Mail } from "lucide-react";
 import HorizontalDashedBorder from "@/components/horizontal-dashed-border";
-import VerticalDashedBorder from "@/components/virtical-dashed-border";
 import ProjectActionsBtn from "../../components/action-btn-project";
 import { StatusDot } from "../../components/status-dot";
 import ProjectTeckStackChips from "../../components/project-teck-stack";

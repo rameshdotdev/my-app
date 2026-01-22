@@ -6,3 +6,10 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const BLUR_FADE_DELAY = 0.04;
+
+export const SOUND_FILES = {
+  whoosh: "/sounds/woosh.mp3",
+  glitch: "/sounds/glitch.wav",
+} as const;
+
+export type SoundType = keyof typeof SOUND_FILES;

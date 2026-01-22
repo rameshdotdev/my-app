@@ -1,16 +1,18 @@
 "use client";
 
 import Image from "next/image";
-import { Eye, RotateCcw } from "lucide-react";
+import { Eye } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
 import { getContactData } from "@/store/features/contactSlice";
+import SlotCounter, { type SlotCounterRef } from "react-slot-counter";
+
 import {
   getActiveCharacter,
   getActiveIndex,
   switchCharacter,
 } from "@/store/features/heroSlice";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { BLUR_FADE_DELAY } from "@/lib/utils";
 import BlurFade from "@/components/magicui/blur-fade";
 import { TypeAnimation } from "react-type-animation";
@@ -20,51 +22,19 @@ import { api } from "@/lib/axios";
 import Verified from "./verified";
 import ImagePreviewModal from "./image-preview-modal";
 import OfflineStatusTooltip from "./offline-status-toolpit";
+import SwitchProfile from "./switch-profile";
 
 type Totals = {
   visitors: number;
   pageviews: number;
 };
 
-export function SwitchIconButton({
-  activeIndex,
-  onClick,
-}: {
-  activeIndex: 0 | 1;
-  onClick: () => void;
-}) {
-  return (
-    <button
-      onClick={onClick}
-      className="cursor-pointer mt-0 md:mt-2"
-      aria-label="Switch character"
-      title="Switch character"
-    >
-      {activeIndex === 0 ? (
-        <RotateCcw className="size-3 rotate-120 text-muted-foreground transition-all duration-300 group-hover:text-foreground" />
-      ) : (
-        <svg
-          stroke="currentColor"
-          fill="currentColor"
-          strokeWidth="0"
-          viewBox="0 0 512 512"
-          className="text-muted-foreground transition-all duration-300 group-hover:text-foreground"
-          height="12"
-          width="12"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path d="M448 256c0-106-86-192-192-192l0 384c106 0 192-86 192-192zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256z"></path>
-        </svg>
-      )}
-    </button>
-  );
-}
-
 export default function Profile() {
   const dispatch = useAppDispatch();
   const activeIndex = useAppSelector(getActiveIndex);
   const user = useAppSelector(getActiveCharacter);
   const contact = useAppSelector(getContactData);
+
   const [counts, setCount] = useState<Totals>({
     pageviews: 0,
     visitors: 0,
@@ -89,9 +59,17 @@ export default function Profile() {
     const res = await api.get<Totals>("/visitor");
     setCount(res.data);
   };
+
+  // ✅ Proper ref typing for SlotCounter
+  const counterRef = useRef<SlotCounterRef | null>(null);
+
   useEffect(() => {
     getCount();
   }, []);
+
+  useEffect(() => {
+    counterRef.current?.startAnimation();
+  }, [counts.pageviews]);
 
   if (!user) return null;
 
@@ -124,12 +102,13 @@ export default function Profile() {
                 />
               </motion.div>
             </AnimatePresence>
-             <OfflineStatusTooltip />
+            <OfflineStatusTooltip />
           </div>
         </div>
+
         {/* Name + Title */}
         <div className="flex h-full flex-col justify-between py-1 select-none">
-          <SwitchIconButton
+          <SwitchProfile
             activeIndex={activeIndex}
             onClick={() => dispatch(switchCharacter())}
           />
@@ -138,24 +117,22 @@ export default function Profile() {
             <div>
               <h1 className="relative inline-block min-w-39.25 text-xl sm:text-[1.55rem] font-bold leading-[1.08] text-foreground">
                 <BlurFade delay={BLUR_FADE_DELAY}>
-                  <span data-text={user.name}>
-                    <span className="flex items-center gap-0.5">
-                      <AnimatePresence mode="wait">
-                        <motion.span
-                          key={`${activeIndex}-${user.name}`}
-                          initial={{ opacity: 0, y: 4 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -4 }}
-                          transition={{ duration: 0.18 }}
-                          className="whitespace-nowrap inline-flex items-center gap-0.5 -pt-1"
-                        >
-                          {user.name}
-                          {user.isVerified && (
-                            <Verified className="text-blue-500" />
-                          )}
-                        </motion.span>
-                      </AnimatePresence>
-                    </span>
+                  <span className="flex items-center gap-0.5">
+                    <AnimatePresence mode="wait">
+                      <motion.span
+                        key={`${activeIndex}-${user.name}`}
+                        initial={{ opacity: 0, y: 4 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -4 }}
+                        transition={{ duration: 0.18 }}
+                        className="whitespace-nowrap inline-flex items-center gap-0.5"
+                      >
+                        {user.name}
+                        {user.isVerified && (
+                          <Verified className="text-blue-500" />
+                        )}
+                      </motion.span>
+                    </AnimatePresence>
                   </span>
                 </BlurFade>
               </h1>
@@ -198,18 +175,22 @@ export default function Profile() {
 
         <div
           title="Visitor Count"
-          className="flex items-center gap-1.5 font-medium text-muted-foreground transition-all duration-300 hover:text-foreground select-none"
+          className="-mb-1 md:-mb-0.9 flex items-center justify-center gap-1.5 font-medium text-muted-foreground transition-all duration-300 hover:text-foreground select-none"
         >
-          <Eye className="h-4 w-4" />
-          <span className="tabular-nums text-xs sm:text-sm">
-            {counts.pageviews}
-          </span>
+          <Eye className="h-4 w-4 mt-1" />
+
+          {/* ✅ No extra wrapper span needed */}
+          <SlotCounter
+            ref={counterRef}
+            value={counts.pageviews}
+            duration={0.8}
+            charClassName="text-xs sm:text-sm"
+          />
         </div>
       </div>
 
-      {/* Floating Hire Me */}
       <FloatingHireMe email={contact.email} />
-      {/* Preview Modal */}
+
       <ImagePreviewModal
         open={previewOpen}
         onClose={() => setPreviewOpen(false)}

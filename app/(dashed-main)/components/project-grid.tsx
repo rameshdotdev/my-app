@@ -6,6 +6,7 @@ import VerticalDashedBorder from "@/components/virtical-dashed-border";
 import BlurFade from "@/components/magicui/blur-fade";
 import { BLUR_FADE_DELAY } from "@/lib/utils";
 import Pin from "./pin";
+import { StatusDot } from "./status-dot";
 
 const PROJECTS = [
   {
@@ -136,27 +137,11 @@ export default function ProjectsGrid() {
                       <h3 className="text-[1.10rem] font-bold leading-[1.10] text-foreground">
                         {project.title}
                       </h3>
-
-                      <div className="flex items-center gap-1 select-none">
-                        <div className="relative flex items-center justify-center">
-                          <div
-                            className={`absolute left-1/2 top-1/2 h-[10px] w-[10px] -translate-x-1/2 -translate-y-1/2 animate-ping rounded-full ${
-                              isLive ? "bg-emerald-500/40" : "bg-destructive/60"
-                            } group-hover:hidden`}
-                          />
-                          <Circle
-                            className={`relative z-10 h-[14px] w-[14px] ${
-                              isLive
-                                ? "fill-emerald-500 text-emerald-500"
-                                : "fill-destructive text-destructive"
-                            }`}
-                          />
-                        </div>
-
-                        <p className="text-sm font-medium text-muted-foreground">
-                          {project.status}
-                        </p>
-                      </div>
+                      {project.status.toLocaleLowerCase() === "live" ? (
+                        <StatusDot status="live" hotspot />
+                      ) : (
+                        <StatusDot status="building" hotspot />
+                      )}
                     </div>
 
                     <p className="text-sm text-muted-foreground">

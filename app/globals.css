@@ -249,8 +249,6 @@ br::selection {
 	background-size: 10px 10px
 }
 
-.bg-grid {}
-
 .caveat {
 	font-family: "Caveat", cursive;
 	font-optical-sizing: auto;
@@ -266,4 +264,10 @@ br::selection {
 	font-family: Caveat, Caveat Fallback;
 	font-style: normal;
 	font-weight: 700;
+}
+
+/* For the github contributons */
+.relative.overflow-hidden.rounded-xl {
+	min-height: 150px;
+	border-radius: 6px
 }

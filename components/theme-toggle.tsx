@@ -7,12 +7,18 @@ import { Button } from "@/components/ui/button";
 import { Moon, Sun } from "lucide-react";
 import { setMode } from "@/store/features/themeSlice";
 import { useAppDispatch } from "@/hooks/hooks";
-import { cn } from "@/lib/utils";
+import { cn, SOUND_FILES } from "@/lib/utils";
+import { useSoundFile } from "@/hooks/use-sound-file";
 
 export function ThemeToggle({ className }: { className?: string }) {
   const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const dispatch = useAppDispatch();
+  const { play } = useSoundFile({
+    volume: 0.7,
+    enabled: true,
+    sounds: SOUND_FILES,
+  });
   /* Prevent hydration mismatch */
   useEffect(() => {
     setMounted(true);
@@ -31,7 +37,7 @@ export function ThemeToggle({ className }: { className?: string }) {
 
   const toggleTheme = () => {
     const nextTheme = resolvedTheme === "dark" ? "light" : "dark";
-
+    play("whoosh");
     // Fallback for unsupported browsers
     if (!document.startViewTransition) {
       setTheme(nextTheme);
@@ -52,6 +58,8 @@ export function ThemeToggle({ className }: { className?: string }) {
       className={cn("rounded-full", className)}
       onClick={toggleTheme}
       aria-label="Toggle theme"
+      title="Toggle theme"
+      data-ignore-button="true"
     >
       {resolvedTheme === "dark" ? (
         <Sun className="h-5 w-5" />

@@ -2,9 +2,15 @@
 
 import * as React from "react";
 import Image from "next/image";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { WifiOff } from "lucide-react";
 import { DiVisualstudio } from "react-icons/di";
+import { useSound } from "@/hooks/use-sound";
 
 type ApiResponse = {
   date: string | null;
@@ -14,7 +20,7 @@ type ApiResponse = {
 
 export default function OfflineStatusTooltip() {
   const [data, setData] = React.useState<ApiResponse | null>(null);
-
+  const { play } = useSound();
   React.useEffect(() => {
     fetch("/api/wakatime/yesterday")
       .then((r) => r.json())
@@ -29,7 +35,10 @@ export default function OfflineStatusTooltip() {
     <TooltipProvider delayDuration={120}>
       <Tooltip>
         <TooltipTrigger asChild>
-          <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-background border-2 border-border rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 [@media(hover:hover)_and_(pointer:fine)]:transition-transform [@media(hover:hover)_and_(pointer:fine)]:duration-200 [@media(hover:hover)_and_(pointer:fine)]:ease-[ease] [@media(hover:hover)_and_(pointer:fine)]:will-change-transform">
+          <div
+            onMouseEnter={() => play("hover")}
+            className="absolute -bottom-1 -right-1 w-6 h-6 bg-background border-2 border-border rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 [@media(hover:hover)_and_(pointer:fine)]:transition-transform [@media(hover:hover)_and_(pointer:fine)]:duration-200 [@media(hover:hover)_and_(pointer:fine)]:ease-[ease] [@media(hover:hover)_and_(pointer:fine)]:will-change-transform"
+          >
             <div className="w-2 h-2 bg-muted-foreground rounded-full" />
           </div>
         </TooltipTrigger>
@@ -53,7 +62,10 @@ export default function OfflineStatusTooltip() {
             {editors.length > 0 && (
               <div className="mt-1 space-y-1">
                 {editors.map((e) => (
-                  <div key={e.name} className="flex items-center justify-between text-xs text-muted-foreground">
+                  <div
+                    key={e.name}
+                    className="flex items-center justify-between text-xs text-muted-foreground"
+                  >
                     <div className="flex items-center gap-2">
                       {e.name === "Cursor" ? (
                         <Image

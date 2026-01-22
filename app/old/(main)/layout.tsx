@@ -31,7 +31,7 @@ export default function MainLayout({
     <div className="relative z-50">
       <SoundProvider>
         <ScrollProgress />
-        {/* <MeteorsBackground /> */}
+        <MeteorsBackground />
         {isLoading ? <HeroSkeleton /> : children}
         {/*<HeroSkeleton />*/}
         <Navbar />

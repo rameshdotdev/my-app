@@ -29,7 +29,7 @@ export default function EducationCard({
   function truncateText(text: string, maxChars = 30) {
     if (!text) return "";
     if (text.length <= maxChars) return text;
-    return text.slice(0, maxChars).trimEnd() + " . . .";
+    return text.slice(0, maxChars).trimEnd() + "...";
   }
 
   return (
@@ -57,7 +57,7 @@ export default function EducationCard({
                   <Link target="_blank" href={href}>
                     <h3
                       title={college}
-                      className=" text-[1.05rem] font-semibold leading-[0.90] text-foreground sm:text-[1.20rem] transition-colors hover:text-blue-500"
+                      className="md:min-w-56 text-[1.05rem] font-semibold leading-[0.90] text-foreground sm:text-[1.20rem] capitalize transition-colors hover:text-blue-500"
                     >
                       {truncateText(college, isMobile ? 15 : 22)}
                     </h3>
@@ -65,7 +65,7 @@ export default function EducationCard({
                 ) : (
                   <h3
                     title={college}
-                    className="text-[1.05rem] font-semibold leading-[0.90] text-foreground sm:text-[1.20rem]"
+                    className="md:min-w-56 text-[1.05rem] font-semibold leading-[0.90] text-foreground sm:text-[1.20rem]"
                   >
                     {truncateText(college, isMobile ? 15 : 22)}
                   </h3>
