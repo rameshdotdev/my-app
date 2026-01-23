@@ -37,7 +37,7 @@ export default function OfflineStatusTooltip() {
         <TooltipTrigger asChild>
           <div
             onMouseEnter={() => play("hover")}
-            className="absolute -bottom-1 -right-1 w-6 h-6 bg-background border-2 border-border rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 [@media(hover:hover)_and_(pointer:fine)]:transition-transform [@media(hover:hover)_and_(pointer:fine)]:duration-200 [@media(hover:hover)_and_(pointer:fine)]:ease-[ease] [@media(hover:hover)_and_(pointer:fine)]:will-change-transform"
+            className="absolute -bottom-2 -right-2 w-6 h-6 bg-background border-2 border-border rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 [@media(hover:hover)_and_(pointer:fine)]:transition-transform [@media(hover:hover)_and_(pointer:fine)]:duration-200 [@media(hover:hover)_and_(pointer:fine)]:ease-[ease] [@media(hover:hover)_and_(pointer:fine)]:will-change-transform"
           >
             <div className="w-2 h-2 bg-muted-foreground rounded-full" />
           </div>
@@ -47,12 +47,12 @@ export default function OfflineStatusTooltip() {
           side="bottom"
           align="start"
           sideOffset={12}
-          className="p-3 min-w-[250px] border border-border shadow-lg rounded-lg"
+          className="p-3 min-w-62 border border-border shadow-lg rounded-lg"
         >
           <div className="flex flex-col gap-2">
             <div className="text-sm font-medium text-foreground truncate flex items-center gap-2">
               <WifiOff className="h-4 w-4 text-muted-foreground" />
-              <span>Offline in Cursor</span>
+              <span>Offline in code editor</span>
             </div>
 
             <p className="text-sm text-foreground">

@@ -1,6 +1,5 @@
 "use client";
 import HorizontalDashedBorder from "@/components/horizontal-dashed-border";
-import Profile from "./components/profile";
 import Socials from "@/app/(dashed-main)/components/socials";
 import ViewAllButton from "./components/view-all";
 import Title from "./components/title";
@@ -17,6 +16,7 @@ import dynamic from "next/dynamic";
 import { GithubSkeleton } from "@/components/skeleton/github-skeleton";
 import { BLUR_FADE_DELAY } from "@/lib/utils";
 import BlurFade from "@/components/magicui/blur-fade";
+import { ProfileSkeleton } from "./skeleton";
 
 function page() {
   const GithubContributions = dynamic(
@@ -27,6 +27,13 @@ function page() {
     {
       ssr: false,
       loading: () => <GithubSkeleton />,
+    },
+  );
+  const Profile = dynamic(
+    () => import("./components/profile").then((mod) => mod.default),
+    {
+      ssr: false,
+      loading: () => <ProfileSkeleton />,
     },
   );
   return (
