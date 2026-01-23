@@ -1,4 +1,4 @@
-function HorizontalDashedBorder({ height = 1 }) {
+function HorizontalDashedBorder({ height = 1.5 }) {
   return (
     <div
       className="w-full"

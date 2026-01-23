@@ -1,5 +1,6 @@
 "use client";
 
+import HorizontalDashedBorder from "@/components/horizontal-dashed-border";
 import EducationCard from "./education-card";
 
 export default function EducationList() {
@@ -51,7 +52,10 @@ export default function EducationList() {
   return (
     <div>
       {educations.map((edu, idx) => (
-        <EducationCard key={`${edu.college}-${idx}`} {...edu} />
+        <div key={`${edu.college}-${idx}`}>
+          <EducationCard {...edu} />
+          {idx !== educations.length - 1 && <HorizontalDashedBorder />}
+        </div>
       ))}
     </div>
   );
