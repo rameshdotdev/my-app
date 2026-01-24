@@ -3,6 +3,7 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { Eye } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useMediaQuery } from "@/hooks/use-media-query";
 
 export function ProfileSkeleton() {
   return (
@@ -22,7 +23,7 @@ export function ProfileSkeleton() {
         <div className="flex h-full flex-col justify-between py-1 select-none">
           {/* SwitchProfile placeholder */}
           <div className="flex items-center gap-2">
-            <Skeleton className="h-6 w-6 rounded-full" />
+            <Skeleton className="h-4 w-4 rounded" />
           </div>
 
           <div>
@@ -60,6 +61,31 @@ export function ProfileSkeleton() {
       </div>
 
       {/* ImagePreviewModal not rendered in skeleton */}
+    </div>
+  );
+}
+
+export function AboutSkeleton() {
+  const isSmallMobile = useMediaQuery("(max-width: 372px)");
+  return (
+    <div className="mb-4">
+      <div className="flex flex-col gap-2 text-sm leading-relaxed text-muted-foreground">
+        <div>
+          <Skeleton className="h-4 w-full rounded-md mb-1" />
+          <Skeleton className="h-4 w-full rounded-md mb-1" />
+          <br />
+          <Skeleton className="h-4 w-full rounded-md mb-1" />
+          <Skeleton className="h-4 w-5/6 rounded-md" />
+        </div>
+      </div>
+      <div>
+        <div
+          className={`flex ${isSmallMobile ? "flex-col" : ""} pt-4.5 gap-2 select-none`}
+        >
+          <Skeleton className="h-9 rounded w-full sm:w-40" />
+          <Skeleton className="h-9 rounded w-full sm:w-40" />
+        </div>
+      </div>
     </div>
   );
 }

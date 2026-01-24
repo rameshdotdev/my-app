@@ -1,6 +1,5 @@
 "use client";
 import HorizontalDashedBorder from "@/components/horizontal-dashed-border";
-import Socials from "@/app/(dashed-main)/components/socials";
 import ViewAllButton from "./components/view-all";
 import Title from "./components/title";
 import ProjectsGrid from "./components/project-grid";
@@ -9,16 +8,19 @@ import BlogCard from "./components/blogs-card";
 import SkillsChips from "./components/skills-chips";
 import QuoteCard from "./components/quote-card";
 import SubscribeBox from "./components/subscribe-box";
-import About from "./components/about";
 import WorksSection from "./components/works-at";
 import EducationList from "./components/education-list";
 import dynamic from "next/dynamic";
 import { GithubSkeleton } from "@/components/skeleton/github-skeleton";
 import { BLUR_FADE_DELAY } from "@/lib/utils";
 import BlurFade from "@/components/magicui/blur-fade";
-import { ProfileSkeleton } from "./skeleton";
+import { AboutSkeleton, ProfileSkeleton } from "./skeleton";
+import { getLoadingState } from "@/store/features/loadingSlice";
+import { useAppSelector } from "@/hooks/hooks";
+import SocialsSkeleton from "./socials-skeleton";
 
 function page() {
+  const isLoading = useAppSelector(getLoadingState);
   const GithubContributions = dynamic(
     () =>
       import("@/components/github-calendar").then(
@@ -36,21 +38,39 @@ function page() {
       loading: () => <ProfileSkeleton />,
     },
   );
+  const About = dynamic(
+    () => import("./components/about").then((mod) => mod.default),
+    {
+      ssr: false,
+      loading: () => <AboutSkeleton />,
+    },
+  );
+  const Socials = dynamic(
+    () => import("./components/socials").then((mod) => mod.default),
+    {
+      ssr: false,
+      loading: () => <SocialsSkeleton />,
+    },
+  );
   return (
     <>
       <VerticalDashedBorderLayout>
-        <Profile />
+        {isLoading ? <ProfileSkeleton /> : <Profile />}
       </VerticalDashedBorderLayout>
+
       <HorizontalDashedBorder />
       <VerticalDashedBorderLayout>
-        <About />
-        <Socials />
-        <section id="contributions">
-          <BlurFade delay={BLUR_FADE_DELAY * 10}>
-            {/* <h2 className="text-xl font-bold">GitHub Contributions</h2> */}
-            <GithubContributions />
-          </BlurFade>
-        </section>
+        {isLoading ? <AboutSkeleton /> : <About />}
+        {isLoading ? <SocialsSkeleton /> : <Socials />}
+        {isLoading ? (
+          <GithubSkeleton />
+        ) : (
+          <section id="contributions">
+            <BlurFade delay={BLUR_FADE_DELAY * 10}>
+              <GithubContributions />
+            </BlurFade>
+          </section>
+        )}
       </VerticalDashedBorderLayout>
 
       <Title title="Experiences" />

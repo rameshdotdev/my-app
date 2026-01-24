@@ -12,6 +12,7 @@ import { setSkills } from "@/store/features/skillSlice";
 import { setWorksData } from "@/store/features/workSlice";
 import React, { useEffect } from "react";
 import VisitorTracker from "../visitors-tracker";
+import { setLoading } from "@/store/features/loadingSlice";
 
 export default function Layout({
   children,
@@ -21,6 +22,9 @@ export default function Layout({
   const dispatch = useAppDispatch();
   const { data, isLoading } = useMaindQuery();
   useEffect(() => {
+    dispatch(setLoading(isLoading));
+  }, [isLoading, dispatch]);
+  useEffect(() => {
     if (!data) return;
     dispatch(setHeroData(data.hero));
     dispatch(setSkills(data.skills));
@@ -29,17 +33,19 @@ export default function Layout({
     dispatch(setWorksData(data.works));
   }, [data, dispatch]);
   return (
-    <SoundProvider>
-      <VisitorTracker />
-      <VerticalDashedBorderLayout>
-        <BgDotGrid />
-      </VerticalDashedBorderLayout>
-      <HorizontalDashedBorder />
-      {children}
-      <HorizontalDashedBorder />
-      <VerticalDashedBorderLayout>
-        <BgDotGrid />
-      </VerticalDashedBorderLayout>
-    </SoundProvider>
+    <div>
+      <SoundProvider>
+        <VisitorTracker />
+        <VerticalDashedBorderLayout>
+          <BgDotGrid />
+        </VerticalDashedBorderLayout>
+        <HorizontalDashedBorder />
+        {children}
+        <HorizontalDashedBorder />
+        <VerticalDashedBorderLayout>
+          <BgDotGrid />
+        </VerticalDashedBorderLayout>
+      </SoundProvider>
+    </div>
   );
 }
