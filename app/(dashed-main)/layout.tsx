@@ -13,6 +13,8 @@ import { setWorksData } from "@/store/features/workSlice";
 import React, { useEffect } from "react";
 import VisitorTracker from "../visitors-tracker";
 import { setLoading } from "@/store/features/loadingSlice";
+import { setYesterdayWorks } from "@/store/features/wakatimeSlice";
+import { setVisitorCounts } from "@/store/features/visitorSlice";
 
 export default function Layout({
   children,
@@ -27,10 +29,11 @@ export default function Layout({
   useEffect(() => {
     if (!data) return;
     dispatch(setHeroData(data.hero));
-    dispatch(setSkills(data.skills));
-    dispatch(setProjects(data.projects));
     dispatch(setContactData(data.contact));
+    dispatch(setYesterdayWorks(data.yesterday));
+    dispatch(setVisitorCounts(data.visitor));
     dispatch(setWorksData(data.works));
+    dispatch(setProjects(data.projects));
   }, [data, dispatch]);
   return (
     <div>

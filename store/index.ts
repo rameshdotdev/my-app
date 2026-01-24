@@ -9,6 +9,8 @@ import messageReducer from "./features/messageSlice";
 import contactReducer from "./features/contactSlice";
 import worksReducer from "./features/workSlice";
 import loadingReducer from "./features/loadingSlice";
+import visitorReducer from "./features/visitorSlice";
+import wakatimeReducer from "./features/wakatimeSlice";
 
 export const store = configureStore({
   reducer: {
@@ -22,6 +24,8 @@ export const store = configureStore({
     contact: contactReducer,
     works: worksReducer,
     loading: loadingReducer,
+    visitor: visitorReducer,
+    wakatime: wakatimeReducer,
   },
 });
 

@@ -1,6 +1,4 @@
 "use client";
-
-import * as React from "react";
 import Image from "next/image";
 import {
   Tooltip,
@@ -11,25 +9,14 @@ import {
 import { WifiOff } from "lucide-react";
 import { DiVisualstudio } from "react-icons/di";
 import { useSound } from "@/hooks/use-sound";
-
-type ApiResponse = {
-  date: string | null;
-  combined: { total_seconds: number; text: string };
-  editors: { name: string; text: string; total_seconds: number }[];
-};
-
+import { WakaTimeYesterdayResponse } from "@/types/wakatime";
+import { getYesterdayData } from "@/store/features/wakatimeSlice";
+import { useAppSelector } from "@/hooks/hooks";
 export default function OfflineStatusTooltip() {
-  const [data, setData] = React.useState<ApiResponse | null>(null);
+  const data = useAppSelector(getYesterdayData);
   const { play } = useSound();
-  React.useEffect(() => {
-    fetch("/api/wakatime/yesterday")
-      .then((r) => r.json())
-      .then(setData)
-      .catch(() => setData(null));
-  }, []);
-
-  const yesterdayText = data?.combined?.text ?? "0m";
-  const editors = data?.editors ?? [];
+  const yesterdayText = data?.combined.text;
+  const editors = data?.editors;
 
   return (
     <TooltipProvider delayDuration={120}>

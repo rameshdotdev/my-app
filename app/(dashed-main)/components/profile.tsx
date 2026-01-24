@@ -23,11 +23,7 @@ import Verified from "./verified";
 import ImagePreviewModal from "./image-preview-modal";
 import OfflineStatusTooltip from "./offline-status-toolpit";
 import SwitchProfile from "./switch-profile";
-
-type Totals = {
-  visitors: number;
-  pageviews: number;
-};
+import { getVisitorCounts } from "@/store/features/visitorSlice";
 
 export default function Profile() {
   const dispatch = useAppDispatch();
@@ -35,10 +31,7 @@ export default function Profile() {
   const user = useAppSelector(getActiveCharacter);
   const contact = useAppSelector(getContactData);
 
-  const [counts, setCount] = useState<Totals>({
-    pageviews: 0,
-    visitors: 0,
-  });
+  const counts = useAppSelector(getVisitorCounts);
 
   const [previewOpen, setPreviewOpen] = useState(false);
 
@@ -55,17 +48,8 @@ export default function Profile() {
       .flatMap((t) => [t, 2000]);
   }, [user?.titles]);
 
-  const getCount = async () => {
-    const res = await api.get<Totals>("/visitor");
-    setCount(res.data);
-  };
-
   // ✅ Proper ref typing for SlotCounter
   const counterRef = useRef<SlotCounterRef | null>(null);
-
-  useEffect(() => {
-    getCount();
-  }, []);
 
   useEffect(() => {
     counterRef.current?.startAnimation();

@@ -1,3 +1,5 @@
+import { Skeleton } from "../ui/skeleton";
+
 export function GithubSkeleton() {
-  return <div className="h-50 animate-pulse bg-muted rounded-lg" />;
+  return <Skeleton className="min-h-36 rounded-lg" />;
 }
