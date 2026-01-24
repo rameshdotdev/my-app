@@ -1,14 +1,27 @@
 // lib/api/Project.ts
 import { api } from "@/lib/axios";
-import { Project } from "@/types/type";
+import {
+  Project,
+  CreateProjectPayload,
+  UpdateProjectPayload,
+} from "@/types/project";
 
-export const createProject = (data: Partial<Project>) =>
-  api.post("/projects", data);
+export async function createProject(payload: CreateProjectPayload) {
+  const { data } = await api.post<Project>("/projects", payload);
+  return data;
+}
 
-export const updateProject = (id: string, data: Partial<Project>) =>
-  api.put(`/projects/${id}`, data);
+export async function updateProject(id: string, payload: UpdateProjectPayload) {
+  const { data } = await api.put<Project>(`/projects/${id}`, payload);
+  return data;
+}
 
-export const toggleProjectStatus = (id: string) =>
-  api.put(`/projects/status/${id}`);
+export async function selectProjects() {
+  const { data } = await api.get<Project[]>("/projects");
+  return data;
+}
 
-export const deleteProject = (id: string) => api.delete(`/projects/${id}`);
+export async function deleteProject(id: string) {
+  const { data } = await api.delete<{ success: boolean }>(`/projects/${id}`);
+  return data;
+}

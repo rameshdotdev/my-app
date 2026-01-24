@@ -1,7 +1,7 @@
 import { DotBackground } from "@/components/dot-background";
 import Hero from "./components/hero";
 import SkillBoardPreview from "./components/skills";
-import ProjectsPage from "./components/projects";
+// import ProjectsPage from "./components/projects";
 import { ContactForm } from "./components/contact-form";
 import { Footer } from "./components/footer";
 
@@ -12,7 +12,7 @@ function page() {
         <div className="relative max-w-[95%] lg:max-w-[80%] px-2 mx-auto space-y-28 pt-10 md:pt-24">
           <Hero />
           <SkillBoardPreview />
-          <ProjectsPage />
+          {/* <ProjectsPage /> */}
           <ContactForm />
         </div>
         <Footer />

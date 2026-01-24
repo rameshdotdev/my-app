@@ -3,8 +3,7 @@
 import { motion } from "framer-motion";
 import { Circle } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-type ProjectStatus = "live" | "building" | "offline";
+import { ProjectStatus } from "@/types/project";
 
 type StatusDotProps = {
   status: ProjectStatus;

@@ -2,7 +2,6 @@
 import HorizontalDashedBorder from "@/components/horizontal-dashed-border";
 import ViewAllButton from "./components/view-all";
 import Title from "./components/title";
-import ProjectsGrid from "./components/project-grid";
 import VerticalDashedBorderLayout from "@/components/vertical-dashed-border-layout";
 import BlogCard from "./components/blogs-card";
 import SkillsChips from "./components/skills-chips";
@@ -14,7 +13,11 @@ import dynamic from "next/dynamic";
 import { GithubSkeleton } from "@/components/skeleton/github-skeleton";
 import { BLUR_FADE_DELAY } from "@/lib/utils";
 import BlurFade from "@/components/magicui/blur-fade";
-import { AboutSkeleton, ProfileSkeleton } from "./skeleton";
+import {
+  AboutSkeleton,
+  ProfileSkeleton,
+  ProjectsGridListSkeleton,
+} from "./skeleton";
 import { getLoadingState } from "@/store/features/loadingSlice";
 import { useAppSelector } from "@/hooks/hooks";
 import SocialsSkeleton from "./socials-skeleton";
@@ -52,6 +55,13 @@ function page() {
       loading: () => <SocialsSkeleton />,
     },
   );
+  const ProjectsGridList = dynamic(
+    () => import("./components/project-list").then((mod) => mod.default),
+    {
+      ssr: false,
+      loading: () => <ProjectsGridListSkeleton />,
+    },
+  );
   return (
     <>
       <VerticalDashedBorderLayout>
@@ -87,7 +97,7 @@ function page() {
       </VerticalDashedBorderLayout>
       <Title title="Projects" />
       <VerticalDashedBorderLayout className="p-0">
-        <ProjectsGrid />
+        {isLoading ? <ProjectsGridListSkeleton /> : <ProjectsGridList />}
       </VerticalDashedBorderLayout>
       <HorizontalDashedBorder />
       <VerticalDashedBorderLayout>

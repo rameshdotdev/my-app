@@ -1,10 +1,11 @@
 import { Work } from "@/types/work";
 import { useParallelQuery } from "./use-parallel-fetch";
-import type { Project, SkillCategory, ContactData } from "@/types/type";
+import type { SkillCategory, ContactData } from "@/types/type";
 
 import { Hero } from "@/types/profile";
 import { visitors } from "@/store/features/visitorSlice";
 import { WakaTimeYesterdayResponse } from "@/types/wakatime";
+import { Project } from "@/types/project";
 export interface MainResponse {
   hero: Hero;
   contact: ContactData;

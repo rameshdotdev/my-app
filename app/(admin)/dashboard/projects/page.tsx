@@ -5,24 +5,25 @@ import { api } from "@/lib/axios";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 
-import { Project } from "@/types/type";
+import { Project } from "@/types/project";
 import { ProjectCard } from "./project-card";
 import ProjectCardSkeleton from "./loading";
 import { ProjectFormModal } from "./project-form-modal";
 import { ConfirmDeleteDialog } from "./delete-dialog";
 import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
-import {
-  getProjects,
-  setProjects,
-  togglePublishOptimistic,
-} from "@/store/features/projectSlice";
-import { deleteProject, toggleProjectStatus } from "@/lib/api/project";
+import { selectProjects, setProjects } from "@/store/features/projectSlice";
+import { deleteProject } from "@/lib/api/project";
 
 export default function ProjectsPage() {
   /* ======================
      Redux State
   ====================== */
-  const projects = useAppSelector(getProjects);
+  const projectFromStore = useAppSelector(selectProjects);
+  // pinned first
+  const projects = [...projectFromStore].sort((a, b) => {
+    if (a.isPinned !== b.isPinned) return a.isPinned ? -1 : 1;
+    return 0;
+  });
   const dispatch = useAppDispatch();
 
   /* ======================
@@ -47,32 +48,6 @@ export default function ProjectsPage() {
       console.error("Failed to fetch projects", err);
     } finally {
       setLoading(false);
-    }
-  };
-
-  /* ======================
-     Optimistic Publish Toggle
-  ====================== */
-  const handleTogglePublish = async (projectId: string) => {
-    if (updatingIds.has(projectId)) return;
-
-    // lock this project
-    setUpdatingIds((prev) => new Set(prev).add(projectId));
-
-    // optimistic redux update
-    dispatch(togglePublishOptimistic(projectId));
-
-    try {
-      await toggleProjectStatus(projectId);
-    } catch {
-      // safest rollback
-      fetchProjects();
-    } finally {
-      setUpdatingIds((prev) => {
-        const next = new Set(prev);
-        next.delete(projectId);
-        return next;
-      });
     }
   };
 
@@ -109,7 +84,6 @@ export default function ProjectsPage() {
               key={project._id}
               project={project}
               updating={updatingIds.has(project._id)}
-              onTogglePublish={() => handleTogglePublish(project._id)}
               onEdit={() => {
                 setSelected(project);
                 setOpenForm(true);

@@ -1,25 +1,59 @@
-import { Project } from "@/types/type";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "..";
+import type { RootState } from "..";
+import type { Project } from "@/types/project";
 
-const initialState: Project[] = [];
+type ProjectsState = {
+  items: Project[];
+};
+
+const initialState: ProjectsState = {
+  items: [],
+};
+
 export const projectSlice = createSlice({
   name: "projects",
   initialState,
   reducers: {
-    setProjects: (_state, action: PayloadAction<Project[]>) => {
-      return action.payload;
+    setProjects: (state, action: PayloadAction<Project[]>) => {
+      state.items = action.payload;
     },
-    togglePublishOptimistic: (state, action: PayloadAction<string>) => {
-      const project = state.find((p) => p._id === action.payload);
-      if (project) {
-        project.isPublished = !project.isPublished;
-      }
+
+    addProject: (state, action: PayloadAction<Project>) => {
+      state.items.unshift(action.payload);
+    },
+
+    updateProjectInStore: (state, action: PayloadAction<Project>) => {
+      const updated = action.payload;
+      const idx = state.items.findIndex((p) => p._id === updated._id);
+      if (idx !== -1) state.items[idx] = updated;
+    },
+
+    removeProject: (state, action: PayloadAction<string>) => {
+      const id = action.payload;
+      state.items = state.items.filter((p) => p._id !== id);
+    },
+
+    clearProjects: (state) => {
+      state.items = [];
     },
   },
 });
 
-export const { setProjects, togglePublishOptimistic } = projectSlice.actions;
-export const getProjects = (state: RootState) => state.projects;
+export const {
+  setProjects,
+  addProject,
+  updateProjectInStore,
+  removeProject,
+  clearProjects,
+} = projectSlice.actions;
+
+/* =========================
+   Selectors
+========================= */
+export const selectProjects = (state: RootState) => state.projects.items;
+
+export const selectProjectById = (id: string) => (state: RootState) =>
+  state.projects.items.find((p) => p._id === id);
+
 export default projectSlice.reducer;
