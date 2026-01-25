@@ -15,6 +15,7 @@ import VisitorTracker from "../visitors-tracker";
 import { setLoading } from "@/store/features/loadingSlice";
 import { setYesterdayWorks } from "@/store/features/wakatimeSlice";
 import { setVisitorCounts } from "@/store/features/visitorSlice";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 export default function Layout({
   children,
@@ -37,18 +38,20 @@ export default function Layout({
   }, [data, dispatch]);
   return (
     <div>
-      <SoundProvider>
-        <VisitorTracker />
-        <VerticalDashedBorderLayout>
-          <BgDotGrid />
-        </VerticalDashedBorderLayout>
-        <HorizontalDashedBorder />
-        {children}
-        <HorizontalDashedBorder />
-        <VerticalDashedBorderLayout>
-          <BgDotGrid />
-        </VerticalDashedBorderLayout>
-      </SoundProvider>
+      <TooltipProvider delayDuration={120}>
+        <SoundProvider>
+          <VisitorTracker />
+          <VerticalDashedBorderLayout>
+            <BgDotGrid />
+          </VerticalDashedBorderLayout>
+          <HorizontalDashedBorder />
+          {children}
+          <HorizontalDashedBorder />
+          <VerticalDashedBorderLayout>
+            <BgDotGrid />
+          </VerticalDashedBorderLayout>
+        </SoundProvider>
+      </TooltipProvider>
     </div>
   );
 }
