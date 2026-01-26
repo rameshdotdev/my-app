@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
+import { api } from "@/lib/axios";
 
 type LoginStatus = "idle" | "loading" | "success" | "error";
 
@@ -23,15 +24,13 @@ export function useLogin() {
     setError(null);
 
     try {
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-        credentials: "include",
-      });
+      const res = await api.post("/auth/login", { email, password });
+
       setStatus("success");
       toast.success("Welcome back 👋");
-      console.log(res);
+
+      console.log("Login response:", res.data);
+
       router.replace("/dashboard");
       router.refresh();
     } catch (err: any) {
@@ -45,10 +44,5 @@ export function useLogin() {
     }
   };
 
-  return {
-    login,
-    loading,
-    status,
-    error,
-  };
+  return { login, loading, status, error };
 }
