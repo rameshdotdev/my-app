@@ -17,13 +17,17 @@ export interface MainResponse {
 }
 
 export function useMaindQuery() {
-  return useParallelQuery<MainResponse>(["user-page"], {
-    hero: "/hero",
-    visitor: "/visitor",
-    contact: "/contact",
-    yesterday: "/worked-for/yesterday",
-    works: "/works-at",
-    skills: "/skills",
-    projects: "/projects",
-  });
+  return useParallelQuery<MainResponse>(
+    ["user-page"],
+    {
+      hero: "/hero",
+      visitor: "/visitor",
+      contact: "/contact",
+      yesterday: "/worked-for/yesterday",
+      works: "/works-at",
+      skills: "/skills",
+      projects: "/projects",
+    },
+    { skipAuth: true }
+  );
 }

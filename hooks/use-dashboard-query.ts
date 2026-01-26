@@ -20,15 +20,19 @@ export interface DashboardResponse {
   works: Work[];
 }
 
-export function useDashboardQuery() {
-  return useParallelQuery<DashboardResponse>(["admin-dashboard"], {
-    user: "/auth/me",
-    hero: "/hero",
-    skillCategory: "/skill-categories",
-    skills: "/skills",
-    projects: "/projects",
-    messages: "/message",
-    contact: "/contact",
-    works: "/works-at",
-  });
+export function useDashboardQuery(options?: { enabled?: boolean }) {
+  return useParallelQuery<DashboardResponse>(
+    ["admin-dashboard"],
+    {
+      user: "/auth/me",
+      hero: "/hero",
+      skillCategory: "/skill-categories",
+      skills: "/skills",
+      projects: "/projects",
+      messages: "/message",
+      contact: "/contact",
+      works: "/works-at",
+    },
+    { enabled: options?.enabled },
+  );
 }

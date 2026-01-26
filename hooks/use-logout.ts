@@ -4,15 +4,11 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { api } from "@/lib/axios";
 import { toast } from "sonner";
-import { removeUser } from "@/store/features/userSlice";
-import { useAppDispatch } from "./hooks";
 
 type LogoutStatus = "idle" | "loading" | "success" | "error";
 
 export function useLogout() {
   const router = useRouter();
-  const dispatch = useAppDispatch();
-
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<LogoutStatus>("idle");
   const [error, setError] = useState<string | null>(null);
@@ -24,10 +20,7 @@ export function useLogout() {
 
     try {
       await api.post("/auth/logout");
-
-      // 🔥 reset redux state
-      dispatch(removeUser());
-
+      localStorage.removeItem("auth_token");
       setStatus("success");
       toast.success("Logged out successfully");
       router.replace("/");
