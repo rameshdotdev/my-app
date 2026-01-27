@@ -8,7 +8,6 @@ import { SoundProvider } from "@/providers/sound-provider";
 import { setContactData } from "@/store/features/contactSlice";
 import { setHeroData } from "@/store/features/heroSlice";
 import { setProjects } from "@/store/features/projectSlice";
-import { setSkills } from "@/store/features/skillSlice";
 import { setWorksData } from "@/store/features/workSlice";
 import React, { useEffect } from "react";
 import VisitorTracker from "../visitors-tracker";
