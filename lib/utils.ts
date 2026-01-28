@@ -13,3 +13,10 @@ export const SOUND_FILES = {
 } as const;
 
 export type SoundType = keyof typeof SOUND_FILES;
+
+export function isLastItem(idx: number, array: any[]): boolean {
+  return idx === array.length - 1;
+}
+export function isSecondLastItem(idx: number, array: any[]): boolean {
+  return idx === array.length - 2;
+}

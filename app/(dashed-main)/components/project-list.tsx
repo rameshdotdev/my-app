@@ -52,7 +52,7 @@ export default function ProjectsGridList() {
         <VerticalDashedBorder />
       </div>
 
-      {sortedProjects.map((project, idx) => {
+      {sortedProjects.slice(0, 4).map((project, idx) => {
         const bgImage = getRandomBgImage();
 
         const shortDescription =
