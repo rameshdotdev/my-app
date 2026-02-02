@@ -22,7 +22,7 @@ export default function OfflineStatusTooltip() {
       <TooltipTrigger asChild>
         <div
           onMouseEnter={() => play("hover")}
-          className="hidden md:block absolute -bottom-2 -right-2 w-6 h-6 bg-background border-2 border-border rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 [@media(hover:hover)_and_(pointer:fine)]:transition-transform [@media(hover:hover)_and_(pointer:fine)]:duration-200 [@media(hover:hover)_and_(pointer:fine)]:ease-[ease] [@media(hover:hover)_and_(pointer:fine)]:will-change-transform"
+          className="hidden md:flex absolute -bottom-2 -right-2 w-6 h-6 bg-background border-2 border-border rounded-full items-center justify-center shadow-lg group-hover:scale-110 [@media(hover:hover)_and_(pointer:fine)]:transition-transform [@media(hover:hover)_and_(pointer:fine)]:duration-200 [@media(hover:hover)_and_(pointer:fine)]:ease-[ease] [@media(hover:hover)_and_(pointer:fine)]:will-change-transform"
         >
           <div className="w-2 h-2 bg-muted-foreground rounded-full" />
         </div>
