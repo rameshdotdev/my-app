@@ -57,8 +57,8 @@ export default function ProjectsGridList() {
 
         const shortDescription =
           project.description?.[0] ?? "No description added";
-
-        const showMobileSeparator = idx !== sortedProjects.length - 1;
+        // show separator for first 3 items (mobile only)
+        const showMobileSeparator = idx <= 2;
         return (
           <div key={project._id}>
             <div className="relative z-10 p-6">
