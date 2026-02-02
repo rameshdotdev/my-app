@@ -3,7 +3,7 @@ import HorizontalDashedBorder from "@/components/horizontal-dashed-border";
 import ViewAllButton from "./components/view-all";
 import Title from "./components/title";
 import VerticalDashedBorderLayout from "@/components/vertical-dashed-border-layout";
-import BlogCard from "./components/blogs-card";
+// import BlogCard from "./components/blogs-card";
 import SkillsChips from "./components/skills-chips";
 import QuoteCard from "./components/quote-card";
 import SubscribeBox from "./components/subscribe-box";
@@ -103,14 +103,14 @@ function page() {
       <VerticalDashedBorderLayout>
         <ViewAllButton href="/projects" />
       </VerticalDashedBorderLayout>
-      <Title title="Blogs" />
+      {/* <Title title="Blogs" />
       <VerticalDashedBorderLayout className="p-0">
         <BlogCard />
       </VerticalDashedBorderLayout>
       <HorizontalDashedBorder />
       <VerticalDashedBorderLayout>
         <ViewAllButton href="/blogs" />
-      </VerticalDashedBorderLayout>
+      </VerticalDashedBorderLayout> */}
       <Title title="Skills & Technologies" />
       <VerticalDashedBorderLayout>
         <SkillsChips />

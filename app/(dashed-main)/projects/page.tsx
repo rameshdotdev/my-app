@@ -19,7 +19,6 @@ import { ProjectsGridListSkeleton } from "../skeleton";
 
 export default function Page() {
   const projects = useAppSelector(selectProjects);
-  let currentIndex = 0;
 
   // pinned first
   const sortedProjects = [...projects].sort((a, b) => {
