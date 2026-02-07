@@ -36,7 +36,7 @@ export function SiteHeader() {
           />
           <Avatar className="ring-1 ring-border">
             <AvatarImage
-              src={user?.avatar}
+              src={user.avatar?.url}
               alt={`${user?.name ?? "User"} avatar`}
             />
             <AvatarFallback className="font-medium">

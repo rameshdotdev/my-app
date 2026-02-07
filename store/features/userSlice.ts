@@ -8,7 +8,10 @@ const initialState: AuthResponse = {
   _id: "",
   email: "",
   name: "",
-  avatar: undefined,
+  avatar: {
+    url: "",
+    publicId: "",
+  },
 };
 
 export const counterSlice = createSlice({

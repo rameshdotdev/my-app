@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useState } from "react";
 import {
   IconDotsVertical,
   IconLoader2,
@@ -26,11 +27,23 @@ import {
 import { getUser } from "@/store/features/userSlice";
 import { useLogout } from "@/hooks/use-logout";
 import { useAppSelector } from "@/hooks/hooks";
+import UserManagementDialog from "@/components/user-management-dialog";
 
 export function NavUser() {
   const { isMobile } = useSidebar();
   const user = useAppSelector(getUser);
   const { logout, loading } = useLogout();
+  const [open, setOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const handleDropdownChange = (newOpen: boolean) => {
+    // Close dropdown only on outside click, not when opening dialog
+    if (!newOpen && !open) {
+      setDropdownOpen(false);
+    } else if (newOpen) {
+      setDropdownOpen(true);
+    }
+  };
 
   if (!user) return null;
 
@@ -44,7 +57,7 @@ export function NavUser() {
   return (
     <SidebarMenu>
       <SidebarMenuItem>
-        <DropdownMenu>
+        <DropdownMenu open={dropdownOpen} onOpenChange={handleDropdownChange}>
           <DropdownMenuTrigger asChild disabled={loading}>
             <SidebarMenuButton
               size="lg"
@@ -52,7 +65,7 @@ export function NavUser() {
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="h-8 w-8 rounded-lg grayscale">
-                <AvatarImage src={user.avatar} alt={user.name} />
+                <AvatarImage src={user.avatar?.url} alt={user.name} />
                 <AvatarFallback className="rounded-lg">
                   {initials}
                 </AvatarFallback>
@@ -78,7 +91,7 @@ export function NavUser() {
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={user.avatar} alt={user.name} />
+                  <AvatarImage src={user.avatar?.url} alt={user.name} />
                   <AvatarFallback className="rounded-lg">
                     {initials}
                   </AvatarFallback>
@@ -96,11 +109,23 @@ export function NavUser() {
             <DropdownMenuSeparator />
 
             <DropdownMenuGroup>
-              <DropdownMenuItem disabled={loading}>
+              <DropdownMenuItem
+                disabled={loading}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setOpen(true);
+                }}
+              >
                 <IconUserCircle className="mr-2 size-4" />
                 Account
               </DropdownMenuItem>
             </DropdownMenuGroup>
+
+            <UserManagementDialog
+              user={user}
+              open={open}
+              onOpenChange={setOpen}
+            />
 
             <DropdownMenuSeparator />
 

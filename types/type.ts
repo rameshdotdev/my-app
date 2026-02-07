@@ -7,7 +7,10 @@ export interface AuthResponse {
   _id: string;
   email: string;
   name: string;
-  avatar?: string;
+  avatar?: {
+    url: string;
+    publicId: string;
+  };
 }
 export type Speed =
   | 1
