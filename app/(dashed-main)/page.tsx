@@ -1,15 +1,15 @@
 "use client";
+import { memo, Suspense } from "react";
+import dynamic from "next/dynamic";
 import HorizontalDashedBorder from "@/components/horizontal-dashed-border";
 import ViewAllButton from "./components/view-all";
 import Title from "./components/title";
 import VerticalDashedBorderLayout from "@/components/vertical-dashed-border-layout";
-// import BlogCard from "./components/blogs-card";
 import SkillsChips from "./components/skills-chips";
 import QuoteCard from "./components/quote-card";
 import SubscribeBox from "./components/subscribe-box";
 import WorksSection from "./components/works-at";
 import EducationList from "./components/education-list";
-import dynamic from "next/dynamic";
 import { GithubSkeleton } from "@/components/skeleton/github-skeleton";
 import { BLUR_FADE_DELAY } from "@/lib/utils";
 import BlurFade from "@/components/magicui/blur-fade";
@@ -22,95 +22,106 @@ import { getLoadingState } from "@/store/features/loadingSlice";
 import { useAppSelector } from "@/hooks/hooks";
 import SocialsSkeleton from "./socials-skeleton";
 
+// Dynamic imports for heavy components
+const Profile = dynamic(
+  () => import("./components/profile").then((mod) => mod.default),
+  { loading: () => <ProfileSkeleton />, ssr: false }
+);
+
+const About = dynamic(
+  () => import("./components/about").then((mod) => mod.default),
+  { loading: () => <AboutSkeleton />, ssr: false }
+);
+
+const Socials = dynamic(
+  () => import("./components/socials").then((mod) => mod.default),
+  { loading: () => <SocialsSkeleton />, ssr: false }
+);
+
+const GithubContributions = dynamic(
+  () =>
+    import("@/components/github-calendar").then(
+      (mod) => mod.GithubContributions
+    ),
+  { loading: () => <GithubSkeleton />, ssr: false }
+);
+
+const ProjectsGridList = dynamic(
+  () => import("./components/project-list").then((mod) => mod.default),
+  { loading: () => <ProjectsGridListSkeleton />, ssr: false }
+);
+
+const BelowFoldContent = memo(() => (
+  <>
+    <Title title="Experiences" />
+    <VerticalDashedBorderLayout className="p-0">
+      <WorksSection />
+    </VerticalDashedBorderLayout>
+    <HorizontalDashedBorder />
+    <VerticalDashedBorderLayout>
+      <ViewAllButton href="/experiences" />
+    </VerticalDashedBorderLayout>
+    <Title title="Education" />
+    <VerticalDashedBorderLayout className="p-0">
+      <EducationList />
+    </VerticalDashedBorderLayout>
+    <Title title="Projects" />
+    <VerticalDashedBorderLayout className="p-0">
+      <Suspense fallback={<ProjectsGridListSkeleton />}>
+        <ProjectsGridList />
+      </Suspense>
+    </VerticalDashedBorderLayout>
+  </>
+));
+BelowFoldContent.displayName = "BelowFoldContent";
+
 function page() {
   const isLoading = useAppSelector(getLoadingState);
-  const GithubContributions = dynamic(
-    () =>
-      import("@/components/github-calendar").then(
-        (mod) => mod.GithubContributions,
-      ),
-    {
-      ssr: false,
-      loading: () => <GithubSkeleton />,
-    },
-  );
-  const Profile = dynamic(
-    () => import("./components/profile").then((mod) => mod.default),
-    {
-      ssr: false,
-      loading: () => <ProfileSkeleton />,
-    },
-  );
-  const About = dynamic(
-    () => import("./components/about").then((mod) => mod.default),
-    {
-      ssr: false,
-      loading: () => <AboutSkeleton />,
-    },
-  );
-  const Socials = dynamic(
-    () => import("./components/socials").then((mod) => mod.default),
-    {
-      ssr: false,
-      loading: () => <SocialsSkeleton />,
-    },
-  );
-  const ProjectsGridList = dynamic(
-    () => import("./components/project-list").then((mod) => mod.default),
-    {
-      ssr: false,
-      loading: () => <ProjectsGridListSkeleton />,
-    },
-  );
+
+  if (isLoading) {
+    return (
+      <>
+        <VerticalDashedBorderLayout>
+          <ProfileSkeleton />
+        </VerticalDashedBorderLayout>
+        <HorizontalDashedBorder />
+        <VerticalDashedBorderLayout>
+          <AboutSkeleton />
+          <SocialsSkeleton />
+          <GithubSkeleton />
+        </VerticalDashedBorderLayout>
+      </>
+    );
+  }
+
   return (
     <>
       <VerticalDashedBorderLayout>
-        {isLoading ? <ProfileSkeleton /> : <Profile />}
+        <Suspense fallback={<ProfileSkeleton />}>
+          <Profile />
+        </Suspense>
       </VerticalDashedBorderLayout>
 
       <HorizontalDashedBorder />
       <VerticalDashedBorderLayout>
-        {isLoading ? <AboutSkeleton /> : <About />}
-        {isLoading ? <SocialsSkeleton /> : <Socials />}
-        {isLoading ? (
-          <GithubSkeleton />
-        ) : (
-          <section id="contributions">
-            <BlurFade delay={BLUR_FADE_DELAY * 10}>
+        <Suspense fallback={<AboutSkeleton />}>
+          <About />
+        </Suspense>
+        <Suspense fallback={<SocialsSkeleton />}>
+          <Socials />
+        </Suspense>
+        <section id="contributions">
+          <BlurFade delay={BLUR_FADE_DELAY * 10}>
+            <Suspense fallback={<GithubSkeleton />}>
               <GithubContributions />
-            </BlurFade>
-          </section>
-        )}
+            </Suspense>
+          </BlurFade>
+        </section>
       </VerticalDashedBorderLayout>
 
-      <Title title="Experiences" />
-      <VerticalDashedBorderLayout className="p-0">
-        <WorksSection />
-      </VerticalDashedBorderLayout>
-      <HorizontalDashedBorder />
-      <VerticalDashedBorderLayout>
-        <ViewAllButton href="/experiences" />
-      </VerticalDashedBorderLayout>
-      <Title title="Education" />
-      <VerticalDashedBorderLayout className="p-0">
-        <EducationList />
-      </VerticalDashedBorderLayout>
-      <Title title="Projects" />
-      <VerticalDashedBorderLayout className="p-0">
-        {isLoading ? <ProjectsGridListSkeleton /> : <ProjectsGridList />}
-      </VerticalDashedBorderLayout>
-      <HorizontalDashedBorder />
-      <VerticalDashedBorderLayout>
-        <ViewAllButton href="/projects" />
-      </VerticalDashedBorderLayout>
-      {/* <Title title="Blogs" />
-      <VerticalDashedBorderLayout className="p-0">
-        <BlogCard />
-      </VerticalDashedBorderLayout>
-      <HorizontalDashedBorder />
-      <VerticalDashedBorderLayout>
-        <ViewAllButton href="/blogs" />
-      </VerticalDashedBorderLayout> */}
+      <Suspense fallback={<div />}>
+        <BelowFoldContent />
+      </Suspense>
       <Title title="Skills & Technologies" />
       <VerticalDashedBorderLayout>
         <SkillsChips />

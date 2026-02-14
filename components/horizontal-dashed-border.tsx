@@ -1,4 +1,10 @@
-function HorizontalDashedBorder({ height = 1.5 }) {
+import { borderHeight } from "@/constant";
+
+function HorizontalDashedBorder({
+  height = borderHeight,
+}: {
+  height?: number;
+}) {
   return (
     <div
       className="w-full"

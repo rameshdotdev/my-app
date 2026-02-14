@@ -48,12 +48,6 @@ const data = {
 			icon: IconDashboard,
 			isActive: true,
 		},
-
-		{
-			title: "Analytics",
-			url: "/dashboard/analytics",
-			icon: IconChartBar,
-		},
 	],
 	navClouds: [
 		{

@@ -1,3 +1,4 @@
+import { borderWidth } from "@/constant";
 import { cn } from "@/lib/utils";
 
 interface VerticalDashedBorderProps {
@@ -12,7 +13,7 @@ function VerticalDashedBorder({ className }: VerticalDashedBorderProps) {
         backgroundImage: `
       repeating-linear-gradient(to bottom, var(--border) 0px, var(--border) 6px, transparent 6px, transparent 14px),
       repeating-linear-gradient(to bottom, var(--border) 0px, var(--border) 6px, transparent 6px, transparent 14px)`,
-        backgroundSize: "1.5px 100%",
+        backgroundSize: `${borderWidth}px 100%`,
         backgroundPosition: "top center",
         backgroundRepeat: "no-repeat",
       }}
