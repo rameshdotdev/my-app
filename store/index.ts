@@ -1,4 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
 import userReducer from "./features/userSlice";
 import themeReducer from "./features/themeSlice";
 import skillCategoryReducer from "./features/skillCategorySlice";
@@ -11,6 +13,17 @@ import worksReducer from "./features/workSlice";
 import loadingReducer from "./features/loadingSlice";
 import visitorReducer from "./features/visitorSlice";
 import wakatimeReducer from "./features/wakatimeSlice";
+import todoReducer from "./features/todoSlice";
+
+// Configure persist for todo slice
+const todoPersistConfig = {
+  key: "todo",
+  storage: storage,
+  whitelist: ["categories", "lastSavedAt"], // Only persist these fields
+  version: 1,
+};
+
+const persistedTodoReducer = persistReducer(todoPersistConfig, todoReducer);
 
 export const store = configureStore({
   reducer: {
@@ -26,8 +39,18 @@ export const store = configureStore({
     loading: loadingReducer,
     visitor: visitorReducer,
     wakatime: wakatimeReducer,
+    todo: persistedTodoReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: ["persist/PERSIST", "persist/REHYDRATE"],
+        ignoredPath: ["todo"],
+      },
+    }),
 });
+
+export const persistor = persistStore(store);
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;
