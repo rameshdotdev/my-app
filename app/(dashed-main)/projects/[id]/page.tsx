@@ -1,5 +1,4 @@
 "use client";
-"use client";
 
 import Image from "next/image";
 import { useParams, notFound } from "next/navigation";
@@ -29,13 +28,24 @@ export default function Page() {
           {/* Media */}
           <div className="px-4 w-full p-4">
             <div className="w-full h-full md:min-h-85 min-h-60 rounded-[8px] relative border border-border p-1.5 overflow-hidden">
+              {/* Light */}
               <Image
                 alt={project.title}
                 src={project.image.light.url}
                 width={1000}
                 height={1000}
                 priority={false}
-                className="w-full object-cover md:h-105 h-60 rounded-[8px] border border-border"
+                className="block dark:hidden w-full object-cover md:h-105 h-60 rounded-[8px] border border-border"
+              />
+
+              {/* Dark */}
+              <Image
+                alt={project.title}
+                src={project.image.dark.url}
+                width={1000}
+                height={1000}
+                priority={false}
+                className="hidden dark:block w-full object-cover md:h-105 h-60 rounded-[8px] border border-border"
               />
             </div>
           </div>
