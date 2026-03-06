@@ -25,30 +25,30 @@ import SocialsSkeleton from "./socials-skeleton";
 // Dynamic imports for heavy components
 const Profile = dynamic(
   () => import("./components/profile").then((mod) => mod.default),
-  { loading: () => <ProfileSkeleton />, ssr: false }
+  { loading: () => <ProfileSkeleton />, ssr: false },
 );
 
 const About = dynamic(
   () => import("./components/about").then((mod) => mod.default),
-  { loading: () => <AboutSkeleton />, ssr: false }
+  { loading: () => <AboutSkeleton />, ssr: false },
 );
 
 const Socials = dynamic(
   () => import("./components/socials").then((mod) => mod.default),
-  { loading: () => <SocialsSkeleton />, ssr: false }
+  { loading: () => <SocialsSkeleton />, ssr: false },
 );
 
 const GithubContributions = dynamic(
   () =>
     import("@/components/github-calendar").then(
-      (mod) => mod.GithubContributions
+      (mod) => mod.GithubContributions,
     ),
-  { loading: () => <GithubSkeleton />, ssr: false }
+  { loading: () => <GithubSkeleton />, ssr: false },
 );
 
 const ProjectsGridList = dynamic(
   () => import("./components/project-list").then((mod) => mod.default),
-  { loading: () => <ProjectsGridListSkeleton />, ssr: false }
+  { loading: () => <ProjectsGridListSkeleton />, ssr: false },
 );
 
 const BelowFoldContent = memo(() => (
@@ -70,6 +70,10 @@ const BelowFoldContent = memo(() => (
       <Suspense fallback={<ProjectsGridListSkeleton />}>
         <ProjectsGridList />
       </Suspense>
+    </VerticalDashedBorderLayout>
+    <HorizontalDashedBorder />
+    <VerticalDashedBorderLayout>
+      <ViewAllButton href="/projects" />
     </VerticalDashedBorderLayout>
   </>
 ));
