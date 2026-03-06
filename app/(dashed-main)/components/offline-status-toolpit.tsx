@@ -8,13 +8,12 @@ import {
 import { WifiOff } from "lucide-react";
 import { DiVisualstudio } from "react-icons/di";
 import { useSound } from "@/hooks/use-sound";
-import { WakaTimeYesterdayResponse } from "@/types/wakatime";
 import { getYesterdayData } from "@/store/features/wakatimeSlice";
 import { useAppSelector } from "@/hooks/hooks";
 export default function OfflineStatusTooltip() {
   const data = useAppSelector(getYesterdayData);
   const { play } = useSound();
-  const yesterdayText = data?.combined.text;
+  const yesterdayText = data?.combined?.text;
   const editors = data?.editors;
 
   return (
