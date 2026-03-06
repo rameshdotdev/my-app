@@ -5,7 +5,7 @@ let socket: Socket | null = null;
 
 export const getSocket = () => {
   if (!socket) {
-    socket = io("/", {
+    socket = io("https://imramesh.in/", {
       autoConnect: false,
     });
   }
