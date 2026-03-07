@@ -18,7 +18,6 @@ import BlurFade from "@/components/magicui/blur-fade";
 import { TypeAnimation } from "react-type-animation";
 import { motion, AnimatePresence } from "framer-motion";
 import { FloatingHireMe } from "./hire-me";
-import { api } from "@/lib/axios";
 import Verified from "./verified";
 import ImagePreviewModal from "./image-preview-modal";
 import OfflineStatusTooltip from "./offline-status-toolpit";

@@ -24,7 +24,7 @@ const ReduxProvider = ({ children }: { children: ReactNode }) => {
         persistor={persistor}
         onBeforeLift={() => {
           // Optional: Handle any errors during hydration
-          console.log("Redux state rehydrated from localStorage");
+          // console.log("Redux state rehydrated from localStorage");
         }}
       >
         {children}

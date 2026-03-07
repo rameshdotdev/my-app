@@ -11,6 +11,7 @@ import { setProjects } from "@/store/features/projectSlice";
 import { setWorksData } from "@/store/features/workSlice";
 import React, { useEffect } from "react";
 import VisitorTracker from "../visitors-tracker";
+import BackToTop from "./components/back-to-top";
 import { setLoading } from "@/store/features/loadingSlice";
 import { setYesterdayWorks } from "@/store/features/wakatimeSlice";
 import { setVisitorCounts } from "@/store/features/visitorSlice";
@@ -50,6 +51,7 @@ export default function Layout({
             <BgDotGrid />
           </VerticalDashedBorderLayout>
         </SoundProvider>
+        <BackToTop/>
       </TooltipProvider>
     </div>
   );

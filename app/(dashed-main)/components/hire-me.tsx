@@ -4,7 +4,7 @@ export function FloatingHireMe({ email }: { email: string }) {
   return (
     <div className="absolute -top-18 -left-26 hidden -rotate-14 flex-col items-center justify-center select-none transition-all duration-700 lg:flex group">
       <a
-        className="mr-6 cursor-pointer select-none text-xl text-muted-foreground transition-all duration-300 hover:scale-110 hover:text-foreground shake-on-hover caveat-700"
+        className="mr-6 cursor-pointer select-none text-xl text-muted-foreground transition-all duration-300 hover:scale-110 hover:text-foreground shake-on-hover caveat-400"
         href={`mailto:${email}`}
       >
         HIRE ME

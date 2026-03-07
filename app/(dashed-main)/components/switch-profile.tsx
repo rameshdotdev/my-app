@@ -20,7 +20,7 @@ function SwitchProfile({
         onClick();
         play("glitch");
       }}
-      className="cursor-pointer mt-0 md:mt-2"
+      className="cursor-pointer mt-0 md:mt-2 h-4 w-4"
       aria-label="Switch character"
       title="Switch character"
       data-ignore-button="true"

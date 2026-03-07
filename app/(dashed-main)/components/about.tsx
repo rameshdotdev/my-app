@@ -15,9 +15,9 @@ function About() {
   const contact = useAppSelector(getContactData);
   return (
     <>
-      <div className="flex flex-col gap-2 text-sm leading-relaxed text-muted-foreground">
+      <div className="flex flex-col gap-2 text-[16px] leading-relaxed text-muted-foreground">
         <BlurFade delay={BLUR_FADE_DELAY * 4}>
-          <div className="text-xs md:text-sm leading-relaxed text-muted-foreground [&>p]:mb-2 [&>p:last-child]:mb-0">
+          <div className="text-xs md:text-[16px] leading-relaxed text-muted-foreground [&>p]:mb-2 [&>p:last-child]:mb-0">
             <ReactMarkdown>{user.description}</ReactMarkdown>
           </div>
         </BlurFade>
