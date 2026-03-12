@@ -13,7 +13,7 @@ function VerticalDashedBorderLayout({
   return (
     <div
       className={cn(
-        "max-w-220 mx-2 sm:mx-8 md:mx-auto relative p-4",
+        "max-w-215 mx-2 sm:mx-8 md:mx-auto relative p-4",
         className,
       )}
       style={{

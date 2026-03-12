@@ -6,7 +6,7 @@ import { Button } from "./ui/button";
 const CalendarButton = () => {
   useEffect(() => {
     (async function () {
-      const cal = await getCalApi({ namespace: "30min" });
+      const cal = await getCalApi({ namespace: "15min" });
       cal("ui", { hideEventTypeDetails: false, layout: "month_view" });
     })();
   }, []);
@@ -14,9 +14,9 @@ const CalendarButton = () => {
     <Button
       asChild
       className="w-full sm:w-auto cursor-pointer rounded-[8px] transition-all duration-300 group/call"
-      data-cal-namespace="30min"
-      data-cal-link="ramesh.in/30min"
-      data-cal-config='{"layout":"month_view"}'
+      data-cal-namespace="15min"
+      data-cal-link="ramesh.in/15min"
+      data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'
     >
       <div>
         {/* Icon animation container */}

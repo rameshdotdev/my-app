@@ -43,7 +43,6 @@ export default function BackToTop() {
         w-full h-full p-1.5
         bg-nonHover group-hover:bg-hover
         transition-all duration-300
-        group-hover:scale-110
       "
       >
         <ArrowUp className="size-6 transition-transform duration-300 group-hover:-translate-y-0.5" />

@@ -11,16 +11,6 @@
 	--radius-2xl: calc(var(--radius) + 8px);
 	--radius-3xl: calc(var(--radius) + 12px);
 	--radius-4xl: calc(var(--radius) + 16px);
-
-	/* COLORS */
-	--color-neon: #a7ff00;
-	--color-grayCustom: #5c5a5a;
-	--color-cuscol: #4d4d4d;
-	--color-he: #cfcfcf;
-	--color-x: #1da1f2;
-	--color-linkedin: #0077b5;
-
-	/* COLORS */
 	--color-background: var(--background);
 	--color-foreground: var(--foreground);
 	--color-card: var(--card);
@@ -52,6 +42,21 @@
 	--color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
 	--color-sidebar-border: var(--sidebar-border);
 	--color-sidebar-ring: var(--sidebar-ring);
+	/* Custom COLORS */
+	--color-neon: #a7ff00;
+	--color-grayCustom: #5c5a5a;
+	--color-cuscol: #4d4d4d;
+	--color-he: #cfcfcf;
+	--color-x: #1da1f2;
+	--color-linkedin: #0077b5;
+	/* Github Contribution Colors */
+	--color-gitmap-ocean-empty: var(--gitmap-ocean-empty);
+	--color-gitmap-ocean-level-1: var(--gitmap-ocean-level-1);
+	--color-gitmap-ocean-level-2: var(--gitmap-ocean-level-2);
+	--color-gitmap-ocean-level-3: var(--gitmap-ocean-level-3);
+	--color-gitmap-ocean-level-4: var(--gitmap-ocean-level-4);
+	/* Github Contribution Colors */
+	/* Custom COLORS */
 }
 
 @font-face {
@@ -115,6 +120,13 @@
 	--sidebar-accent-foreground: oklch(0.205 0 0);
 	--sidebar-border: oklch(0.922 0 0);
 	--sidebar-ring: oklch(0.708 0 0);
+	--gitmap-ocean-empty: #ebedf0;
+	--color-cyan-600: lab(55.1767% -26.7496 -30.5139);
+	/* --gitmap-ocean-empty: oklab(94.543% -0.00092 -0.00458); */
+	--gitmap-ocean-level-1: oklab(85.423% -0.0488 -0.01718);
+	--gitmap-ocean-level-2: oklab(55.981% -0.04142 -0.06633);
+	--gitmap-ocean-level-3: oklab(32.765% -0.01493 -0.06618);
+	--gitmap-ocean-level-4: oklab(21.769% -0.0114 -0.03372);
 }
 
 .dark {
@@ -149,6 +161,11 @@
 	--sidebar-accent-foreground: oklch(0.985 0 0);
 	--sidebar-border: oklch(1 0 0 / 10%);
 	--sidebar-ring: oklch(0.556 0 0);
+	--gitmap-ocean-empty: #161b22;
+	--gitmap-ocean-level-1: #0d1b2a;
+	--gitmap-ocean-level-2: #1d3557;
+	--gitmap-ocean-level-3: #457b9d;
+	--gitmap-ocean-level-4: #a8dadc;
 }
 
 @layer base {
@@ -263,10 +280,6 @@
 	}
 }
 
-/* ////// */
-br::selection {
-	background-color: transparent !important;
-}
 
 .bg-striped {
 	background-image: repeating-linear-gradient(-45deg, var(--border)0, var(--border)1px, transparent 1px, transparent 6px);

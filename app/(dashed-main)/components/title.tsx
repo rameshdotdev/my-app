@@ -1,11 +1,11 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { IoChevronBack } from "react-icons/io5";
 
 import HorizontalDashedBorder from "@/components/horizontal-dashed-border";
 import { ThemeToggle } from "@/components/theme-toggle";
 import VerticalDashedBorderLayout from "@/components/vertical-dashed-border-layout";
+import BackBtn from "./back-btn";
 
 function Title({
   title,
@@ -14,28 +14,16 @@ function Title({
   title: string;
   isSubPage?: boolean;
 }) {
-  const router = useRouter();
-
   return (
     <>
       {!isSubPage && <HorizontalDashedBorder />}
 
-      <VerticalDashedBorderLayout className={"py-3 md:py-4"}>
+      <VerticalDashedBorderLayout className={"py-2 sm:py-3"}>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            {isSubPage ? (
-              <button
-                type="button"
-                onClick={() => router.back()}
-                className="relative z-10 cursor-pointer p-1 border border-transparent hover:border-border rounded-[6px] hover:bg-muted/60 transition-colors duration-300"
-                aria-label="Go back"
-                title="Go back"
-              >
-                <IoChevronBack className="text-foreground size-4 md:size-5" />
-              </button>
-            ) : null}
+            {isSubPage ? <BackBtn /> : null}
 
-            <h1 className="text-[1.15rem] sm:text-[23px] font-bold leading-tight text-foreground">
+            <h1 className="text-[16px] sm:text-[20px] font-bold leading-tight text-foreground">
               {title}
             </h1>
           </div>

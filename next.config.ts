@@ -13,7 +13,7 @@ const nextConfig: NextConfig = {
         // pathname: '/account123/**',
       },
     ],
-  },
+  }
 };
 
 export default nextConfig;

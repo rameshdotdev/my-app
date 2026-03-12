@@ -1,0 +1,172 @@
+{
+  "personalInfo": {
+    "name": "Ramesh Kumar",
+    "links": [
+      {
+        "type": "github",
+        "label": "github.com/rameshdotdev",
+        "url": "https://github.com/rameshdotdev"
+      },
+      {
+        "type": "website",
+        "label": "imramesh.in",
+        "url": "www.imramesh.in"
+      },
+      {
+        "type": "linkedin",
+        "label": "linkedin.com/in/rameshdotin",
+        "url": "https://linkedin.com/in/rameshdotin"
+      },
+      {
+        "type": "email",
+        "label": "ittsramesh@gmail.com",
+        "url": "mailto:ittsramesh@gmail.com"
+      }
+    ],
+    "lastUpdated": "March 9th, 2026"
+  },
+  "experience": [
+    {
+      "company": "B alert",
+      "role": "Node Js Developer",
+      "mode": "Remote (India)",
+      "startDate": "Apr. 2025",
+      "endDate": "Jul. 2025",
+      "highlights": [
+        "Developed RESTful APIs using Node.js and Express to handle application data, authentication, and business logic",
+        "Integrated Redis caching and optimized database queries to improve API response times and reduce server load"
+      ]
+    },
+    {
+      "company": "Tech Immortals",
+      "role": "React Js Developer",
+      "mode": "Remote (India)",
+      "startDate": "Jul. 2024",
+      "endDate": "Jan. 2025",
+      "highlights": [
+        "Built reusable and responsive UI components using React, TypeScript, and Tailwind CSS",
+        "Integrated frontend interfaces with REST APIs and improved client-side performance through optimized state management"
+      ]
+    },
+    {
+      "company": "Why Shy",
+      "role": "Web Dev Intern",
+      "mode": "OnSite (Gurgaon, India)",
+      "startDate": "Jan. 2024",
+      "endDate": "Jul. 2024",
+      "highlights": [
+        "Assisted in developing and maintaining web application features using React and modern JavaScript",
+        "Collaborated with senior developers to debug issues, implement UI improvements, and ensure cross-browser compatibility"
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "Aryan Estate",
+      "technologies": "React.js, Redux Toolkit, Tailwind CSS, Node.js, Express.js, MongoDB, JWT, Google OAuth, Firebase",
+      "date": "Jan. 2026",
+      "githubUrl": "https://github.com/rameshdotdev/aryan_estate",
+      "liveUrl": "https://aryan-estate.onrender.com/",
+      "highlights": [
+        "Built a full-stack MERN real estate platform with JWT and Google OAuth authentication",
+        "Implemented property listing CRUD, protected routes, and advanced MongoDB search with filtering and sorting",
+        "Integrated multi-image uploads and Redux Toolkit state management for scalable frontend architecture"
+      ]
+    },
+    {
+      "name": "Aryan IT Solutions",
+      "technologies": "Next.js, Shadcn UI, Node.js, Express.js, Razorpay",
+      "date": "Feb. 2026",
+      "githubUrl": "https://github.com/rameshdotdev/cctv",
+      "liveUrl": "https://cctv.imramesh.in",
+      "highlights": [
+        "Developed a service booking platform for CCTV installation and maintenance services using Next.js",
+        "Integrated Razorpay payment gateway to allow users to purchase services securely online",
+        "Built backend APIs with Node.js and Express to manage service requests and payment verification"
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "category": "Languages",
+      "items": [
+        "JavaScript",
+        "TypeScript",
+        "C",
+        "C++"
+      ]
+    },
+    {
+      "category": "Frameworks",
+      "items": [
+        "React",
+        "Next.js",
+        "Express.js",
+        "Laravel",
+        "Elysia.js"
+      ]
+    },
+    {
+      "category": "UI & Styling",
+      "items": [
+        "Tailwind CSS",
+        "Shadcn UI",
+        "Radix UI",
+        "Motion"
+      ]
+    },
+    {
+      "category": "Auth",
+      "items": [
+        "Better Auth",
+        "Clerk"
+      ]
+    },
+    {
+      "category": "Databases",
+      "items": [
+        "MongoDB",
+        "PostgreSQL",
+        "MySQL",
+        "Redis"
+      ]
+    },
+    {
+      "category": "Dev Tools",
+      "items": [
+        "Git",
+        "GitHub",
+        "Bun",
+        "Docker",
+        "Aws",
+        "Cloudflare",
+        "GCP"
+      ]
+    },
+    {
+      "category": "Testing",
+      "items": [
+        "Jest",
+        "Cypress",
+        "Playwright"
+      ]
+    },
+    {
+      "category": "IDEs",
+      "items": [
+        "VS Code",
+        "Cursor",
+        "Claude Code"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "institution": "Lovely Professional University, Phagwara",
+      "degree": "Master's of Computer Applications (MCA)",
+      "startDate": "Aug. 2022",
+      "endDate": "May 2024",
+      "percentage": "75%"
+    }
+  ]
+}
