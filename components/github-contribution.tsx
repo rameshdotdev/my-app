@@ -7,11 +7,14 @@ import { useEffect, useState } from "react";
 export function GithubContributions() {
   const [contributions, setContributions] = useState<ContributionDay[]>([]);
   const [loaded, setLoaded] = useState(false);
+  const API_BASE = "https://github-contributions-api.jogruber.de/v4";
+
   useEffect(() => {
     if (loaded) return;
-
     const fetchContributions = async () => {
-      const res = await fetch("/api/github-contributions");
+      const res = await fetch(`${API_BASE}/rameshdotdev`, {
+        next: { revalidate: 3600 },
+      });
       const data = await res.json();
       setContributions(data.contributions);
       setLoaded(true);
