@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import { useParams, notFound } from "next/navigation";
 import { Mail } from "lucide-react";
@@ -14,11 +15,119 @@ import { selectProjectById } from "@/store/features/projectSlice";
 
 import VerticalDashedBorderLayout from "@/components/vertical-dashed-border-layout";
 import Title from "../../components/title";
+import GeminiChatInput from "../../../../components/gemini-chat-area";
 
 export default function Page() {
   const params = useParams<{ id: string }>();
   const project = useAppSelector(selectProjectById(params.id));
   if (!project) return notFound();
+  const [showTeckStack, setShowTeckStack] = useState(false);
+  const [messages, setMessages] = useState<
+    Array<{ id: string; role: "user" | "assistant"; content: string }>
+  >([]);
+  const [input, setInput] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const onSubmit = async () => {
+    if (!input.trim() || isLoading) return;
+    setIsLoading(true);
+    const userMessage = {
+      id: crypto.randomUUID(),
+      role: "user" as const,
+      content: input.trim(),
+    };
+
+    const assistantMessage = {
+      id: crypto.randomUUID(),
+      role: "assistant" as const,
+      content: "",
+    };
+
+    if (input.toLowerCase().includes("tech stack")) {
+      setShowTeckStack(true);
+      setIsLoading(false);
+      setInput("");
+      return;
+    }
+    const updatedMessages = [...messages, userMessage, assistantMessage];
+    setMessages(updatedMessages);
+
+    const payload = {
+      projectContext: {
+        title: project.title,
+        excerpt: project.description?.join(" ") || "",
+        github: project.links.github,
+      },
+      id: params.id,
+      messages: updatedMessages
+        .filter((msg) => msg.role !== "assistant")
+        .map((msg) => ({
+          parts: [{ type: "text", text: msg.content }],
+          id: msg.id,
+          role: msg.role,
+        })),
+      trigger: "submit-message",
+    };
+
+    try {
+      const response = await fetch("/api/gemini", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to fetch");
+      }
+      const reader = response.body?.getReader();
+      if (!reader) throw new Error("No reader");
+      const decoder = new TextDecoder();
+      let buffer = "";
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split("\n");
+        buffer = lines.pop() || "";
+        for (const line of lines) {
+          if (line.startsWith("data: ")) {
+            const data = line.slice(6);
+            if (data === "[DONE]") break;
+            try {
+              const event = JSON.parse(data);
+              if (event.type === "text-delta") {
+                setMessages((prev) =>
+                  prev.map((msg) =>
+                    msg.id === assistantMessage.id
+                      ? { ...msg, content: msg.content + event.delta }
+                      : msg,
+                  ),
+                );
+              }
+            } catch (e) {
+              // ignore
+            }
+          }
+        }
+      }
+    } catch (error) {
+      setMessages((prev) =>
+        prev.map((msg) =>
+          msg.id === assistantMessage.id
+            ? { ...msg, content: "Sorry, something went wrong." }
+            : msg,
+        ),
+      );
+    } finally {
+      setIsLoading(false);
+      setInput("");
+    }
+  };
+
+  const onSuggestionClick = async (suggestion: string) => {
+    setInput(suggestion);
+    setTimeout(() => onSubmit(), 0);
+  };
+
   return (
     <>
       <Title title="Projects" isSubPage />
@@ -94,9 +203,44 @@ export default function Page() {
 
           {/* dashed divider */}
           <HorizontalDashedBorder />
+          {showTeckStack && <ProjectTeckStackChips stack={project.stack} />}
+          {/* Chat Messages */}
+          {messages.length > 0 && (
+            <div className="w-full px-4 pt-2 space-y-4 max-h-96 overflow-y-auto">
+              {messages.map((message) => (
+                <div
+                  key={message.id}
+                  className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
+                >
+                  <div
+                    className={`max-w-[80%] p-3 rounded-lg text-sm ${
+                      message.role === "user"
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-muted text-foreground"
+                    }`}
+                  >
+                    {message.content}
+                  </div>
+                </div>
+              ))}
+              {isLoading && (
+                <div className="flex justify-start">
+                  <div className="max-w-[80%] p-3 rounded-lg bg-muted text-muted-foreground text-sm">
+                    Thinking...
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
 
-          {/* Stack */}
-          <ProjectTeckStackChips stack={project.stack} />
+          {/* Chat Input */}
+          <GeminiChatInput
+            value={input}
+            onChange={setInput}
+            onSubmit={onSubmit}
+            onSuggestionClick={onSuggestionClick}
+            disabled={isLoading}
+          />
         </div>
       </VerticalDashedBorderLayout>
     </>

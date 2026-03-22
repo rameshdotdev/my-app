@@ -332,33 +332,6 @@ export function Gitmap({
           />
         </div>
       </div>
-      {showFooter && (
-        <footer className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm whitespace-nowrap">
-          <div>
-            {contributions.reduce((sum, d) => sum + d.count, 0)} contributions
-            in the last year
-          </div>
-
-          <div className="ml-auto flex items-center gap-1">
-            <span className="mr-1 text-muted-foreground">Less</span>
-
-            {Object.values(colors).map((color, i) => (
-              <svg key={i} width="12" height="12">
-                <rect
-                  width="12"
-                  height="12"
-                  rx="2"
-                  ry="2"
-                  fill={color}
-                  className="stroke-white/5"
-                />
-              </svg>
-            ))}
-
-            <span className="ml-1 text-muted-foreground">More</span>
-          </div>
-        </footer>
-      )}
     </div>
   );
 }

@@ -25,19 +25,19 @@ function ProjectActionsBtn({ githubUrl, websiteUrl, postUrl }: ActionsUrl) {
       key: "github",
       label: "Github",
       href: githubUrl,
-      icon: <BsGithub className="size-4 md:size-6" />,
+      icon: <BsGithub className="size-4 md:size-5" />,
     },
     {
       key: "website",
       label: "Website",
       href: websiteUrl,
-      icon: <Globe className="size-4 md:size-6" />,
+      icon: <Globe className="size-4 md:size-5" />,
     },
     {
       key: "post",
       label: "Post",
       href: postUrl,
-      icon: <BsPostcard className="size-4 md:size-6" />,
+      icon: <BsPostcard className="size-4 md:size-5" />,
     },
   ];
 
@@ -55,7 +55,7 @@ function ProjectActionsBtn({ githubUrl, websiteUrl, postUrl }: ActionsUrl) {
               {isDisabled ? (
                 <div
                   className={cn(
-                    "py-3 md:py-4.5 flex text-[1.05rem] text-foreground w-full items-center justify-center",
+                    "py-3 flex text-[1.05rem] text-foreground w-full items-center justify-center",
                     "opacity-40 cursor-not-allowed select-none",
                   )}
                 >
