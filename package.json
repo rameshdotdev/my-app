@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@ai-sdk/google": "^3.0.43",
-    "@ai-sdk/react": "^3.0.118",
     "@calcom/embed-react": "^1.5.3",
     "@codemirror/lang-markdown": "^6.5.0",
     "@dnd-kit/core": "^6.3.1",
