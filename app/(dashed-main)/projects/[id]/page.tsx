@@ -16,6 +16,7 @@ import { selectProjectById } from "@/store/features/projectSlice";
 import VerticalDashedBorderLayout from "@/components/vertical-dashed-border-layout";
 import Title from "../../components/title";
 import GeminiChatInput from "../../../../components/gemini-chat-area";
+import { api } from "@/lib/axios";
 
 export default function Page() {
   const params = useParams<{ id: string }>();
@@ -53,62 +54,39 @@ export default function Page() {
     setMessages(updatedMessages);
 
     const payload = {
+      messages: updatedMessages.map((msg) => ({
+        role: msg.role,
+        content: msg.content,
+      })),
       projectContext: {
         title: project.title,
         excerpt: project.description?.join(" ") || "",
         github: project.links.github,
       },
-      id: params.id,
-      messages: updatedMessages
-        .filter((msg) => msg.role !== "assistant")
-        .map((msg) => ({
-          parts: [{ type: "text", text: msg.content }],
-          id: msg.id,
-          role: msg.role,
-        })),
-      trigger: "submit-message",
     };
 
     try {
-      const response = await fetch("/api/gemini", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      if (!response.ok) {
+      // const response = await fetch("/api/gemini", {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify(payload),
+      // });
+      // if (!response.ok) {
+      //   throw new Error("Failed to fetch");
+      // }
+      // const data = await response.json();
+      const response = await api.post("/gemini", payload);
+      if (response.status !== 200) {
         throw new Error("Failed to fetch");
       }
-      const reader = response.body?.getReader();
-      if (!reader) throw new Error("No reader");
-      const decoder = new TextDecoder();
-      let buffer = "";
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        buffer += decoder.decode(value, { stream: true });
-        const lines = buffer.split("\n");
-        buffer = lines.pop() || "";
-        for (const line of lines) {
-          if (line.startsWith("data: ")) {
-            const data = line.slice(6);
-            if (data === "[DONE]") break;
-            try {
-              const event = JSON.parse(data);
-              if (event.type === "text-delta") {
-                setMessages((prev) =>
-                  prev.map((msg) =>
-                    msg.id === assistantMessage.id
-                      ? { ...msg, content: msg.content + event.delta }
-                      : msg,
-                  ),
-                );
-              }
-            } catch (e) {
-              // ignore
-            }
-          }
-        }
-      }
+      const data = response.data;
+      setMessages((prev) =>
+        prev.map((msg) =>
+          msg.id === assistantMessage.id
+            ? { ...msg, content: data.response }
+            : msg,
+        ),
+      );
     } catch (error) {
       setMessages((prev) =>
         prev.map((msg) =>
