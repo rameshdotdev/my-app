@@ -94,7 +94,8 @@ export default function Page() {
           {/* dashed divider */}
           <HorizontalDashedBorder />
           <ProjectTeckStackChips stack={project.stack} />
-
+          {/* dashed divider */}
+          <HorizontalDashedBorder />
           {/* Chat Section */}
           <ProjectCard.ChatProvider
             projectContext={{

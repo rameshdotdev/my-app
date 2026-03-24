@@ -80,7 +80,7 @@ function buildSystemPrompt(
   project: ProjectContext | undefined,
   readme: string | null,
 ): string {
-  const baseInstructions = `You are a helpful assistant on Sachi Goyal's portfolio website (sachi.dev).
+  const baseInstructions = `You are a helpful assistant on Ramesh Kumar's portfolio website (imramesh.in).
 CRITICAL: Be extremely concise. Avoid all filler, pleasantries, and lengthy introductions. 
 Provide direct answers. If a question can be answered in one sentence, do so.
 Use markdown for structure (lists, bolding) but keep text minimal.`;
@@ -91,7 +91,7 @@ Use markdown for structure (lists, bolding) but keep text minimal.`;
 
   return `${baseInstructions}
 You are discussing the project "${project.title}".
-Focus strictly on "${project.title}" and Sachi's work on it.
+Focus strictly on "${project.title}" and Ramesh's work on it.
 
 Project context:
 - Title: ${project.title}
