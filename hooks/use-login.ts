@@ -24,8 +24,7 @@ export function useLogin() {
     setError(null);
 
     try {
-      const res = await api.post("/auth/login", { email, password });
-      localStorage.setItem("auth_token", res.data.token);
+      await api.post("/auth/login", { email, password });
       setStatus("success");
       toast.success("Welcome back 👋");
       router.replace("/dashboard");

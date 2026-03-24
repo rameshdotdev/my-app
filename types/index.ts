@@ -39,3 +39,21 @@ export type GitmapViewState = {
   to: Date;
   selectedYear: number | null;
 };
+
+export interface Project {
+  id: string;
+  title: string;
+  excerpt: string;
+  fullDescription: string;
+  techStack: string[];
+  features: string[];
+  hardestBug?: string;
+  github?: string;
+  liveUrl?: string;
+  imageUrl: string;
+}
+
+export interface Message {
+  role: "user" | "model";
+  text: string;
+}

@@ -23,30 +23,9 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
   const router = useRouter();
   const dispatch = useAppDispatch();
 
-  const [authChecked, setAuthChecked] = useState(false);
-
-  useEffect(() => {
-    const token = localStorage.getItem("auth_token");
-
-    if (!token) {
-      router.replace("/login");
-      return;
-    }
-
-    setAuthChecked(true);
-  }, [router]);
-
   const { data, isLoading, isError } = useDashboardQuery({
-    enabled: authChecked,
+    enabled: true,
   });
-
-  // if token invalid/expired => logout
-  useEffect(() => {
-    if (!isError) return;
-
-    localStorage.removeItem("auth_token");
-    router.replace("/login");
-  }, [isError, router]);
 
   useEffect(() => {
     if (!data) return;
@@ -61,7 +40,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
     if (data.works) dispatch(setWorksData(data.works));
   }, [data, dispatch]);
 
-  if (!authChecked || isLoading) {
+  if (isLoading) {
     return <DashboardSkeleton />;
   }
 
