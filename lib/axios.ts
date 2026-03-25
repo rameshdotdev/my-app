@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const api = axios.create({
-  baseURL: "http://localhost:5000/api",
+  baseURL: "/api",
   withCredentials: true,
 });
 
@@ -15,7 +15,7 @@ export async function fetchApi<T>(
     };
   },
 ): Promise<T> {
-  const res = await fetch(`http://localhost:5000/api${endpoint}`, {
+  const res = await fetch(`/api${endpoint}`, {
     credentials: "include",
     ...options,
   });
