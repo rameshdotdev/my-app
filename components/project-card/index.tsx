@@ -3,13 +3,14 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowUpRight, Pin } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { useMemo } from "react";
 import BlurFade from "../magicui/blur-fade";
 import { StatusDot } from "@/app/(dashed-main)/components/status-dot";
 import { Project } from "@/types/project";
 import { getRandomBgImage } from "@/app/(dashed-main)/components/project-list";
 import { cn } from "@/lib/utils";
+import Pin from "@/app/(dashed-main)/components/pin";
 
 type Variant = "default" | "compact";
 
