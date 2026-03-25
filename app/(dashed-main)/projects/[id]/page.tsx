@@ -104,7 +104,7 @@ export default function Page() {
               github: project.links.github!,
             }}
           >
-            <div className="w-full flex flex-col h-56">
+            <div className="w-full flex flex-col">
               <ProjectCard.ChatMessages />
               <ProjectCard.ChatInputWrapper>
                 <ProjectCard.ChatInput

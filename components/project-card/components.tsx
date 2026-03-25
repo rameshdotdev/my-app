@@ -211,8 +211,8 @@ function ChatMessages() {
   }, [state.messages]);
 
   return (
-    <div className="flex-1 overflow-hidden">
-      <div ref={scrollRef} className="h-full p-4 overflow-y-auto">
+    <div className="flex-1">
+      <div ref={scrollRef} className="h-full p-4">
         <div className="flex flex-col gap-3">
           {state.messages.map((message) => (
             <ChatMessage key={message.id} message={message} />

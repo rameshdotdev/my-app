@@ -4,11 +4,15 @@ import type { RootState } from "..";
 import { Hero } from "@/types/profile";
 
 const emptyCharacter = {
-  name: "",
-  avatar: { url: "", publicId: "" },
-  titles: [""],
-  description: "",
-  isVerified: false,
+  avatar: {
+    url: "https://res.cloudinary.com/dvzsnzhka/image/upload/v1768670426/zfuhgerelgo7fdovxgmd.png",
+    publicId: "zfuhgerelgo7fdovxgmd",
+  },
+  name: "Ramesh Kumar",
+  titles: ["Software Engineer", "Full Stack Developer", "Tech Enthusiast"],
+  description:
+    "Hey, I'm Ramesh a full stack developer who loves building clean, modern websites and apps where design, functionality, and even the smallest details matter, with a focus on making products that are both practical and visually satisfying.  \n\nTech stack isn't my concern, I'm flexible with whatever the project needs, though I prefer modern frameworks and tools. I'm always open for new opportunities to learn and grow.",
+  isVerified: true,
 };
 
 type HeroState = Hero & {

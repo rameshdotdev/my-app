@@ -12,8 +12,11 @@ import { BLUR_FADE_DELAY } from "@/lib/utils";
 import Pin from "./pin";
 import { StatusDot } from "./status-dot";
 
-import { useAppSelector } from "@/hooks/hooks";
-import { selectProjects } from "@/store/features/projectSlice";
+import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
+import { selectProjects, setProjects } from "@/store/features/projectSlice";
+import { useFetch } from "@/hooks/use-fetch";
+import { useEffect } from "react";
+import { Project } from "@/types/project";
 
 export const bgImages = [
   "/projects/bg1.avif",
@@ -32,6 +35,11 @@ export function getRandomBgImage(images: string[] = bgImages) {
 }
 
 export default function ProjectsGridList() {
+  const { data } = useFetch<Project[]>("/projects", {
+    revalidate: 120,
+    tags: ["projects"],
+  });
+  const dispatch = useAppDispatch();
   const projects = useAppSelector(selectProjects);
 
   // pinned first
@@ -40,6 +48,11 @@ export default function ProjectsGridList() {
     return 0;
   });
 
+  useEffect(() => {
+    if (data) {
+      dispatch(setProjects(data));
+    }
+  }, [data, dispatch]);
   return (
     <div className="relative grid grid-cols-1 gap-0 sm:grid-cols-2">
       {/* Middle dashed horizontal line (desktop) */}

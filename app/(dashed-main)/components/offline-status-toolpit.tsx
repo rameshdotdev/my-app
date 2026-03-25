@@ -8,14 +8,32 @@ import {
 import { WifiOff } from "lucide-react";
 import { DiVisualstudio } from "react-icons/di";
 import { useSound } from "@/hooks/use-sound";
-import { getYesterdayData } from "@/store/features/wakatimeSlice";
-import { useAppSelector } from "@/hooks/hooks";
+import {
+  getYesterdayData,
+  setYesterdayWorks,
+} from "@/store/features/wakatimeSlice";
+import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
+import { useFetch } from "@/hooks/use-fetch";
+import { WakaTimeYesterdayResponse } from "@/types/wakatime";
+import { useEffect } from "react";
 export default function OfflineStatusTooltip() {
+  const { data: incomingData } = useFetch<WakaTimeYesterdayResponse>(
+    "/worked-for/yesterday",
+    {
+      revalidate: 120,
+      tags: ["wakatime"],
+    },
+  );
+  const dispatch = useAppDispatch();
   const data = useAppSelector(getYesterdayData);
   const { play } = useSound();
   const yesterdayText = data?.combined?.text;
   const editors = data?.editors;
-
+  useEffect(() => {
+    if (incomingData) {
+      dispatch(setYesterdayWorks(incomingData));
+    }
+  }, [incomingData, dispatch]);
   return (
     <Tooltip>
       <TooltipTrigger asChild>

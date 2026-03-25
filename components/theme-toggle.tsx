@@ -15,7 +15,7 @@ export function ThemeToggle({ className }: { className?: string }) {
   const [mounted, setMounted] = useState(false);
   const dispatch = useAppDispatch();
   const { play } = useSoundFile({
-    volume: 0.7,
+    volume: 1,
     enabled: true,
     sounds: SOUND_FILES,
   });

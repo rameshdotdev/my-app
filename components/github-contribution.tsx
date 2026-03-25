@@ -53,7 +53,7 @@ export function GithubContributions() {
         />
       </div>
 
-      <footer className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm whitespace-nowrap">
+      <footer className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-[10px] sm:text-sm whitespace-nowrap">
         <div>
           {contributions.reduce((sum, d) => sum + d.count, 0)} contributions in
           the last year

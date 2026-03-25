@@ -31,6 +31,7 @@ import {
   ProjectsGridListSkeleton,
 } from "./skeleton";
 import SocialsSkeleton from "./socials-skeleton";
+import AboutSocials from "./components/section/about-socials";
 
 /* -------------------------------------------------------------------------- */
 /*                              Dynamic Imports                               */
@@ -38,16 +39,6 @@ import SocialsSkeleton from "./socials-skeleton";
 
 const Profile = dynamic(() => import("./components/profile"), {
   loading: () => <ProfileSkeleton />,
-  ssr: false,
-});
-
-const About = dynamic(() => import("./components/about"), {
-  loading: () => <AboutSkeleton />,
-  ssr: false,
-});
-
-const Socials = dynamic(() => import("./components/socials"), {
-  loading: () => <SocialsSkeleton />,
   ssr: false,
 });
 
@@ -95,23 +86,23 @@ const BelowFoldContent = memo(function BelowFoldContent() {
 export default function Page() {
   const isLoading = useAppSelector(getLoadingState);
 
-  if (isLoading) {
-    return (
-      <>
-        {" "}
-        <VerticalDashedBorderLayout>
-          {" "}
-          <ProfileSkeleton />{" "}
-        </VerticalDashedBorderLayout>
-        <HorizontalDashedBorder />
-        <VerticalDashedBorderLayout>
-          <AboutSkeleton />
-          <SocialsSkeleton />
-          <GithubSkeleton />
-        </VerticalDashedBorderLayout>
-      </>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <>
+  //       {" "}
+  //       <VerticalDashedBorderLayout>
+  //         {" "}
+  //         <ProfileSkeleton />{" "}
+  //       </VerticalDashedBorderLayout>
+  //       <HorizontalDashedBorder />
+  //       <VerticalDashedBorderLayout>
+  //         <AboutSkeleton />
+  //         <SocialsSkeleton />
+  //         <GithubSkeleton />
+  //       </VerticalDashedBorderLayout>
+  //     </>
+  //   );
+  // }
 
   return (
     <>
@@ -122,8 +113,7 @@ export default function Page() {
       <HorizontalDashedBorder />
       {/* About + Socials */}
       <VerticalDashedBorderLayout>
-        <About />
-        <Socials />
+        <AboutSocials />
         {/* Github Contributions */}
         <section id="contributions">
           <BlurFade delay={BLUR_FADE_DELAY * 10}>

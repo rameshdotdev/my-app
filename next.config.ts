@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  output: "standalone",
   experimental: {
     viewTransition: true,
   },
@@ -13,7 +14,7 @@ const nextConfig: NextConfig = {
         // pathname: '/account123/**',
       },
     ],
-  }
+  },
 };
 
 export default nextConfig;

@@ -4,12 +4,23 @@ import { useEffect, useMemo, useState } from "react";
 
 import HorizontalDashedBorder from "@/components/horizontal-dashed-border";
 import ExperienceList from "./experience-list";
-import { useAppSelector } from "@/hooks/hooks";
-import { getWorksData } from "@/store/features/workSlice";
+import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
+import { getWorksData, setWorksData } from "@/store/features/workSlice";
+import { useFetch } from "@/hooks/use-fetch";
+import { Work } from "@/types/work";
 
 export default function WorksSection() {
+  const dispatch = useAppDispatch();
+  const { data } = useFetch<Work[]>("/works-at", {
+    revalidate: 120,
+    tags: ["works-at"],
+  });
+  useEffect(() => {
+    if (data) {
+      dispatch(setWorksData(data));
+    }
+  }, [data, dispatch]);
   const works = useAppSelector(getWorksData);
-
   const sortedWorks = useMemo(() => {
     if (!works?.length) return [];
 

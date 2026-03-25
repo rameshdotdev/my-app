@@ -10,6 +10,8 @@ import SlotCounter, { type SlotCounterRef } from "react-slot-counter";
 import {
   getActiveCharacter,
   getActiveIndex,
+  getHeroData,
+  setHeroData,
   switchCharacter,
 } from "@/store/features/heroSlice";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -22,18 +24,29 @@ import Verified from "./verified";
 import ImagePreviewModal from "./image-preview-modal";
 import OfflineStatusTooltip from "./offline-status-toolpit";
 import SwitchProfile from "./switch-profile";
-import { getVisitorCounts } from "@/store/features/visitorSlice";
+import {
+  getVisitorCounts,
+  setVisitorCounts,
+  Visitors,
+} from "@/store/features/visitorSlice";
+import { useFetch } from "@/hooks/use-fetch";
+import { Hero } from "@/types/profile";
 
 export default function Profile() {
   const dispatch = useAppDispatch();
   const activeIndex = useAppSelector(getActiveIndex);
   const user = useAppSelector(getActiveCharacter);
   const contact = useAppSelector(getContactData);
-
   const counts = useAppSelector(getVisitorCounts);
-
   const [previewOpen, setPreviewOpen] = useState(false);
-
+  const { data } = useFetch<Hero>("/hero", {
+    revalidate: 120,
+    tags: ["hero"],
+  });
+  const { data: visitorData } = useFetch<Visitors>("/visitor", {
+    revalidate: 120,
+    tags: ["visitor"],
+  });
   const typingSequence = useMemo(() => {
     if (
       !user?.titles ||
@@ -52,7 +65,15 @@ export default function Profile() {
 
   useEffect(() => {
     counterRef.current?.startAnimation();
-  }, [counts.pageviews]);
+  }, [counts?.pageviews]);
+  useEffect(() => {
+    if (data) {
+      dispatch(setHeroData(data));
+    }
+    if (visitorData) {
+      dispatch(setVisitorCounts(visitorData));
+    }
+  }, [data, visitorData, dispatch]);
 
   if (!user) return null;
 

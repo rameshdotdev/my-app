@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "..";
 
-export type visitors = {
+export type Visitors = {
   visitors: number;
   pageviews: number;
 };
-const initialState: visitors = {
+const initialState: Visitors = {
   visitors: 0,
   pageviews: 0,
 };
@@ -14,7 +14,7 @@ export const visitorSlice = createSlice({
   name: "visitor",
   initialState,
   reducers: {
-    setVisitorCounts: (state, action: { payload: visitors }) => {
+    setVisitorCounts: (state, action: { payload: Visitors }) => {
       state.visitors = action.payload.visitors;
       state.pageviews = action.payload.pageviews;
     },
