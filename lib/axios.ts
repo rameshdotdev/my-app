@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const api = axios.create({
-  baseURL: "/api",
+  baseURL: "https://api.imramesh.in",
   withCredentials: true,
 });
 
@@ -15,7 +15,7 @@ export async function fetchApi<T>(
     };
   },
 ): Promise<T> {
-  const res = await fetch(`/api${endpoint}`, {
+  const res = await fetch(`https://api.imramesh.in/${endpoint}`, {
     credentials: "include",
     ...options,
   });
