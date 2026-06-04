@@ -41,7 +41,7 @@ function isChatRole(role: string): role is "user" | "assistant" {
 export function useChat(options?: UseChatOptions) {
   const hasStartedChatRef = useRef(false);
   const transport = new DefaultChatTransport({
-    api: "/api/gemini",
+    api: "/gemini",
   });
   const {
     messages: uiMessages,
