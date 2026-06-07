@@ -24,7 +24,7 @@ export function useFetch<T>(endpoint: string, options?: UseFetchOptions) {
       try {
         setLoading(true);
 
-        const res = await fetch(`${url}/${endpoint}`, {
+        const res = await fetch(`${url}${endpoint}`, {
           credentials: "include",
           next: {
             revalidate: options?.revalidate ?? 60, // default cache 60s
