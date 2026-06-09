@@ -5,7 +5,7 @@ export const proxy = (req: NextRequest) => {
   const token = req.cookies.get("auth_token");
 
   if (!token && req.nextUrl.pathname.startsWith("/dashboard")) {
-    return NextResponse.redirect(new URL("/login", req.url));
+    return NextResponse.redirect(new URL("/", req.url));
   }
 };
 
