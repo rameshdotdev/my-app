@@ -24,14 +24,22 @@ export function useLogin() {
     setError(null);
 
     try {
-      await api.post("/auth/login", { email, password });
+      const { data } = await api.post("/auth/login", {
+        email,
+        password,
+      });
+
+      localStorage.setItem("auth_token", data.token);
+
       setStatus("success");
       toast.success("Welcome back 👋");
+
       router.replace("/dashboard");
       router.refresh();
     } catch (err: any) {
       const message =
         err?.response?.data?.message || "Invalid email or password";
+
       setStatus("error");
       setError(message);
       toast.error(message);

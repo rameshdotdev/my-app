@@ -20,8 +20,13 @@ export function useLogout() {
 
     try {
       await api.post("/auth/logout");
+
+      // Remove token from localStorage
+      localStorage.removeItem("auth_token");
+
       setStatus("success");
       toast.success("Logged out successfully");
+
       router.replace("/");
       router.refresh();
     } catch (err: any) {
