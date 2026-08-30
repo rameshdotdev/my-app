@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { api } from "@/lib/axios";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
@@ -50,6 +50,12 @@ export default function ProjectsPage() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (projectFromStore.length === 0) {
+      fetchProjects();
+    }
+  }, []);
 
   /* ======================
      Render

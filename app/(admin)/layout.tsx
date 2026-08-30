@@ -1,8 +1,6 @@
 "use client";
 
 import React, { ReactNode, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
@@ -20,10 +18,9 @@ import { setContactData } from "@/store/features/contactSlice";
 import { setWorksData } from "@/store/features/workSlice";
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
-  const router = useRouter();
   const dispatch = useAppDispatch();
 
-  const { data, isLoading, isError } = useDashboardQuery({
+  const { data, isLoading } = useDashboardQuery({
     enabled: true,
   });
 
