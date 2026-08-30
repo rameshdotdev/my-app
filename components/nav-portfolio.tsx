@@ -8,6 +8,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
@@ -25,6 +26,14 @@ export function NavMain({
   }[];
 }) {
   const pathname = usePathname();
+  const { isMobile, setOpenMobile } = useSidebar();
+
+  const handleNavClick = () => {
+    if (isMobile) {
+      setOpenMobile(false);
+    }
+  };
+
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
       {navTitle && <SidebarGroupLabel>{navTitle}</SidebarGroupLabel>}
@@ -36,7 +45,7 @@ export function NavMain({
               isActive={item.isActive && pathname === item.url}
               tooltip={item.title}
             >
-              <Link href={item.url}>
+              <Link href={item.url} onClick={handleNavClick}>
                 <item.icon />
                 <span>{item.title}</span>
               </Link>
