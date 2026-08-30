@@ -1,12 +1,13 @@
 "use client";
 
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { ReactNode, useEffect } from "react";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
 import DashboardSkeleton from "./loading";
 
 import { useAppDispatch } from "@/hooks/hooks";
+import { useAuthGuard } from "@/hooks/use-auth-guard";
 import { setUser } from "@/store/features/userSlice";
 import { useDashboardQuery } from "@/hooks/use-dashboard-query";
 import { setHeroData } from "@/store/features/heroSlice";
@@ -19,9 +20,10 @@ import { setWorksData } from "@/store/features/workSlice";
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   const dispatch = useAppDispatch();
+  const { user, loading: authLoading } = useAuthGuard();
 
   const { data, isLoading } = useDashboardQuery({
-    enabled: true,
+    enabled: !authLoading && !!user,
   });
 
   useEffect(() => {
@@ -36,6 +38,10 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
     if (data.contact) dispatch(setContactData(data.contact));
     if (data.works) dispatch(setWorksData(data.works));
   }, [data, dispatch]);
+
+  if (authLoading || !user) {
+    return <DashboardSkeleton />;
+  }
 
   if (isLoading) {
     return <DashboardSkeleton />;

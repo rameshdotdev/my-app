@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { api } from "@/lib/axios";
-import { AuthResponse } from "@/types/type";
+import type { AuthResponse } from "@/types/type";
 
 export const useAuthGuard = () => {
   const router = useRouter();
@@ -12,11 +12,24 @@ export const useAuthGuard = () => {
 
   useEffect(() => {
     const checkAuth = async () => {
+      const token =
+        typeof window !== "undefined"
+          ? localStorage.getItem("auth_token")
+          : null;
+
+      if (!token) {
+        setUser(null);
+        setLoading(false);
+        router.replace("/");
+        return;
+      }
+
       try {
         const res = await api.get<AuthResponse>("/auth/me");
         setUser(res.data);
       } catch (error) {
-        router.replace("/"); // replace is better for guards
+        setUser(null);
+        router.replace("/");
       } finally {
         setLoading(false);
       }
@@ -25,5 +38,5 @@ export const useAuthGuard = () => {
     checkAuth();
   }, [router]);
 
-  return { user, loading };
+  return { user, loading, isAuthenticated: !!user };
 };
