@@ -95,9 +95,7 @@ export function ChartAreaInteractive() {
         setLoading(true);
         setError(null);
 
-        const res = await api.get<VisitorResponse>(
-          `/visitor?range=${timeRange}`,
-        );
+        const res = await api.get<VisitorResponse>(`/send?range=${timeRange}`);
 
         if (cancelled) return;
 
